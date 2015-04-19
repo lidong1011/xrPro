@@ -8,7 +8,6 @@
             <connections>
                 <outlet property="FCodeTF" destination="pVh-ac-TKJ" id="RVc-N0-MCN"/>
                 <outlet property="changJFTF" destination="raL-vP-Qmw" id="Nhc-Bc-ww0"/>
-                <outlet property="codeImg" destination="NBh-2I-jlc" id="jNg-1z-jbp"/>
                 <outlet property="diKeJiFenLab" destination="Zn3-N7-dJw" id="jz6-W9-0HQ"/>
                 <outlet property="inputMoneyTF" destination="y2N-OU-drw" id="BKw-ux-qYj"/>
                 <outlet property="jiFenBtn" destination="eaa-ao-D4b" id="Oze-I2-FjK"/>
@@ -164,10 +163,6 @@
                         <action selector="comfireTuoZi:" destination="-1" eventType="touchUpInside" id="8WL-sy-qSR"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="touZi_kuang.9.png" id="NBh-2I-jlc">
-                    <rect key="frame" x="163" y="12" width="46" height="33"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" minimumFontSize="17" id="SR5-dy-9yP">
                     <rect key="frame" x="89" y="16.5" width="61" height="21.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -198,6 +193,11 @@
                         <action selector="getCodeAct:" destination="-1" eventType="touchUpInside" id="Y8G-FJ-7F8"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" id="PTf-9O-asU" customClass="PooCodeView">
+                    <rect key="frame" x="160" y="12" width="58" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
