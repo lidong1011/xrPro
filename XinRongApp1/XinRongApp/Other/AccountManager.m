@@ -25,6 +25,7 @@ NSString * const kKeyChainIdentifier = @"com.xr58.p2p";
 - (instancetype)init
 {
     if (self = [super init]) {
+        _user = [[User alloc]init];
         KeychainItemWrapper *keychain = [self keychainItemWrapper];
         _user.username = [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
         _user.password = [keychain objectForKey:(__bridge id)(kSecValueData)];

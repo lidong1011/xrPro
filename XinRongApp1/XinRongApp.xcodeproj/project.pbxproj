@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2008875C1AE3DE470068DDF2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2008875B1AE3DE470068DDF2 /* Security.framework */; };
+		200887601AE3E70D0068DDF2 /* MyZhaiQuanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2008875E1AE3E70D0068DDF2 /* MyZhaiQuanCell.m */; };
+		200887611AE3E70D0068DDF2 /* MyZhaiQuanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2008875F1AE3E70D0068DDF2 /* MyZhaiQuanCell.xib */; };
+		200887641AE3E91E0068DDF2 /* MyZhaiQuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 200887631AE3E91E0068DDF2 /* MyZhaiQuanModel.m */; };
 		201D8A9D1AD76C4200CCA3F9 /* settings_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 201D8A981AD76C4200CCA3F9 /* settings_bg.png */; };
 		201D8A9E1AD76C4200CCA3F9 /* vip1.png in Resources */ = {isa = PBXBuildFile; fileRef = 201D8A991AD76C4200CCA3F9 /* vip1.png */; };
 		201D8AA31AD7B79600CCA3F9 /* quXian.png in Resources */ = {isa = PBXBuildFile; fileRef = 201D8AA01AD7B79600CCA3F9 /* quXian.png */; };
@@ -303,6 +307,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2008875B1AE3DE470068DDF2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2008875D1AE3E70D0068DDF2 /* MyZhaiQuanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyZhaiQuanCell.h; sourceTree = "<group>"; };
+		2008875E1AE3E70D0068DDF2 /* MyZhaiQuanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyZhaiQuanCell.m; sourceTree = "<group>"; };
+		2008875F1AE3E70D0068DDF2 /* MyZhaiQuanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyZhaiQuanCell.xib; sourceTree = "<group>"; };
+		200887621AE3E91E0068DDF2 /* MyZhaiQuanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyZhaiQuanModel.h; sourceTree = "<group>"; };
+		200887631AE3E91E0068DDF2 /* MyZhaiQuanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyZhaiQuanModel.m; sourceTree = "<group>"; };
 		201D8A981AD76C4200CCA3F9 /* settings_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings_bg.png; path = ../homeImgs/settings_bg.png; sourceTree = "<group>"; };
 		201D8A991AD76C4200CCA3F9 /* vip1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = vip1.png; path = ../homeImgs/vip1.png; sourceTree = "<group>"; };
 		201D8AA01AD7B79600CCA3F9 /* quXian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = quXian.png; path = ../homeImgs/quXian.png; sourceTree = "<group>"; };
@@ -747,6 +757,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2008875C1AE3DE470068DDF2 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1155,6 +1166,9 @@
 				20A5B1411AD4BF8E009CBDB9 /* DidBackTouZiCell.h */,
 				20A5B1421AD4BF8E009CBDB9 /* DidBackTouZiCell.m */,
 				20A5B1431AD4BF8E009CBDB9 /* DidBackTouZiCell.xib */,
+				2008875D1AE3E70D0068DDF2 /* MyZhaiQuanCell.h */,
+				2008875E1AE3E70D0068DDF2 /* MyZhaiQuanCell.m */,
+				2008875F1AE3E70D0068DDF2 /* MyZhaiQuanCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1168,6 +1182,8 @@
 				20B5E7C01AE0EC6100EAE35B /* MyIngTenderModel.m */,
 				20B5E7C21AE0ECAF00EAE35B /* MyEndTenderModel.h */,
 				20B5E7C31AE0ECAF00EAE35B /* MyEndTenderModel.m */,
+				200887621AE3E91E0068DDF2 /* MyZhaiQuanModel.h */,
+				200887631AE3E91E0068DDF2 /* MyZhaiQuanModel.m */,
 				20B5E7F71AE22CDC00EAE35B /* TenderBill.h */,
 				20B5E7F81AE22CDC00EAE35B /* TenderBill.m */,
 				20B5E7FA1AE22DAB00EAE35B /* ChongZhiRecordMod.h */,
@@ -1297,6 +1313,7 @@
 		20F19C661AAD81E4000AA334 = {
 			isa = PBXGroup;
 			children = (
+				2008875B1AE3DE470068DDF2 /* Security.framework */,
 				20F19C711AAD81E4000AA334 /* XinRongApp */,
 				20F19C8B1AAD81E4000AA334 /* XinRongAppTests */,
 				20F19C701AAD81E4000AA334 /* Products */,
@@ -1788,6 +1805,7 @@
 				20A5B14D1AD4FE1B009CBDB9 /* clear.png in Resources */,
 				2097C0A31ACD2093007187AE /* JiaoYiMXCell.xib in Resources */,
 				201D8A9E1AD76C4200CCA3F9 /* vip1.png in Resources */,
+				200887611AE3E70D0068DDF2 /* MyZhaiQuanCell.xib in Resources */,
 				20B5E7D11AE10FCD00EAE35B /* jiaoymx.png in Resources */,
 				20B5E7EB1AE2025300EAE35B /* xuXian_h@2x.png in Resources */,
 				20F19C801AAD81E4000AA334 /* Images.xcassets in Resources */,
@@ -1962,6 +1980,7 @@
 				203B478B1ADF4A1600446A9B /* MJRefreshLegendFooter.m in Sources */,
 				20F19D681AAD8912000AA334 /* SDWebImageDecoder.m in Sources */,
 				2097C0A61ACD2D2C007187AE /* PersonSetViewController.m in Sources */,
+				200887601AE3E70D0068DDF2 /* MyZhaiQuanCell.m in Sources */,
 				20385CE41ABABE7D00B940E5 /* BWMCoverView.m in Sources */,
 				20691B561ADB562A0044AF62 /* FaLvYJViewController.m in Sources */,
 				20C5C7301AD62107006A239C /* LookXieYiViewController.m in Sources */,
@@ -1971,6 +1990,7 @@
 				20385CD31ABA788E00B940E5 /* TenderViewController.m in Sources */,
 				20385C951AB963D300B940E5 /* KeychainItemWrapper.m in Sources */,
 				20385C871AB9579600B940E5 /* AboutUsViewController.m in Sources */,
+				200887641AE3E91E0068DDF2 /* MyZhaiQuanModel.m in Sources */,
 				20691B6E1ADB9C1C0044AF62 /* TenderListModel.m in Sources */,
 				20B5E8101AE2641000EAE35B /* PooCodeView.m in Sources */,
 				20B5E7BE1AE0E30900EAE35B /* MyAllTender.m in Sources */,

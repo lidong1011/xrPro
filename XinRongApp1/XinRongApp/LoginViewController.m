@@ -11,6 +11,7 @@
 #import "ForgetPasswordViewController.h"
 #import "AccountManager.h"
 #import "NSString+DES.h"
+#import "KeychainItemWrapper.h"
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *password;
@@ -35,6 +36,7 @@
     self.password.secureTextEntry = YES;
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kIsRemembPsd]) {
         self.isRemembBtn.selected = YES;
+        _isRememb = YES;
         self.password.text = [AccountManager shareManager].user.password;
     }
 }
@@ -126,6 +128,10 @@
         [[NSUserDefaults standardUserDefaults]setObject:dic[@"customerId"] forKey:kCustomerId];
         [[NSUserDefaults standardUserDefaults]setObject:dic forKey:kUserMsg];
         [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
     }
 }
 
