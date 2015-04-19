@@ -1,0 +1,19 @@
+//
+//  XinRongApp.pch
+//  XinRongApp
+//
+//  Created by 李冬强 on 15/3/9.
+//  Copyright (c) 2015年 ldq. All rights reserved.
+//
+
+#ifndef XinRongApp_XinRongApp_pch
+#define XinRongApp_XinRongApp_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "CONSTS.h"
+
+//#import <SystemConfiguration/SystemConfiguration.h>
+//#import <MobileCoreServices/MobileCoreServices.h>
+//#define AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES
+#endif

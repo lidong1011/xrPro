@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="ZNa-yi-xzK" customClass="MenuView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNH-rQ-vOn">
+                    <rect key="frame" x="0.0" y="0.0" width="160" height="120"/>
+                    <state key="normal" backgroundImage="activity.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XLA-bP-59r">
+                    <rect key="frame" x="160" y="0.0" width="160" height="120"/>
+                    <state key="normal" backgroundImage="wuYe_bg.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="XLA-bP-59r" secondAttribute="bottom" id="2iK-Vl-QnU"/>
+                <constraint firstItem="mNH-rQ-vOn" firstAttribute="leading" secondItem="ZNa-yi-xzK" secondAttribute="leading" id="5ZJ-AT-jUj"/>
+                <constraint firstItem="mNH-rQ-vOn" firstAttribute="height" secondItem="XLA-bP-59r" secondAttribute="height" id="9lo-cn-5fh"/>
+                <constraint firstAttribute="trailing" secondItem="XLA-bP-59r" secondAttribute="trailing" id="AoS-g4-PVm"/>
+                <constraint firstItem="mNH-rQ-vOn" firstAttribute="top" secondItem="ZNa-yi-xzK" secondAttribute="top" id="SJD-7I-IkN"/>
+                <constraint firstItem="XLA-bP-59r" firstAttribute="leading" secondItem="mNH-rQ-vOn" secondAttribute="trailing" id="WpG-6p-ZBM"/>
+                <constraint firstItem="mNH-rQ-vOn" firstAttribute="width" secondItem="XLA-bP-59r" secondAttribute="width" id="X5C-YA-k4G"/>
+                <constraint firstItem="XLA-bP-59r" firstAttribute="leading" secondItem="mNH-rQ-vOn" secondAttribute="trailing" id="fyd-WK-h6C"/>
+                <constraint firstAttribute="bottom" secondItem="mNH-rQ-vOn" secondAttribute="bottom" id="g2v-3S-0vt"/>
+                <constraint firstItem="XLA-bP-59r" firstAttribute="top" secondItem="ZNa-yi-xzK" secondAttribute="top" id="klx-NO-GE2"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="activityBtn" destination="mNH-rQ-vOn" id="cuC-ny-6f2"/>
+                <outlet property="wuYeBtn" destination="XLA-bP-59r" id="DZo-TT-3Up"/>
+            </connections>
+            <point key="canvasLocation" x="214" y="274"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="activity.png" width="360" height="272"/>
+        <image name="wuYe_bg.png" width="360" height="272"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
