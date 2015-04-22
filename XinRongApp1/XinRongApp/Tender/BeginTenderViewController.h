@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "PooCodeView.h"
 @interface BeginTenderViewController : BaseViewController
 @property (nonatomic, strong) NSString *titleString;
 @property (nonatomic, assign) NSInteger keTouMoney;
@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *redBagFBtn;
 @property (weak, nonatomic) IBOutlet UIButton *jiFenBtn;
 
-@property (weak, nonatomic) IBOutlet UIImageView *codeImg;
+@property (weak, nonatomic) IBOutlet PooCodeView *codeView;
 @property (weak, nonatomic) IBOutlet UITextField *yanZCode;
 
 

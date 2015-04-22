@@ -202,6 +202,54 @@
 		20C9F2761AC3FDC40078F405 /* MDRadialProgressLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C9F2711AC3FDC40078F405 /* MDRadialProgressLabel.m */; };
 		20C9F2771AC3FDC40078F405 /* MDRadialProgressTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C9F2731AC3FDC40078F405 /* MDRadialProgressTheme.m */; };
 		20C9F2781AC3FDC40078F405 /* MDRadialProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C9F2751AC3FDC40078F405 /* MDRadialProgressView.m */; };
+		20D57AB91AE48AC000FE0724 /* MyCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AB71AE48AC000FE0724 /* MyCardViewController.m */; };
+		20D57ABA1AE48AC000FE0724 /* MyCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AB81AE48AC000FE0724 /* MyCardViewController.xib */; };
+		20D57ABE1AE4C7B000FE0724 /* RedBagCZViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57ABC1AE4C7B000FE0724 /* RedBagCZViewController.m */; };
+		20D57ABF1AE4C7B000FE0724 /* RedBagCZViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ABD1AE4C7B000FE0724 /* RedBagCZViewController.xib */; };
+		20D57AC31AE4E21F00FE0724 /* BenXiBaoZViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AC21AE4E21F00FE0724 /* BenXiBaoZViewController.m */; };
+		20D57AC71AE4F7DC00FE0724 /* BenXBZCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AC51AE4F7DC00FE0724 /* BenXBZCell.m */; };
+		20D57AC81AE4F7DC00FE0724 /* BenXBZCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AC61AE4F7DC00FE0724 /* BenXBZCell.xib */; };
+		20D57AE61AE50B8E00FE0724 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ACC1AE50B8E00FE0724 /* UMSocialLocalizable.strings */; };
+		20D57AE71AE50B8E00FE0724 /* libUMSocial_Sdk_4.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20D57ADA1AE50B8E00FE0724 /* libUMSocial_Sdk_4.2.1.a */; };
+		20D57AE81AE50B8E00FE0724 /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ADC1AE50B8E00FE0724 /* UMSCommentDetailController.xib */; };
+		20D57AE91AE50B8E00FE0724 /* UMSCommentInputController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ADD1AE50B8E00FE0724 /* UMSCommentInputController.xib */; };
+		20D57AEA1AE50B8E00FE0724 /* UMSCommentInputControlleriPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ADE1AE50B8E00FE0724 /* UMSCommentInputControlleriPad.xib */; };
+		20D57AEB1AE50B8E00FE0724 /* UMShareEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57ADF1AE50B8E00FE0724 /* UMShareEditViewController.xib */; };
+		20D57AEC1AE50B8E00FE0724 /* UMShareEditViewControlleriPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AE01AE50B8E00FE0724 /* UMShareEditViewControlleriPad.xib */; };
+		20D57AED1AE50B8E00FE0724 /* UMSLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AE11AE50B8E00FE0724 /* UMSLoginViewController.xib */; };
+		20D57AEE1AE50B8E00FE0724 /* UMSnsAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AE21AE50B8E00FE0724 /* UMSnsAccountViewController.xib */; };
+		20D57AEF1AE50B8E00FE0724 /* UMSShareListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AE31AE50B8E00FE0724 /* UMSShareListController.xib */; };
+		20D57AF01AE50B8E00FE0724 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AE41AE50B8E00FE0724 /* UMSocialSDKResourcesNew.bundle */; };
+		20D57AF41AE5DB7C00FE0724 /* ChongZRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AF21AE5DB7C00FE0724 /* ChongZRecordCell.m */; };
+		20D57AF51AE5DB7C00FE0724 /* ChongZRecordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AF31AE5DB7C00FE0724 /* ChongZRecordCell.xib */; };
+		20D57AF91AE5DD3F00FE0724 /* TiXianRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AF71AE5DD3F00FE0724 /* TiXianRecordCell.m */; };
+		20D57AFA1AE5DD3F00FE0724 /* TiXianRecordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57AF81AE5DD3F00FE0724 /* TiXianRecordCell.xib */; };
+		20D57AFF1AE61A3D00FE0724 /* HuiKuanJHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57AFE1AE61A3D00FE0724 /* HuiKuanJHViewController.m */; };
+		20D57B031AE61C5800FE0724 /* HuiKuanJHCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B011AE61C5800FE0724 /* HuiKuanJHCell.m */; };
+		20D57B041AE61C5800FE0724 /* HuiKuanJHCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B021AE61C5800FE0724 /* HuiKuanJHCell.xib */; };
+		20D57B061AE61D8400FE0724 /* hkjh.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B051AE61D8400FE0724 /* hkjh.9.png */; };
+		20D57B0A1AE621DF00FE0724 /* JiaXiQuanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B081AE621DF00FE0724 /* JiaXiQuanCell.m */; };
+		20D57B0B1AE621DF00FE0724 /* JiaXiQuanCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B091AE621DF00FE0724 /* JiaXiQuanCell.xib */; };
+		20D57B0F1AE621F900FE0724 /* RedBagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B0D1AE621F900FE0724 /* RedBagCell.m */; };
+		20D57B101AE621F900FE0724 /* RedBagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B0E1AE621F900FE0724 /* RedBagCell.xib */; };
+		20D57B121AE6247800FE0724 /* jxqbj.9.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B111AE6247800FE0724 /* jxqbj.9.png */; };
+		20D57B151AE64F9000FE0724 /* BankCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B141AE64F9000FE0724 /* BankCardModel.m */; };
+		20D57B171AE6544C00FE0724 /* tip_quXian.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B161AE6544C00FE0724 /* tip_quXian.png */; };
+		20D57B1B1AE72E6B00FE0724 /* TiYanJinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B1A1AE72E6B00FE0724 /* TiYanJinModel.m */; };
+		20D57B1F1AE73A9300FE0724 /* BankCardManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B1D1AE73A9300FE0724 /* BankCardManageViewController.m */; };
+		20D57B201AE73A9300FE0724 /* BankCardManageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B1E1AE73A9300FE0724 /* BankCardManageViewController.xib */; };
+		20D57B241AE73E4800FE0724 /* BankCardListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B221AE73E4800FE0724 /* BankCardListCell.m */; };
+		20D57B251AE73E4800FE0724 /* BankCardListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B231AE73E4800FE0724 /* BankCardListCell.xib */; };
+		20D57B281AE7467500FE0724 /* BankCardDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B271AE7467500FE0724 /* BankCardDetailViewController.m */; };
+		20D57B2B1AE7895800FE0724 /* RedBagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B2A1AE7895800FE0724 /* RedBagModel.m */; };
+		20D57B2E1AE7897F00FE0724 /* JiaXiQuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B2D1AE7897F00FE0724 /* JiaXiQuanModel.m */; };
+		20D57B341AE78F6600FE0724 /* willRedbs.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B301AE78F6600FE0724 /* willRedbs.png */; };
+		20D57B351AE78F6600FE0724 /* redbag.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B311AE78F6600FE0724 /* redbag.png */; };
+		20D57B361AE78F6600FE0724 /* didSyRedbs.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B321AE78F6600FE0724 /* didSyRedbs.png */; };
+		20D57B371AE78F6600FE0724 /* didRedbs.png in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B331AE78F6600FE0724 /* didRedbs.png */; };
+		20D57B3A1AE7AD3B00FE0724 /* HuiKuanJHModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B391AE7AD3B00FE0724 /* HuiKuanJHModel.m */; };
+		20D57B3E1AE7B58D00FE0724 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20D57B3C1AE7B58D00FE0724 /* MessageViewController.m */; };
+		20D57B3F1AE7B58D00FE0724 /* MessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20D57B3D1AE7B58D00FE0724 /* MessageViewController.xib */; };
 		20DBCA571ACE85A600D66216 /* MyTouZiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DBCA551ACE85A600D66216 /* MyTouZiViewController.m */; };
 		20DBCA581ACE85A600D66216 /* MyTouZiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20DBCA561ACE85A600D66216 /* MyTouZiViewController.xib */; };
 		20DBCA5D1ACE867D00D66216 /* MyTouZiCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20DBCA5B1ACE867D00D66216 /* MyTouZiCell.m */; };
@@ -582,6 +630,85 @@
 		20C9F2731AC3FDC40078F405 /* MDRadialProgressTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressTheme.m; sourceTree = "<group>"; };
 		20C9F2741AC3FDC40078F405 /* MDRadialProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDRadialProgressView.h; sourceTree = "<group>"; };
 		20C9F2751AC3FDC40078F405 /* MDRadialProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDRadialProgressView.m; sourceTree = "<group>"; };
+		20D57AB61AE48AC000FE0724 /* MyCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCardViewController.h; sourceTree = "<group>"; };
+		20D57AB71AE48AC000FE0724 /* MyCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCardViewController.m; sourceTree = "<group>"; };
+		20D57AB81AE48AC000FE0724 /* MyCardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCardViewController.xib; sourceTree = "<group>"; };
+		20D57ABB1AE4C7B000FE0724 /* RedBagCZViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedBagCZViewController.h; sourceTree = "<group>"; };
+		20D57ABC1AE4C7B000FE0724 /* RedBagCZViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedBagCZViewController.m; sourceTree = "<group>"; };
+		20D57ABD1AE4C7B000FE0724 /* RedBagCZViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedBagCZViewController.xib; sourceTree = "<group>"; };
+		20D57AC11AE4E21F00FE0724 /* BenXiBaoZViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BenXiBaoZViewController.h; sourceTree = "<group>"; };
+		20D57AC21AE4E21F00FE0724 /* BenXiBaoZViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BenXiBaoZViewController.m; sourceTree = "<group>"; };
+		20D57AC41AE4F7DC00FE0724 /* BenXBZCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BenXBZCell.h; sourceTree = "<group>"; };
+		20D57AC51AE4F7DC00FE0724 /* BenXBZCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BenXBZCell.m; sourceTree = "<group>"; };
+		20D57AC61AE4F7DC00FE0724 /* BenXBZCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BenXBZCell.xib; sourceTree = "<group>"; };
+		20D57ACD1AE50B8E00FE0724 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
+		20D57ACF1AE50B8E00FE0724 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
+		20D57AD01AE50B8E00FE0724 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
+		20D57AD11AE50B8E00FE0724 /* UMSocialBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialBar.h; sourceTree = "<group>"; };
+		20D57AD21AE50B8E00FE0724 /* UMSocialConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialConfig.h; sourceTree = "<group>"; };
+		20D57AD31AE50B8E00FE0724 /* UMSocialControllerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialControllerService.h; sourceTree = "<group>"; };
+		20D57AD41AE50B8E00FE0724 /* UMSocialControllerServiceComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialControllerServiceComment.h; sourceTree = "<group>"; };
+		20D57AD51AE50B8E00FE0724 /* UMSocialData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialData.h; sourceTree = "<group>"; };
+		20D57AD61AE50B8E00FE0724 /* UMSocialDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialDataService.h; sourceTree = "<group>"; };
+		20D57AD71AE50B8E00FE0724 /* UMSocialSnsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSnsData.h; sourceTree = "<group>"; };
+		20D57AD81AE50B8E00FE0724 /* UMSocialSnsPlatformManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSnsPlatformManager.h; sourceTree = "<group>"; };
+		20D57AD91AE50B8E00FE0724 /* UMSocialSnsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSnsService.h; sourceTree = "<group>"; };
+		20D57ADA1AE50B8E00FE0724 /* libUMSocial_Sdk_4.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMSocial_Sdk_4.2.1.a; sourceTree = "<group>"; };
+		20D57ADC1AE50B8E00FE0724 /* UMSCommentDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSCommentDetailController.xib; sourceTree = "<group>"; };
+		20D57ADD1AE50B8E00FE0724 /* UMSCommentInputController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSCommentInputController.xib; sourceTree = "<group>"; };
+		20D57ADE1AE50B8E00FE0724 /* UMSCommentInputControlleriPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSCommentInputControlleriPad.xib; sourceTree = "<group>"; };
+		20D57ADF1AE50B8E00FE0724 /* UMShareEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMShareEditViewController.xib; sourceTree = "<group>"; };
+		20D57AE01AE50B8E00FE0724 /* UMShareEditViewControlleriPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMShareEditViewControlleriPad.xib; sourceTree = "<group>"; };
+		20D57AE11AE50B8E00FE0724 /* UMSLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSLoginViewController.xib; sourceTree = "<group>"; };
+		20D57AE21AE50B8E00FE0724 /* UMSnsAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSnsAccountViewController.xib; sourceTree = "<group>"; };
+		20D57AE31AE50B8E00FE0724 /* UMSShareListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSShareListController.xib; sourceTree = "<group>"; };
+		20D57AE41AE50B8E00FE0724 /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
+		20D57AE51AE50B8E00FE0724 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
+		20D57AF11AE5DB7C00FE0724 /* ChongZRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChongZRecordCell.h; sourceTree = "<group>"; };
+		20D57AF21AE5DB7C00FE0724 /* ChongZRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChongZRecordCell.m; sourceTree = "<group>"; };
+		20D57AF31AE5DB7C00FE0724 /* ChongZRecordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChongZRecordCell.xib; sourceTree = "<group>"; };
+		20D57AF61AE5DD3F00FE0724 /* TiXianRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiXianRecordCell.h; sourceTree = "<group>"; };
+		20D57AF71AE5DD3F00FE0724 /* TiXianRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiXianRecordCell.m; sourceTree = "<group>"; };
+		20D57AF81AE5DD3F00FE0724 /* TiXianRecordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TiXianRecordCell.xib; sourceTree = "<group>"; };
+		20D57AFD1AE61A3D00FE0724 /* HuiKuanJHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiKuanJHViewController.h; sourceTree = "<group>"; };
+		20D57AFE1AE61A3D00FE0724 /* HuiKuanJHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiKuanJHViewController.m; sourceTree = "<group>"; };
+		20D57B001AE61C5800FE0724 /* HuiKuanJHCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiKuanJHCell.h; sourceTree = "<group>"; };
+		20D57B011AE61C5800FE0724 /* HuiKuanJHCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiKuanJHCell.m; sourceTree = "<group>"; };
+		20D57B021AE61C5800FE0724 /* HuiKuanJHCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HuiKuanJHCell.xib; sourceTree = "<group>"; };
+		20D57B051AE61D8400FE0724 /* hkjh.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hkjh.9.png; sourceTree = "<group>"; };
+		20D57B071AE621DF00FE0724 /* JiaXiQuanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiaXiQuanCell.h; sourceTree = "<group>"; };
+		20D57B081AE621DF00FE0724 /* JiaXiQuanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JiaXiQuanCell.m; sourceTree = "<group>"; };
+		20D57B091AE621DF00FE0724 /* JiaXiQuanCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JiaXiQuanCell.xib; sourceTree = "<group>"; };
+		20D57B0C1AE621F900FE0724 /* RedBagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedBagCell.h; sourceTree = "<group>"; };
+		20D57B0D1AE621F900FE0724 /* RedBagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedBagCell.m; sourceTree = "<group>"; };
+		20D57B0E1AE621F900FE0724 /* RedBagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedBagCell.xib; sourceTree = "<group>"; };
+		20D57B111AE6247800FE0724 /* jxqbj.9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jxqbj.9.png; sourceTree = "<group>"; };
+		20D57B131AE64F9000FE0724 /* BankCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardModel.h; sourceTree = "<group>"; };
+		20D57B141AE64F9000FE0724 /* BankCardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardModel.m; sourceTree = "<group>"; };
+		20D57B161AE6544C00FE0724 /* tip_quXian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip_quXian.png; sourceTree = "<group>"; };
+		20D57B191AE72E6B00FE0724 /* TiYanJinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiYanJinModel.h; sourceTree = "<group>"; };
+		20D57B1A1AE72E6B00FE0724 /* TiYanJinModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiYanJinModel.m; sourceTree = "<group>"; };
+		20D57B1C1AE73A9300FE0724 /* BankCardManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardManageViewController.h; sourceTree = "<group>"; };
+		20D57B1D1AE73A9300FE0724 /* BankCardManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardManageViewController.m; sourceTree = "<group>"; };
+		20D57B1E1AE73A9300FE0724 /* BankCardManageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankCardManageViewController.xib; sourceTree = "<group>"; };
+		20D57B211AE73E4800FE0724 /* BankCardListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardListCell.h; sourceTree = "<group>"; };
+		20D57B221AE73E4800FE0724 /* BankCardListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardListCell.m; sourceTree = "<group>"; };
+		20D57B231AE73E4800FE0724 /* BankCardListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankCardListCell.xib; sourceTree = "<group>"; };
+		20D57B261AE7467500FE0724 /* BankCardDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardDetailViewController.h; sourceTree = "<group>"; };
+		20D57B271AE7467500FE0724 /* BankCardDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardDetailViewController.m; sourceTree = "<group>"; };
+		20D57B291AE7895800FE0724 /* RedBagModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedBagModel.h; sourceTree = "<group>"; };
+		20D57B2A1AE7895800FE0724 /* RedBagModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedBagModel.m; sourceTree = "<group>"; };
+		20D57B2C1AE7897F00FE0724 /* JiaXiQuanModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiaXiQuanModel.h; sourceTree = "<group>"; };
+		20D57B2D1AE7897F00FE0724 /* JiaXiQuanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JiaXiQuanModel.m; sourceTree = "<group>"; };
+		20D57B301AE78F6600FE0724 /* willRedbs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = willRedbs.png; sourceTree = "<group>"; };
+		20D57B311AE78F6600FE0724 /* redbag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbag.png; sourceTree = "<group>"; };
+		20D57B321AE78F6600FE0724 /* didSyRedbs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = didSyRedbs.png; sourceTree = "<group>"; };
+		20D57B331AE78F6600FE0724 /* didRedbs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = didRedbs.png; sourceTree = "<group>"; };
+		20D57B381AE7AD3B00FE0724 /* HuiKuanJHModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiKuanJHModel.h; sourceTree = "<group>"; };
+		20D57B391AE7AD3B00FE0724 /* HuiKuanJHModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiKuanJHModel.m; sourceTree = "<group>"; };
+		20D57B3B1AE7B58D00FE0724 /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		20D57B3C1AE7B58D00FE0724 /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		20D57B3D1AE7B58D00FE0724 /* MessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageViewController.xib; sourceTree = "<group>"; };
 		20DBCA541ACE85A600D66216 /* MyTouZiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTouZiViewController.h; sourceTree = "<group>"; };
 		20DBCA551ACE85A600D66216 /* MyTouZiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTouZiViewController.m; sourceTree = "<group>"; };
 		20DBCA561ACE85A600D66216 /* MyTouZiViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyTouZiViewController.xib; sourceTree = "<group>"; };
@@ -758,6 +885,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2008875C1AE3DE470068DDF2 /* Security.framework in Frameworks */,
+				20D57AE71AE50B8E00FE0724 /* libUMSocial_Sdk_4.2.1.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1211,9 @@
 				20B5E7D01AE10FCD00EAE35B /* wodjlb@2x.png */,
 				20B5E7DD1AE1144C00EAE35B /* topImg_bg.png */,
 				20B5E7DE1AE1144C00EAE35B /* topImg_bg@2x.png */,
+				20D57B051AE61D8400FE0724 /* hkjh.9.png */,
+				20D57B111AE6247800FE0724 /* jxqbj.9.png */,
+				20D57B161AE6544C00FE0724 /* tip_quXian.png */,
 			);
 			name = myAccount;
 			sourceTree = "<group>";
@@ -1099,15 +1230,7 @@
 		20C9F2441AC398050078F405 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				20F19D901AAE9ABC000AA334 /* HomeViewController.h */,
-				20F19D911AAE9ABC000AA334 /* HomeViewController.m */,
-				20F19D921AAE9ABC000AA334 /* HomeViewController.xib */,
-				20385CD51ABA7B4E00B940E5 /* ActivityViewController.h */,
-				20385CD61ABA7B4E00B940E5 /* ActivityViewController.m */,
-				20385CD71ABA7B4E00B940E5 /* ActivityViewController.xib */,
-				20E2EE6B1AC533DA00EC680E /* WuYeBiaoViewController.h */,
-				20E2EE6C1AC533DA00EC680E /* WuYeBiaoViewController.m */,
-				20E2EE6D1AC533DA00EC680E /* WuYeBiaoViewController.xib */,
+				20D57B181AE72C2100FE0724 /* home */,
 				2097C0921ACCDA58007187AE /* MyAccoutViewController.h */,
 				2097C0931ACCDA58007187AE /* MyAccoutViewController.m */,
 				2097C0941ACCDA58007187AE /* MyAccoutViewController.xib */,
@@ -1127,23 +1250,38 @@
 				20B5E8021AE23EC400EAE35B /* TransferViewController.xib */,
 				2097C09C1ACD1F82007187AE /* JiaoYiMXViewController.h */,
 				2097C09D1ACD1F82007187AE /* JiaoYiMXViewController.m */,
+				20D57AB61AE48AC000FE0724 /* MyCardViewController.h */,
+				20D57AB71AE48AC000FE0724 /* MyCardViewController.m */,
+				20D57AB81AE48AC000FE0724 /* MyCardViewController.xib */,
+				20D57ABB1AE4C7B000FE0724 /* RedBagCZViewController.h */,
+				20D57ABC1AE4C7B000FE0724 /* RedBagCZViewController.m */,
+				20D57ABD1AE4C7B000FE0724 /* RedBagCZViewController.xib */,
 				20A5B1091AD3A9F2009CBDB9 /* TiYanJinViewController.h */,
 				20A5B10A1AD3A9F2009CBDB9 /* TiYanJinViewController.m */,
 				20A5B10B1AD3A9F2009CBDB9 /* TiYanJinViewController.xib */,
+				20D57AC11AE4E21F00FE0724 /* BenXiBaoZViewController.h */,
+				20D57AC21AE4E21F00FE0724 /* BenXiBaoZViewController.m */,
+				20D57AFD1AE61A3D00FE0724 /* HuiKuanJHViewController.h */,
+				20D57AFE1AE61A3D00FE0724 /* HuiKuanJHViewController.m */,
 				2097C0971ACCDA8D007187AE /* SettingsViewController.h */,
 				2097C0981ACCDA8D007187AE /* SettingsViewController.m */,
 				2097C0991ACCDA8D007187AE /* SettingsViewController.xib */,
+				20D57B1C1AE73A9300FE0724 /* BankCardManageViewController.h */,
+				20D57B1D1AE73A9300FE0724 /* BankCardManageViewController.m */,
+				20D57B1E1AE73A9300FE0724 /* BankCardManageViewController.xib */,
+				20D57B261AE7467500FE0724 /* BankCardDetailViewController.h */,
+				20D57B271AE7467500FE0724 /* BankCardDetailViewController.m */,
 				2097C0A41ACD2D2C007187AE /* PersonSetViewController.h */,
 				2097C0A51ACD2D2C007187AE /* PersonSetViewController.m */,
-				20E2EE5D1AC50ADD00EC680E /* ExepericeBiaoViewController.h */,
-				20E2EE5E1AC50ADE00EC680E /* ExepericeBiaoViewController.m */,
-				20E2EE5F1AC50ADE00EC680E /* ExepericeBiaoViewController.xib */,
 				20691B5F1ADB70070044AF62 /* ChongZhiViewController.h */,
 				20691B601ADB70070044AF62 /* ChongZhiViewController.m */,
 				20691B611ADB70070044AF62 /* ChongZhiViewController.xib */,
 				203B47901ADF898E00446A9B /* TiXianViewController.h */,
 				203B47911ADF898E00446A9B /* TiXianViewController.m */,
 				203B47921ADF898F00446A9B /* TiXianViewController.xib */,
+				20D57B3B1AE7B58D00FE0724 /* MessageViewController.h */,
+				20D57B3C1AE7B58D00FE0724 /* MessageViewController.m */,
+				20D57B3D1AE7B58D00FE0724 /* MessageViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1154,9 +1292,6 @@
 				20E2EE621AC50CC700EC680E /* MenuView.h */,
 				20E2EE631AC50CC700EC680E /* MenuView.m */,
 				20E2EE651AC5292C00EC680E /* MenuView.xib */,
-				2097C09F1ACD2093007187AE /* JiaoYiMXCell.h */,
-				2097C0A01ACD2093007187AE /* JiaoYiMXCell.m */,
-				2097C0A11ACD2093007187AE /* JiaoYiMXCell.xib */,
 				20A5B13C1AD4BE7B009CBDB9 /* AllTouZiCell.h */,
 				20A5B13D1AD4BE7B009CBDB9 /* AllTouZiCell.m */,
 				20A5B13E1AD4BE7B009CBDB9 /* AllTouZiCell.xib */,
@@ -1169,6 +1304,30 @@
 				2008875D1AE3E70D0068DDF2 /* MyZhaiQuanCell.h */,
 				2008875E1AE3E70D0068DDF2 /* MyZhaiQuanCell.m */,
 				2008875F1AE3E70D0068DDF2 /* MyZhaiQuanCell.xib */,
+				2097C09F1ACD2093007187AE /* JiaoYiMXCell.h */,
+				2097C0A01ACD2093007187AE /* JiaoYiMXCell.m */,
+				2097C0A11ACD2093007187AE /* JiaoYiMXCell.xib */,
+				20D57AF11AE5DB7C00FE0724 /* ChongZRecordCell.h */,
+				20D57AF21AE5DB7C00FE0724 /* ChongZRecordCell.m */,
+				20D57AF31AE5DB7C00FE0724 /* ChongZRecordCell.xib */,
+				20D57AF61AE5DD3F00FE0724 /* TiXianRecordCell.h */,
+				20D57AF71AE5DD3F00FE0724 /* TiXianRecordCell.m */,
+				20D57AF81AE5DD3F00FE0724 /* TiXianRecordCell.xib */,
+				20D57AC41AE4F7DC00FE0724 /* BenXBZCell.h */,
+				20D57AC51AE4F7DC00FE0724 /* BenXBZCell.m */,
+				20D57AC61AE4F7DC00FE0724 /* BenXBZCell.xib */,
+				20D57B001AE61C5800FE0724 /* HuiKuanJHCell.h */,
+				20D57B011AE61C5800FE0724 /* HuiKuanJHCell.m */,
+				20D57B021AE61C5800FE0724 /* HuiKuanJHCell.xib */,
+				20D57B071AE621DF00FE0724 /* JiaXiQuanCell.h */,
+				20D57B081AE621DF00FE0724 /* JiaXiQuanCell.m */,
+				20D57B091AE621DF00FE0724 /* JiaXiQuanCell.xib */,
+				20D57B0C1AE621F900FE0724 /* RedBagCell.h */,
+				20D57B0D1AE621F900FE0724 /* RedBagCell.m */,
+				20D57B0E1AE621F900FE0724 /* RedBagCell.xib */,
+				20D57B211AE73E4800FE0724 /* BankCardListCell.h */,
+				20D57B221AE73E4800FE0724 /* BankCardListCell.m */,
+				20D57B231AE73E4800FE0724 /* BankCardListCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1190,6 +1349,16 @@
 				20B5E7FB1AE22DAB00EAE35B /* ChongZhiRecordMod.m */,
 				20B5E7FD1AE22DDD00EAE35B /* QuXianRecord.h */,
 				20B5E7FE1AE22DDD00EAE35B /* QuXianRecord.m */,
+				20D57B131AE64F9000FE0724 /* BankCardModel.h */,
+				20D57B141AE64F9000FE0724 /* BankCardModel.m */,
+				20D57B191AE72E6B00FE0724 /* TiYanJinModel.h */,
+				20D57B1A1AE72E6B00FE0724 /* TiYanJinModel.m */,
+				20D57B291AE7895800FE0724 /* RedBagModel.h */,
+				20D57B2A1AE7895800FE0724 /* RedBagModel.m */,
+				20D57B2C1AE7897F00FE0724 /* JiaXiQuanModel.h */,
+				20D57B2D1AE7897F00FE0724 /* JiaXiQuanModel.m */,
+				20D57B381AE7AD3B00FE0724 /* HuiKuanJHModel.h */,
+				20D57B391AE7AD3B00FE0724 /* HuiKuanJHModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1245,6 +1414,7 @@
 		20C9F24E1AC3DF590078F405 /* personImgs */ = {
 			isa = PBXGroup;
 			children = (
+				20D57B2F1AE78F4200FE0724 /* cardQuan */,
 				20B5E7EE1AE2032800EAE35B /* myAccount */,
 				20B5E7E11AE2021700EAE35B /* 我的投资 */,
 			);
@@ -1310,10 +1480,101 @@
 			path = MDRadialProgress;
 			sourceTree = "<group>";
 		};
-		20F19C661AAD81E4000AA334 = {
+		20D57AC01AE4CE3F00FE0724 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
 				2008875B1AE3DE470068DDF2 /* Security.framework */,
+			);
+			name = Framework;
+			sourceTree = "<group>";
+		};
+		20D57ACA1AE50B2F00FE0724 /* UMeng */ = {
+			isa = PBXGroup;
+			children = (
+				20D57ACB1AE50B8E00FE0724 /* UMSocial_Sdk_4.2.1 */,
+			);
+			path = UMeng;
+			sourceTree = "<group>";
+		};
+		20D57ACB1AE50B8E00FE0724 /* UMSocial_Sdk_4.2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				20D57ACC1AE50B8E00FE0724 /* UMSocialLocalizable.strings */,
+				20D57ACE1AE50B8E00FE0724 /* Header */,
+				20D57ADA1AE50B8E00FE0724 /* libUMSocial_Sdk_4.2.1.a */,
+				20D57ADB1AE50B8E00FE0724 /* SocialSDKXib */,
+				20D57AE41AE50B8E00FE0724 /* UMSocialSDKResourcesNew.bundle */,
+			);
+			path = UMSocial_Sdk_4.2.1;
+			sourceTree = "<group>";
+		};
+		20D57ACE1AE50B8E00FE0724 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				20D57ACF1AE50B8E00FE0724 /* UMSocial.h */,
+				20D57AD01AE50B8E00FE0724 /* UMSocialAccountManager.h */,
+				20D57AD11AE50B8E00FE0724 /* UMSocialBar.h */,
+				20D57AD21AE50B8E00FE0724 /* UMSocialConfig.h */,
+				20D57AD31AE50B8E00FE0724 /* UMSocialControllerService.h */,
+				20D57AD41AE50B8E00FE0724 /* UMSocialControllerServiceComment.h */,
+				20D57AD51AE50B8E00FE0724 /* UMSocialData.h */,
+				20D57AD61AE50B8E00FE0724 /* UMSocialDataService.h */,
+				20D57AD71AE50B8E00FE0724 /* UMSocialSnsData.h */,
+				20D57AD81AE50B8E00FE0724 /* UMSocialSnsPlatformManager.h */,
+				20D57AD91AE50B8E00FE0724 /* UMSocialSnsService.h */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		20D57ADB1AE50B8E00FE0724 /* SocialSDKXib */ = {
+			isa = PBXGroup;
+			children = (
+				20D57ADC1AE50B8E00FE0724 /* UMSCommentDetailController.xib */,
+				20D57ADD1AE50B8E00FE0724 /* UMSCommentInputController.xib */,
+				20D57ADE1AE50B8E00FE0724 /* UMSCommentInputControlleriPad.xib */,
+				20D57ADF1AE50B8E00FE0724 /* UMShareEditViewController.xib */,
+				20D57AE01AE50B8E00FE0724 /* UMShareEditViewControlleriPad.xib */,
+				20D57AE11AE50B8E00FE0724 /* UMSLoginViewController.xib */,
+				20D57AE21AE50B8E00FE0724 /* UMSnsAccountViewController.xib */,
+				20D57AE31AE50B8E00FE0724 /* UMSShareListController.xib */,
+			);
+			path = SocialSDKXib;
+			sourceTree = "<group>";
+		};
+		20D57B181AE72C2100FE0724 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				20F19D901AAE9ABC000AA334 /* HomeViewController.h */,
+				20F19D911AAE9ABC000AA334 /* HomeViewController.m */,
+				20F19D921AAE9ABC000AA334 /* HomeViewController.xib */,
+				20385CD51ABA7B4E00B940E5 /* ActivityViewController.h */,
+				20385CD61ABA7B4E00B940E5 /* ActivityViewController.m */,
+				20385CD71ABA7B4E00B940E5 /* ActivityViewController.xib */,
+				20E2EE6B1AC533DA00EC680E /* WuYeBiaoViewController.h */,
+				20E2EE6C1AC533DA00EC680E /* WuYeBiaoViewController.m */,
+				20E2EE6D1AC533DA00EC680E /* WuYeBiaoViewController.xib */,
+				20E2EE5D1AC50ADD00EC680E /* ExepericeBiaoViewController.h */,
+				20E2EE5E1AC50ADE00EC680E /* ExepericeBiaoViewController.m */,
+				20E2EE5F1AC50ADE00EC680E /* ExepericeBiaoViewController.xib */,
+			);
+			name = home;
+			sourceTree = "<group>";
+		};
+		20D57B2F1AE78F4200FE0724 /* cardQuan */ = {
+			isa = PBXGroup;
+			children = (
+				20D57B301AE78F6600FE0724 /* willRedbs.png */,
+				20D57B311AE78F6600FE0724 /* redbag.png */,
+				20D57B321AE78F6600FE0724 /* didSyRedbs.png */,
+				20D57B331AE78F6600FE0724 /* didRedbs.png */,
+			);
+			name = cardQuan;
+			sourceTree = "<group>";
+		};
+		20F19C661AAD81E4000AA334 = {
+			isa = PBXGroup;
+			children = (
+				20D57AC01AE4CE3F00FE0724 /* Framework */,
 				20F19C711AAD81E4000AA334 /* XinRongApp */,
 				20F19C8B1AAD81E4000AA334 /* XinRongAppTests */,
 				20F19C701AAD81E4000AA334 /* Products */,
@@ -1332,6 +1593,7 @@
 		20F19C711AAD81E4000AA334 /* XinRongApp */ = {
 			isa = PBXGroup;
 			children = (
+				20D57ACA1AE50B2F00FE0724 /* UMeng */,
 				20F19D9F1AAED360000AA334 /* Other */,
 				20F19D8C1AAE9A36000AA334 /* Home */,
 				2097C08E1ACCD99F007187AE /* Tender */,
@@ -1709,6 +1971,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 20F19C661AAD81E4000AA334;
 			productRefGroup = 20F19C701AAD81E4000AA334 /* Products */;
@@ -1726,11 +1989,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20D57B101AE621F900FE0724 /* RedBagCell.xib in Resources */,
 				20E2EE6A1AC529F600EC680E /* wuYe_bg.png in Resources */,
 				201D8AA41AD7B79600CCA3F9 /* chongZhi.png in Resources */,
 				20B5E7D21AE10FCD00EAE35B /* jiaoymx@2x.png in Resources */,
 				20A5B1551AD51C61009CBDB9 /* zc_kuang.png in Resources */,
 				20691B9D1ADBEA580044AF62 /* muJJE.png in Resources */,
+				20D57B201AE73A9300FE0724 /* BankCardManageViewController.xib in Resources */,
 				20F19D4C1AAD8912000AA334 /* b27_icon_star_gray@2x.png in Resources */,
 				20691BBC1ADD22320044AF62 /* PicturesCollectionViewCell.xib in Resources */,
 				203B47941ADF898F00446A9B /* TiXianViewController.xib in Resources */,
@@ -1740,15 +2005,19 @@
 				20B5E7DB1AE10FCD00EAE35B /* wodjlb.png in Resources */,
 				20E2EE731AC53B0500EC680E /* tiYanBtn_bg.png in Resources */,
 				20691B7B1ADBB7320044AF62 /* huiKZ.png in Resources */,
+				20D57AEB1AE50B8E00FE0724 /* UMShareEditViewController.xib in Resources */,
 				20C5C7311AD62107006A239C /* LookXieYiViewController.xib in Resources */,
 				20B5E7D51AE10FCD00EAE35B /* licjh.png in Resources */,
 				20B5E7DA1AE10FCD00EAE35B /* qiandao@2x.png in Resources */,
 				20C5C73E1AD670FF006A239C /* XiangMuDetailViewController.xib in Resources */,
+				20D57AFA1AE5DD3F00FE0724 /* TiXianRecordCell.xib in Resources */,
 				20A5B14C1AD4FE1B009CBDB9 /* banBenMsg.png in Resources */,
 				2089169E1AD964D500B63BC1 /* TouZiDetailTopView.xib in Resources */,
 				20B5E7F61AE208A900EAE35B /* MyZhaiQViewController.xib in Resources */,
 				203B479E1ADFA3D200446A9B /* ZhaiQuanTransViewController.xib in Resources */,
+				20D57AE61AE50B8E00FE0724 /* UMSocialLocalizable.strings in Resources */,
 				20F19D4D1AAD8912000AA334 /* b27_icon_star_yellow@2x.png in Resources */,
+				20D57AEE1AE50B8E00FE0724 /* UMSnsAccountViewController.xib in Resources */,
 				20DBCA5E1ACE867D00D66216 /* MyTouZiCell.xib in Resources */,
 				208916931AD9449200B63BC1 /* hui_left_bian.png in Resources */,
 				20B5E7DF1AE1144C00EAE35B /* topImg_bg.png in Resources */,
@@ -1758,31 +2027,40 @@
 				20691B7C1ADBB7320044AF62 /* manBiao.png in Resources */,
 				20691B6B1ADB72FE0044AF62 /* QDCalculatorView.xib in Resources */,
 				20A5B14B1AD4FE1B009CBDB9 /* aboutUs.png in Resources */,
+				20D57ABA1AE48AC000FE0724 /* MyCardViewController.xib in Resources */,
 				201D8AAA1AD7BBBC00CCA3F9 /* ChangePasswordViewController.xib in Resources */,
 				203B47961ADF948200446A9B /* touZi_kuang.9.png in Resources */,
 				20385CD91ABA7B4E00B940E5 /* ActivityViewController.xib in Resources */,
 				208916961AD9449200B63BC1 /* touzicelldidbtn_bg.png in Resources */,
+				20D57AE91AE50B8E00FE0724 /* UMSCommentInputController.xib in Resources */,
 				20691B941ADBDBD70044AF62 /* jiSuanBtn.png in Resources */,
 				201D8AAC1AD7C52600CCA3F9 /* jianTou.png in Resources */,
 				201D8A9D1AD76C4200CCA3F9 /* settings_bg.png in Resources */,
 				20691B7A1ADBB7320044AF62 /* huiKCG.png in Resources */,
 				20C9F2661AC3E5390078F405 /* menu.png in Resources */,
 				20F19C7E1AAD81E4000AA334 /* Main.storyboard in Resources */,
+				20D57B3F1AE7B58D00FE0724 /* MessageViewController.xib in Resources */,
 				208916951AD9449200B63BC1 /* touzicellcan_bg.png in Resources */,
 				201D8AA51AD7B79600CCA3F9 /* huiKuang.png in Resources */,
 				20F19C831AAD81E4000AA334 /* LaunchScreen.xib in Resources */,
 				20E2EE5C1AC4F9AD00EC680E /* rightCorner.png in Resources */,
 				20C5C7251AD60E9D006A239C /* password_login.png in Resources */,
 				20F19D551AAD8912000AA334 /* 37x-Checkmark.png in Resources */,
+				20D57B361AE78F6600FE0724 /* didSyRedbs.png in Resources */,
 				20B5E7D81AE10FCD00EAE35B /* personIcon@2x.png in Resources */,
 				20F19D531AAD8912000AA334 /* IQButtonBarArrowRight@2x.png in Resources */,
 				20691B921ADBDBD70044AF62 /* diYaQD.9.png in Resources */,
 				20691B971ADBDBD70044AF62 /* xiangMX.9.png in Resources */,
 				20691BA61ADD03750044AF62 /* danBaoTop.9.png in Resources */,
+				20D57B371AE78F6600FE0724 /* didRedbs.png in Resources */,
 				20C9F2591AC3DF750078F405 /* homeBar_select.png in Resources */,
 				2097C0961ACCDA58007187AE /* MyAccoutViewController.xib in Resources */,
+				20D57AEA1AE50B8E00FE0724 /* UMSCommentInputControlleriPad.xib in Resources */,
 				20691B931ADBDBD70044AF62 /* faLuYJ.9.png in Resources */,
 				20C5C72C1AD61895006A239C /* ForgetPasswordViewController.xib in Resources */,
+				20D57AEC1AE50B8E00FE0724 /* UMShareEditViewControlleriPad.xib in Resources */,
+				20D57B041AE61C5800FE0724 /* HuiKuanJHCell.xib in Resources */,
+				20D57B171AE6544C00FE0724 /* tip_quXian.png in Resources */,
 				208B6C671ACB7BDE006E0F49 /* TenderDetView.xib in Resources */,
 				20691B7D1ADBB7320044AF62 /* tuoBiaoZ.png in Resources */,
 				201D8AA31AD7B79600CCA3F9 /* quXian.png in Resources */,
@@ -1807,7 +2085,9 @@
 				201D8A9E1AD76C4200CCA3F9 /* vip1.png in Resources */,
 				200887611AE3E70D0068DDF2 /* MyZhaiQuanCell.xib in Resources */,
 				20B5E7D11AE10FCD00EAE35B /* jiaoymx.png in Resources */,
+				20D57AC81AE4F7DC00FE0724 /* BenXBZCell.xib in Resources */,
 				20B5E7EB1AE2025300EAE35B /* xuXian_h@2x.png in Resources */,
+				20D57AF01AE50B8E00FE0724 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				20F19C801AAD81E4000AA334 /* Images.xcassets in Resources */,
 				20E2EE611AC50ADE00EC680E /* ExepericeBiaoViewController.xib in Resources */,
 				20C5C71D1AD60DD9006A239C /* logo_tu.png in Resources */,
@@ -1825,6 +2105,9 @@
 				20691B8E1ADBDBD70044AF62 /* xiangBanner.png in Resources */,
 				20C5C71C1AD60DD9006A239C /* logo_zi.png in Resources */,
 				20B5E7D31AE10FCD00EAE35B /* ka.png in Resources */,
+				20D57B121AE6247800FE0724 /* jxqbj.9.png in Resources */,
+				20D57B351AE78F6600FE0724 /* redbag.png in Resources */,
+				20D57AED1AE50B8E00FE0724 /* UMSLoginViewController.xib in Resources */,
 				20F19D521AAD8912000AA334 /* IQButtonBarArrowLeft@2x.png in Resources */,
 				20C5C7241AD60E9D006A239C /* login_user.png in Resources */,
 				20B5E7ED1AE2025300EAE35B /* xuXian_s@2x.png in Resources */,
@@ -1833,22 +2116,27 @@
 				20A5B14E1AD4FE1B009CBDB9 /* feedback.png in Resources */,
 				208B6C621ACA47AF006E0F49 /* TenderDetailViewController.xib in Resources */,
 				20C9F25E1AC3DF750078F405 /* xiangMu_norm.png in Resources */,
+				20D57B251AE73E4800FE0724 /* BankCardListCell.xib in Resources */,
 				20C5C7361AD6255C006A239C /* agrees.png in Resources */,
 				20B5E7D91AE10FCD00EAE35B /* qiandao.png in Resources */,
 				2096A75A1ADFDA3700DA56D3 /* xiaKuang.9.png in Resources */,
 				20B5E7E91AE2025300EAE35B /* transBtn_bg@2x.png in Resources */,
 				20C9F25B1AC3DF750078F405 /* moreBar_norm.png in Resources */,
 				20F19DF81AAEE4E1000AA334 /* LoginViewController.xib in Resources */,
+				20D57B061AE61D8400FE0724 /* hkjh.9.png in Resources */,
 				2096A75B1ADFDA3700DA56D3 /* chongje_cz.png in Resources */,
 				20E2EE761AC53C7300EC680E /* back.png in Resources */,
+				20D57AEF1AE50B8E00FE0724 /* UMSShareListController.xib in Resources */,
 				20C9F25C1AC3DF750078F405 /* moreBar_select.png in Resources */,
 				20691B5E1ADB65B50044AF62 /* BeginTenderViewController.xib in Resources */,
+				20D57B341AE78F6600FE0724 /* willRedbs.png in Resources */,
 				20A5B1401AD4BE7B009CBDB9 /* AllTouZiCell.xib in Resources */,
 				20691B911ADBDBD70044AF62 /* danBJG.9.png in Resources */,
 				20691B751ADBAE100044AF62 /* shuLine_hui.png in Resources */,
 				208916921AD9449200B63BC1 /* lan_left_bian.png in Resources */,
 				20385C8C1AB957EB00B940E5 /* VersionsViewController.xib in Resources */,
 				20B5E7D71AE10FCD00EAE35B /* personIcon.png in Resources */,
+				20D57AE81AE50B8E00FE0724 /* UMSCommentDetailController.xib in Resources */,
 				20C5C7331AD62296006A239C /* login_bg.png in Resources */,
 				20A5B14F1AD4FE1B009CBDB9 /* help.png in Resources */,
 				203B47841ADF4A1600446A9B /* MJRefresh.bundle in Resources */,
@@ -1856,12 +2144,15 @@
 				20B5E7DC1AE10FCD00EAE35B /* wodjlb@2x.png in Resources */,
 				20A5B10D1AD3A9F2009CBDB9 /* TiYanJinViewController.xib in Resources */,
 				20B5E7BB1AE09FAF00EAE35B /* sanJiao_tiXiang.png in Resources */,
+				20D57ABF1AE4C7B000FE0724 /* RedBagCZViewController.xib in Resources */,
 				20F19D941AAE9ABC000AA334 /* HomeViewController.xib in Resources */,
 				20E2EE791AC5412A00EC680E /* activity.png in Resources */,
 				20C9F2671AC3E5390078F405 /* person.png in Resources */,
 				20E2EE721AC53B0500EC680E /* leftCorner.png in Resources */,
 				20691B901ADBDBD70044AF62 /* danBaoYJ.png in Resources */,
+				20D57AF51AE5DB7C00FE0724 /* ChongZRecordCell.xib in Resources */,
 				208916941AD9449200B63BC1 /* touzicell_bg.png in Resources */,
+				20D57B0B1AE621DF00FE0724 /* JiaXiQuanCell.xib in Resources */,
 				20B5E7D41AE10FCD00EAE35B /* ka@2x.png in Resources */,
 				2096A75C1ADFDA3700DA56D3 /* tiXianJ_tiXiang.png in Resources */,
 				20F19DF31AAEE4A1000AA334 /* RegisterViewController.xib in Resources */,
@@ -1885,7 +2176,9 @@
 				20F19D421AAD8912000AA334 /* AFHTTPRequestOperation.m in Sources */,
 				20F19D701AAD8912000AA334 /* UIImage+WebP.m in Sources */,
 				2097C09A1ACCDA8D007187AE /* SettingsViewController.m in Sources */,
+				20D57B1B1AE72E6B00FE0724 /* TiYanJinModel.m in Sources */,
 				20DBCA5D1ACE867D00D66216 /* MyTouZiCell.m in Sources */,
+				20D57AC71AE4F7DC00FE0724 /* BenXBZCell.m in Sources */,
 				20F19D6D1AAD8912000AA334 /* UIButton+WebCache.m in Sources */,
 				2097C09E1ACD1F82007187AE /* JiaoYiMXViewController.m in Sources */,
 				20691B591ADB5F890044AF62 /* DiYanQDViewController.m in Sources */,
@@ -1894,15 +2187,20 @@
 				20691BB61ADD17EE0044AF62 /* NSMutableString+TagReplace.m in Sources */,
 				20F19DF21AAEE4A1000AA334 /* RegisterViewController.m in Sources */,
 				203B47861ADF4A1600446A9B /* MJRefreshConst.m in Sources */,
+				20D57B0A1AE621DF00FE0724 /* JiaXiQuanCell.m in Sources */,
 				20F19D411AAD8912000AA334 /* Items.m in Sources */,
 				20B5E7C41AE0ECAF00EAE35B /* MyEndTenderModel.m in Sources */,
 				203B478D1ADF4A1600446A9B /* UIScrollView+MJExtension.m in Sources */,
+				20D57B2E1AE7897F00FE0724 /* JiaXiQuanModel.m in Sources */,
 				20F19D611AAD8912000AA334 /* SBJsonTokeniser.m in Sources */,
+				20D57B281AE7467500FE0724 /* BankCardDetailViewController.m in Sources */,
 				20691BB41ADD17EE0044AF62 /* WPHotspotLabel.m in Sources */,
 				20B5E8081AE2410F00EAE35B /* KaiTongHFViewController.m in Sources */,
 				20F19D4A1AAD8912000AA334 /* AFURLSessionManager.m in Sources */,
 				20F19D591AAD8912000AA334 /* SBJsonParser.m in Sources */,
+				20D57B1F1AE73A9300FE0724 /* BankCardManageViewController.m in Sources */,
 				203B479D1ADFA3D200446A9B /* ZhaiQuanTransViewController.m in Sources */,
+				20D57AFF1AE61A3D00FE0724 /* HuiKuanJHViewController.m in Sources */,
 				20F19D661AAD8912000AA334 /* SDImageCache.m in Sources */,
 				20F19D7E1AAD8912000AA334 /* TabBar.m in Sources */,
 				20691BB71ADD17EE0044AF62 /* NSString+WPAttributedMarkup.m in Sources */,
@@ -1916,12 +2214,14 @@
 				20F19DAA1AAED45A000AA334 /* BaseViewController.m in Sources */,
 				20F19C7B1AAD81E4000AA334 /* ViewController.m in Sources */,
 				20385C901AB9583300B940E5 /* FeedbackViewController.m in Sources */,
+				20D57B2B1AE7895800FE0724 /* RedBagModel.m in Sources */,
 				20691BB31ADD17EE0044AF62 /* WPAttributedStyleAction.m in Sources */,
 				20F19D641AAD8912000AA334 /* MKAnnotationView+WebCache.m in Sources */,
 				203B478A1ADF4A1600446A9B /* MJRefreshHeader.m in Sources */,
 				20F19D4E1AAD8912000AA334 /* CWStarRateView.m in Sources */,
 				208B6C651ACA684A006E0F49 /* TenderDetView.m in Sources */,
 				20F19D541AAD8912000AA334 /* IQKeyboardManager.m in Sources */,
+				20D57AF91AE5DD3F00FE0724 /* TiXianRecordCell.m in Sources */,
 				20F19D721AAD8912000AA334 /* UIImageView+WebCache.m in Sources */,
 				20F19D451AAD8912000AA334 /* AFNetworkReachabilityManager.m in Sources */,
 				20F19D501AAD8912000AA334 /* DZNSegmentedControl.m in Sources */,
@@ -1934,9 +2234,12 @@
 				20F19D4B1AAD8912000AA334 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				20B5E7FF1AE22DDD00EAE35B /* QuXianRecord.m in Sources */,
 				20F19D3A1AAD8912000AA334 /* UIBarButtonItem+WB.m in Sources */,
+				20D57B0F1AE621F900FE0724 /* RedBagCell.m in Sources */,
 				20691B621ADB70070044AF62 /* ChongZhiViewController.m in Sources */,
+				20D57AF41AE5DB7C00FE0724 /* ChongZRecordCell.m in Sources */,
 				20F19D391AAD8912000AA334 /* NSDate+WB.m in Sources */,
 				20C9F24A1AC398FE0078F405 /* TenderCell.m in Sources */,
+				20D57B241AE73E4800FE0724 /* BankCardListCell.m in Sources */,
 				203B478C1ADF4A1600446A9B /* MJRefreshLegendHeader.m in Sources */,
 				20F19D461AAD8912000AA334 /* AFSecurityPolicy.m in Sources */,
 				20B5E7F91AE22CDC00EAE35B /* TenderBill.m in Sources */,
@@ -1946,6 +2249,7 @@
 				20F19D5B1AAD8912000AA334 /* SBJsonStreamParserAccumulator.m in Sources */,
 				20F19DA41AAED360000AA334 /* BaseModel.m in Sources */,
 				20691BA11ADCC4870044AF62 /* TenderDetailModel.m in Sources */,
+				20D57ABE1AE4C7B000FE0724 /* RedBagCZViewController.m in Sources */,
 				20C9F2771AC3FDC40078F405 /* MDRadialProgressTheme.m in Sources */,
 				20C9F2781AC3FDC40078F405 /* MDRadialProgressView.m in Sources */,
 				20B5E8031AE23EC400EAE35B /* TransferViewController.m in Sources */,
@@ -1955,6 +2259,7 @@
 				20691B811ADBBD6D0044AF62 /* ZaiQuanCell.m in Sources */,
 				2097C0951ACCDA58007187AE /* MyAccoutViewController.m in Sources */,
 				201D8AA91AD7BBBC00CCA3F9 /* ChangePasswordViewController.m in Sources */,
+				20D57AB91AE48AC000FE0724 /* MyCardViewController.m in Sources */,
 				20691BB51ADD17EE0044AF62 /* WPTappableLabel.m in Sources */,
 				20F19D6E1AAD8912000AA334 /* UIImage+GIF.m in Sources */,
 				20385C9D1AB967C300B940E5 /* AccountManager.m in Sources */,
@@ -1971,6 +2276,7 @@
 				20F19D5E1AAD8912000AA334 /* SBJsonStreamWriter.m in Sources */,
 				20C5C72B1AD61895006A239C /* ForgetPasswordViewController.m in Sources */,
 				20F19D621AAD8912000AA334 /* SBJsonUTF8Stream.m in Sources */,
+				20D57B3A1AE7AD3B00FE0724 /* HuiKuanJHModel.m in Sources */,
 				20691B661ADB724A0044AF62 /* CalculatorViewController.m in Sources */,
 				20F19D6B1AAD8912000AA334 /* SDWebImageManager.m in Sources */,
 				208E48C71AB67DA80079B254 /* SVIndefiniteAnimatedView.m in Sources */,
@@ -1978,6 +2284,7 @@
 				20B5E7C11AE0EC6100EAE35B /* MyIngTenderModel.m in Sources */,
 				20F19DF71AAEE4E1000AA334 /* LoginViewController.m in Sources */,
 				203B478B1ADF4A1600446A9B /* MJRefreshLegendFooter.m in Sources */,
+				20D57B3E1AE7B58D00FE0724 /* MessageViewController.m in Sources */,
 				20F19D681AAD8912000AA334 /* SDWebImageDecoder.m in Sources */,
 				2097C0A61ACD2D2C007187AE /* PersonSetViewController.m in Sources */,
 				200887601AE3E70D0068DDF2 /* MyZhaiQuanCell.m in Sources */,
@@ -1991,6 +2298,8 @@
 				20385C951AB963D300B940E5 /* KeychainItemWrapper.m in Sources */,
 				20385C871AB9579600B940E5 /* AboutUsViewController.m in Sources */,
 				200887641AE3E91E0068DDF2 /* MyZhaiQuanModel.m in Sources */,
+				20D57B031AE61C5800FE0724 /* HuiKuanJHCell.m in Sources */,
+				20D57AC31AE4E21F00FE0724 /* BenXiBaoZViewController.m in Sources */,
 				20691B6E1ADB9C1C0044AF62 /* TenderListModel.m in Sources */,
 				20B5E8101AE2641000EAE35B /* PooCodeView.m in Sources */,
 				20B5E7BE1AE0E30900EAE35B /* MyAllTender.m in Sources */,
@@ -2026,6 +2335,7 @@
 				20385CD81ABA7B4E00B940E5 /* ActivityViewController.m in Sources */,
 				20F19D5F1AAD8912000AA334 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				20F19D7F1AAD8912000AA334 /* MyScrollView1.m in Sources */,
+				20D57B151AE64F9000FE0724 /* BankCardModel.m in Sources */,
 				203B47881ADF4A1600446A9B /* MJRefreshGifFooter.m in Sources */,
 				20A5B10C1AD3A9F2009CBDB9 /* TiYanJinViewController.m in Sources */,
 			);
@@ -2050,6 +2360,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		20D57ACC1AE50B8E00FE0724 /* UMSocialLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				20D57ACD1AE50B8E00FE0724 /* en */,
+				20D57AE51AE50B8E00FE0724 /* zh-Hans */,
+			);
+			name = UMSocialLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		20F19C7C1AAD81E4000AA334 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2161,6 +2480,10 @@
 				GCC_PREFIX_HEADER = XinRongApp/XinRongApp.pch;
 				INFOPLIST_FILE = XinRongApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XinRongApp/UMeng/UMSocial_Sdk_4.2.1",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2182,6 +2505,10 @@
 				GCC_PREFIX_HEADER = XinRongApp/XinRongApp.pch;
 				INFOPLIST_FILE = XinRongApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XinRongApp/UMeng/UMSocial_Sdk_4.2.1",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

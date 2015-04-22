@@ -47,6 +47,7 @@
     if (cell==nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    NSDictionary *msgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (indexPath.row)
     {
@@ -56,8 +57,9 @@
             UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
             UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
             jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"用户名：15575757575";
+//            cell.accessoryView = jianTimgView;
+            NSString *name = [NSString stringWithFormat:@"用户名：%@",msgDic[@"name"]];
+            cell.textLabel.text = name;
             break;
         }
         case 1:
@@ -76,8 +78,9 @@
             UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
             UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
             jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"注册时间";
+//            cell.accessoryView = jianTimgView;
+            NSString *regstr = [NSString stringWithFormat:@"注册时间：%@",msgDic[@"regDate"]];
+            cell.textLabel.text = regstr;
             break;
         }
         case 3:
@@ -86,8 +89,9 @@
             UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
             UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
             jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"手机号码：15575757575";
+//            cell.accessoryView = jianTimgView;
+            NSString *phone = [NSString stringWithFormat:@"手机号码：%@",msgDic[@"mobile"]];
+            cell.textLabel.text = phone;
             break;
         }
     }

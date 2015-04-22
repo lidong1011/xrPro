@@ -8,7 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "PersonSetViewController.h"
-
+#import "UMSocial.h"
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -184,15 +184,24 @@
         }
         case 4:
         {
-            //清理缓存
-//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要清除缓存" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
-//            [alert show];
+            [self share];
             break;
         }
             
         default:
             break;
     }
+}
+
+- (void)share
+{
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"507fcab25270157b37000010"
+                                      shareText:@"你要分享的文字"
+                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToQzone,nil]
+                                       delegate:nil];
+
 }
 
 //退出登录提醒框

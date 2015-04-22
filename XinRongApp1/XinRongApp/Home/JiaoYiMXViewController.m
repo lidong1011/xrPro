@@ -9,6 +9,8 @@
 #import "JiaoYiMXViewController.h"
 #import "DZNSegmentedControl.h"
 #import "JiaoYiMXCell.h"
+#import "ChongZRecordCell.h"
+#import "TiXianRecordCell.h"
 #import "MJRefresh.h"
 
 #import "TenderBill.h"
@@ -69,10 +71,13 @@
     _tableViewHeader.lab3.text = @"类型";
     _tableViewHeader.lab4.text = @"余额";
     _tableViewHeader.backgroundColor = KLColor(230, 230, 230);
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHeight-kWScare(kSegmentedControlHeight)-kNavigtBarH-2) style:UITableViewStylePlain];
+    _tableViewHeader.frame = CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHScare(30));
+    [self.view addSubview:_tableViewHeader];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _tableViewHeader.bottom, kWidth, kHeight-_tableViewHeader.bottom-kNavigtBarH-2) style:UITableViewStylePlain];
+//    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHeight-kWScare(kSegmentedControlHeight)-kNavigtBarH-2) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.tableHeaderView = _tableViewHeader;
+//    _tableView.tableHeaderView = _tableViewHeader;
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
    
@@ -118,31 +123,23 @@
     MyLog(@"选择了第%ld项",(long)control.selectedSegmentIndex);
     
     _segementIndex = control.selectedSegmentIndex;
-    // 设置导航条标题
-//    self.navigationItem.title = self.menuItems[control.selectedSegmentIndex];
-    
+    [_tabViewMutArray removeAllObjects];
     switch (control.selectedSegmentIndex) {
         case 0: // 投资记录
-            _tableViewHeader.lab1.text = @"交易时间";
-            _tableViewHeader.lab2.text = @"金额";
-            _tableViewHeader.lab3.text = @"类型";
-            _tableViewHeader.lab4.text = @"余额";
+        {
             [self getListRequestWithPageNo:_tenderPageNo andPageSize:@"20"];
             break;
+        }
         case 1: // 充值记录
-            _tableViewHeader.lab1.text = @"交易时间2";
-            _tableViewHeader.lab2.text = @"金额";
-            _tableViewHeader.lab3.text = @"类型";
-            _tableViewHeader.lab4.text = @"余额";
+        {
             [self getListRequestWithPageNo:_chongZPageNo andPageSize:@"20"];
             break;
+        }
         case 2: // 取现记录
-            _tableViewHeader.lab1.text = @"交易时间3";
-            _tableViewHeader.lab2.text = @"金额";
-            _tableViewHeader.lab3.text = @"类型";
-            _tableViewHeader.lab4.text = @"余额";
+        {
             [self getListRequestWithPageNo:_quXianPageNo andPageSize:@"20"];
             break;
+        }
         default:
             break;
     }
@@ -203,20 +200,23 @@
                 [_tenderMutArray addObject:[TenderBill messageWithDict:dataDic]];
             }
             _tabViewMutArray = [NSMutableArray arrayWithArray:_tenderMutArray];
+            MyLog(@"%ld",_tabViewMutArray.count);
         }
         else if(_segementIndex==1)
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_chongZMutArray addObject:[ChongZhiRecordMod messageWithDict:dataDic]];
             }
-            _tabViewMutArray = [NSMutableArray arrayWithArray:_chongZMutArray];;
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_chongZMutArray];
+             MyLog(@"%ld",_tabViewMutArray.count);
         }
         else
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_quXianMutArray addObject:[QuXianRecord messageWithDict:dataDic]];
             }
-            _tabViewMutArray = [NSMutableArray arrayWithArray:_quXianMutArray];;
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_quXianMutArray];
+             MyLog(@"%ld",_tabViewMutArray.count);
         }
         [_tableView reloadData];
     }
@@ -229,21 +229,29 @@
 #pragma mark - tableView dataSource and delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (_segementIndex == 0) {
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        _tableView.frame = CGRectMake(0, _tableViewHeader.bottom, kWidth, kHeight-_tableViewHeader.bottom-kNavigtBarH-2);
+    }
+    else
+    {
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.frame = CGRectMake(0, kHScare(kSegmentedControlHeight)+2, kWidth, kHeight-kNavigtBarH-2);
+    }
     //判断是否还有数据可以加载
     if (_dataCount == _tabViewMutArray.count) {
         [self.tableView.footer noticeNoMoreData];
     }
     _dataCount = _tabViewMutArray.count;
+    MyLog(@"%ld",_dataCount);
     return _tabViewMutArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"cell";
-    JiaoYiMXCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell==nil) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"JiaoYiMXCell" owner:self options:nil][0];
-    }
+    static NSString *jYRIdentifier = @"jymxcell";
+    static NSString *cZRIdentifier = @"cZEcell";
+    static NSString *tXRIdentifier = @"tXRcell";
     if(_segementIndex == 0)
     {
         /*type=deal
@@ -255,10 +263,16 @@
          冻结结算aftFrzBal
          备注 remark
          */
+        JiaoYiMXCell *cell = [tableView dequeueReusableCellWithIdentifier:jYRIdentifier];
+        if (cell==nil) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"JiaoYiMXCell" owner:self options:nil][0];
+        }
         TenderBill *dataModel = _tabViewMutArray[indexPath.row];
         cell.lab1.text = [dataModel.ordDate substringToIndex:10];
         cell.lab2.text = [dataModel.transAmt stringValue];
-        if ([dataModel.settlCode isEqualToString:@"0"]) {
+        //交易类型 settlCode O支出，A购买本息保障，I收入，F冻结，OW物业费缴纳， IW物业费收取，U解冻
+        if ([dataModel.settlCode isEqualToString:@"0"])
+        {
             cell.lab3.text = @"收入";
         }
         else
@@ -266,21 +280,88 @@
             cell.lab3.text = @"支出";
         }
         cell.lab4.text = [dataModel.aftAvlBal stringValue];
+        return cell;
     }
     else if(_segementIndex == 1)
     {
-    
+        ChongZRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:cZRIdentifier];
+        if (cell==nil) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"ChongZRecordCell" owner:self options:nil][0];
+        }
+        /*流水号trxId
+         充值时间 ordDate
+         充值金额 transAmt
+         充值银行 openBankId
+         状态 status 1交易成功 2 处理中 其它就是处理失败*/
+        ChongZhiRecordMod *dataModel = _tabViewMutArray[indexPath.row];
+        cell.liuNumLab.text = dataModel.trxId;
+        cell.moneyLab.text = [dataModel.transAmt stringValue];
+        cell.czBankLab.text = dataModel.openBankId;
+        cell.czTimeLab.text = dataModel.ordDate;
+        if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
+            cell.stateLab.text = @"交易成功";
+        }
+        else if([[dataModel.status stringValue] isEqualToString:@"2"])
+        {
+            cell.stateLab.text = @"处理中";
+        }
+        else
+        {
+            cell.stateLab.text = @"处理失败";
+        }
+        return cell;
+        
     }
     else
     {
-    
+        TiXianRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:tXRIdentifier];
+        if (cell==nil) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"TiXianRecordCell" owner:self options:nil][0];
+        }
+        /* 取现时间 ordDate
+         取现银行 openBankId
+         银行卡号 openAcctId
+         到账金额 transAmt
+         手续费 servFee
+         积分抵扣 dikb
+         状态 status 1交易成功 2 处理中 其它就是处理失败
+         备注 remark
+*/
+        QuXianRecord *dataModel = _tabViewMutArray[indexPath.row];
+        cell.bankNumLab.text = dataModel.openAcctId;
+        cell.moneyLab.text = [dataModel.transAmt stringValue];
+        cell.bankNameLab.text = dataModel.openBankId;
+        cell.txTimeLab.text = dataModel.ordDate;
+        cell.feeLab.text = [dataModel.servFee stringValue];
+        cell.jiFenDKLab.text =[NSString stringWithFormat:@"%.2f",[dataModel.dikb floatValue]*10];
+        if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
+            cell.stateLab.text = @"交易成功";
+        }
+        else if([[dataModel.status stringValue] isEqualToString:@"2"])
+        {
+            cell.stateLab.text = @"处理中";
+        }
+        else
+        {
+            cell.stateLab.text = @"处理失败";
+        }
+        return cell;
     }
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    if (_segementIndex == 1) {
+        return 100;
+    }
+    else if(_segementIndex == 2)
+    {
+        return 112;
+    }
+    else
+    {
+        return 44;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

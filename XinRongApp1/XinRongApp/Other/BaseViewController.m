@@ -21,6 +21,12 @@
 //    _HUD = [[MBProgressHUD alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [SVProgressHUD dismiss];
+}
+
 - (void)back
 {
     [self.navigationController popViewControllerAnimated:YES];

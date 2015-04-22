@@ -255,8 +255,9 @@
     MyLog(@"选择了第%ld项",(long)control.selectedSegmentIndex);
     
     _segementIndex = control.selectedSegmentIndex;
+    [_tabViewMutArray removeAllObjects];
     // 设置导航条标题
-    self.navigationItem.title = self.menuItems[control.selectedSegmentIndex];
+//    self.navigationItem.title = self.menuItems[control.selectedSegmentIndex];
     
     switch (control.selectedSegmentIndex) {
         case 0: // 投资项目
@@ -328,6 +329,11 @@
         cell.nianRateLab.text = [NSString stringWithFormat:@"%.1f%%",([dataModel.interestRate floatValue]*100)];
         cell.monyeLab.text = [dataModel.biddingMoney stringValue];
         cell.progress.progress = [dataModel.process floatValue]/100;
+        
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 15.0f);
+        cell.progress.transform = transform;
+//        [UIProgressView appearanceWhenContainedIn:[self class], nil];
+//        [cell.progress setFrame:CGRectMake(10.0, 10.0, 300.0, 19.0)];
         cell.progressNum.text = [NSString stringWithFormat:@"%d%%",(int)([dataModel.process intValue])];
         //状态
         switch([dataModel.biddingStatus integerValue]) {

@@ -22,9 +22,10 @@
     
     _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH)];
     _webView.delegate = self;
-    NSString *string = [kBaseUrl stringByAppendingString:@"bindHF"];
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    NSString *url = [NSString stringWithFormat:@"%@&customerId=%@",kbandHFUrl,custId];
 //    string = @"http://baidu.com";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:string]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [_webView loadRequest:request];
     _webView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:_webView];

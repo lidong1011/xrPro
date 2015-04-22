@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *daiShouLXLab;
 
 @property (weak, nonatomic) IBOutlet UILabel *huiFuNumLab;
+@property (weak, nonatomic) IBOutlet UIImageView *huiFNextImgView;
+@property (weak, nonatomic) IBOutlet UIButton *huiHuiBtn;
 
 
 - (IBAction)backAction:(UIButton *)sender;

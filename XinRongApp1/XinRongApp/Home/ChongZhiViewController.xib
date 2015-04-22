@@ -6,7 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChongZhiViewController">
             <connections>
+                <outlet property="cZHouJinLab" destination="PD0-0f-rah" id="Pzn-PH-ISh"/>
                 <outlet property="chongView" destination="Wvd-i5-Zes" id="C6r-Uj-QHL"/>
+                <outlet property="chongZJinTF" destination="TqE-bb-BxL" id="qo7-rB-pB2"/>
+                <outlet property="keYongELab" destination="fQd-5p-jwV" id="VBz-Jn-pbU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,6 +30,9 @@
                     <state key="normal" title="充值" backgroundImage="tiYanBtn_bg.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="chongZhiAct:" destination="-1" eventType="touchUpInside" id="ec4-d6-9H2"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="充值账户：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BFA-fr-Wiq">
                     <rect key="frame" x="21" y="12" width="67" height="21"/>
@@ -74,7 +80,7 @@
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chongje_cz.png" id="4aI-Gd-bkM">
                     <rect key="frame" x="31" y="116" width="18" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入您要充值的数额" minimumFontSize="17" id="TqE-bb-BxL">
                     <rect key="frame" x="64" y="110" width="223" height="30"/>
@@ -119,7 +125,7 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1232元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PD0-0f-rah">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PD0-0f-rah">
                     <rect key="frame" x="127" y="184" width="172" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>

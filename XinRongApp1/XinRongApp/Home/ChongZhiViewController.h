@@ -10,5 +10,9 @@
 
 @interface ChongZhiViewController : BaseViewController
 @property (weak, nonatomic) IBOutlet UIView *chongView;
+@property (weak, nonatomic) IBOutlet UILabel *keYongELab;
+@property (weak, nonatomic) IBOutlet UITextField *chongZJinTF;
+@property (weak, nonatomic) IBOutlet UILabel *cZHouJinLab;
+- (IBAction)chongZhiAct:(UIButton *)sender;
 
 @end

@@ -6,7 +6,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TransferViewController">
             <connections>
+                <outlet property="canTransLab" destination="FmI-t3-vOQ" id="dhO-jz-L7M"/>
+                <outlet property="code" destination="8lh-1X-Nyy" id="54X-zO-H4X"/>
+                <outlet property="didTransLab" destination="nv3-8o-tqT" id="bDx-48-HBP"/>
+                <outlet property="tenderMoneyLab" destination="JAl-4N-15o" id="L5e-9u-NJ4"/>
+                <outlet property="transMoneyTF" destination="lZB-Ra-T6F" id="PRj-t5-NUC"/>
+                <outlet property="transPriceTF" destination="scd-dC-3vb" id="pZX-wV-nPW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="yanCodeTF" destination="uVR-sN-sSd" id="jgF-Uy-3fe"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -73,6 +80,9 @@
                     <state key="normal" title="确认转让" backgroundImage="tiYanBtn_bg.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="transBtnAct:" destination="-1" eventType="touchUpInside" id="2v3-uE-bqm"/>
+                    </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" minimumFontSize="17" id="uVR-sN-sSd">
                     <rect key="frame" x="98" y="241.5" width="61" height="21.5"/>
@@ -100,6 +110,9 @@
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="changeCode:" destination="-1" eventType="touchUpInside" id="vhf-Re-USO"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="转让本金：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZGy-7E-lVj">
                     <rect key="frame" x="22" y="152" width="72" height="21"/>

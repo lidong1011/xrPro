@@ -137,13 +137,13 @@
 {
     //把tableView 清空
     [_tabViewMutArray removeAllObjects];
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD showSuccessWithStatus:@"成功"];
         if (_segementIndex==0) {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_allTenderMutArray addObject:[MyAllTender messageWithDict:dataDic]];
@@ -169,7 +169,7 @@
     }
     else
     {
-        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
 }
 
@@ -221,6 +221,8 @@
             if (cell==nil) {
                 cell = [[NSBundle mainBundle]loadNibNamed:@"AllTouZiCell" owner:self options:nil][0];
             }
+            UILongPressGestureRecognizer *longPressed = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressedAct:)];
+            longPressed.minimumPressDuration = 1;
             //添加数据
             MyAllTender *dataModel = _tabViewMutArray[indexPath.row];
             cell.info.text = dataModel.info;
@@ -248,13 +250,14 @@
                     break;
             }
             if ([dataModel.tranferAble isEqualToString:@"1"]) {
-                [cell.transBtn setTitle:@"转让" forState:UIControlStateNormal];
+                cell.transBtn.tag = indexPath.row;
+                cell.stateLab.text = @"转让";
                 [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
             }
             else
             {
-                [cell.transBtn setTitle:@"不可转让" forState:UIControlStateNormal];
-                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
+                cell.stateLab.text = @"不可转让";
+//                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
             }
             cell.backgroundColor = KLColor(246, 246, 246);
             return cell;
@@ -322,7 +325,9 @@
 - (void)transBtnAct:(UIButton *)sender
 {
     //
+    MyAllTender *dataModel = _tabViewMutArray[sender.tag];
     TransferViewController *transVC = [[TransferViewController alloc]init];
+    transVC.tenderId = dataModel.tenderId;
     [self.navigationController pushViewController:transVC animated:YES];
 }
 

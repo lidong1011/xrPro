@@ -12,19 +12,22 @@
 #import "PersonSetViewController.h"
 #import "MyTenderViewController.h"
 #import "LoginViewController.h"
+#import "HuiKuanJHViewController.h"
 #import "TiYanJinViewController.h"
 #import "ChongZhiViewController.h"
 #import "TiXianViewController.h"
 #import "KaiTongHFViewController.h"
+#import "MyCardViewController.h"
+#import "BenXiBaoZViewController.h"
 @interface MyAccoutViewController ()
-
+@property (nonatomic, strong) NSDictionary *balDic;
 @end
 
 @implementation MyAccoutViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _balDic = [NSDictionary dictionary];
     self.navigationItem.title = @"账户设置";
 }
 
@@ -41,7 +44,42 @@
         //获取我余额
         [self getMyBalanceRequest];
         [self getMyMsgRequest];
+        [self getMyMessageRequest];
     }
+}
+
+#pragma mark - 获取我的消息条数请求（判断按设置是否进入消息中心界面）
+- (void)getMyMessageRequest
+{
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    
+    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    [parameter setObject:custId forKey:@"customerId"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    //https请求方式设置
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+    securityPolicy.allowInvalidCertificates = YES;
+    manager.securityPolicy = securityPolicy;
+    __weak typeof(self) weakSelf = self;
+    [manager POST:kloadUnReadCountUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *dic = (NSDictionary *)responseObject;
+        MyLog(@"%@",dic);
+        if ([dic[@"code"] isEqualToString:@"000"]) {
+            //
+            switch ([dic[@"unreadMsgCount"] integerValue]) {
+                case 0:
+                    //
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MyLog(@"%@",error);
+        
+    }];
 }
 
 #pragma mark - 获取我的余额请求
@@ -83,6 +121,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        _balDic = dic;
         self.totalMoneyLab.text = [dic[@"avlBal"] stringValue];
         if (dic[@"restCap"]==nil) {
             self.daiShouJinLab.text = @"0";
@@ -141,6 +180,8 @@
         if(dic[@"usrCustId"])
         {
             self.huiFuNumLab.text = dic[@"usrCustId"];
+            self.huiFNextImgView.hidden = YES;
+            self.huiHuiBtn.hidden = YES;
         }
         else
         {
@@ -289,7 +330,8 @@
         case 2:
         {
             //我的卡券
-            
+            MyCardViewController *myCardVC = [[MyCardViewController alloc]init];
+            [self.navigationController pushViewController:myCardVC animated:YES];
             break;
         }
         case 3:
@@ -309,13 +351,15 @@
         {
             //提现
             TiXianViewController *tiXianVC = [[TiXianViewController alloc]init];
+            tiXianVC.balDic = _balDic;
             [self.navigationController pushViewController: tiXianVC animated:YES];
             break;
         }
         case 6:
         {
             //回款计划
-            
+            HuiKuanJHViewController *huiKuanVC = [[HuiKuanJHViewController alloc]init];
+            [self.navigationController pushViewController:huiKuanVC animated:YES];
             break;
         }
         case 7:
@@ -340,7 +384,14 @@
 //体验金
 - (IBAction)tiYanJin:(UIButton *)sender
 {
-    TiYanJinViewController *tiYanJinVC = [[TiYanJinViewController alloc]init];
-    [self.navigationController pushViewController:tiYanJinVC animated:YES];
+    if (sender.tag==0) {
+        TiYanJinViewController *tiYanJinVC = [[TiYanJinViewController alloc]init];
+        [self.navigationController pushViewController:tiYanJinVC animated:YES];
+    }
+    else
+    {
+        BenXiBaoZViewController *benXiVC = [[BenXiBaoZViewController alloc]init];
+        [self.navigationController pushViewController:benXiVC animated:YES];
+    }
 }
 @end

@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 @interface TiYanJinViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UILabel *tiYanProfit;
+@property (weak, nonatomic) IBOutlet UILabel *tiYanZELab;
+@property (weak, nonatomic) IBOutlet UILabel *didTiYanLab;
 
 @end

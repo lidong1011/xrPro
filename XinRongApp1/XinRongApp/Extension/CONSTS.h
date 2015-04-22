@@ -91,6 +91,7 @@
 
 //queryTransfer 标列表
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryTransfer&type=biddingList&pageNo=1&pageSize=100
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryTransfer&type=personalTransfer&pageNo=1&pageSize=10&statusType=0&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
 #define kqueryTransferUrl  [kBaseUrl stringByAppendingString:@"queryTransfer"]
 
 //queryBiddingDetail  标详情
@@ -117,7 +118,7 @@
 
 
 
-///////////我的账户//////////////////////
+///////////我的账户//////////////////////c98a6ffd-8679-4967-ae2d-f419465d9bbc
 
 //loadCustomer  个人信息获取
 //https://www.xr58.com:8443/xr58/apprequest/request?code=loadCustomer&customerId=db4aeea4-687f-4a97-8ee7-69c201cef608
@@ -131,17 +132,69 @@
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryBidding&customerId=db4aeea4-687f-4a97-8ee7-69c201cef608&type=all&pageNo=1&pageSize=100
 #define kqueryBiddingUrl  [kBaseUrl stringByAppendingString:@"queryBidding"]
 
+//toTransfer  转让数据获取
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryBiddingDetail&biddingId=20150321114349593966
+#define ktoTransferUrl  [kBaseUrl stringByAppendingString:@"toTransfer"]
+
+//transfer  转让
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryAmt&customerId=db4aeea4-687f-4a97-8ee7-69c201cef608
+#define ktransferUrl  [kBaseUrl stringByAppendingString:@"transfer"]
+
 //queryFunds  交易明细
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryFunds&
 #define kqueryFundsUrl  [kBaseUrl stringByAppendingString:@"queryFunds"]
 
-////initiativeTender  确认投标
-////https://www.xr58.com:8443/xr58/apprequest/request?code=queryBiddingDetail&biddingId=20150321114349593966
-//#define kinitiativeTenderUrl  [kBaseUrl stringByAppendingString:@"initiativeTender"]
-//
-////queryAmt  余额查询
-////https://www.xr58.com:8443/xr58/apprequest/request?code=queryAmt&customerId=db4aeea4-687f-4a97-8ee7-69c201cef608
-//#define kqueryAmtUrl  [kBaseUrl stringByAppendingString:@"queryAmt"]
+//safeplan  本息保障记录
+//https://www.xr58.com:8443/xr58/apprequest/request?code=safeplan&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define ksafeplanUrl  [kBaseUrl stringByAppendingString:@"safeplan"]
+
+//usrAcctPay4safeplan  加入本息保障
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryFunds&
+#define kusrAcctPay4safeplanUrl  [kBaseUrl stringByAppendingString:@"usrAcctPay4safeplan"]
+
+//queryExperience  体验金列表
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kqueryExperienceUrl  [kBaseUrl stringByAppendingString:@"queryExperience"]
+
+//queryPlanHistory   回款计划
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kqueryPlanHistoryUrl  [kBaseUrl stringByAppendingString:@"queryPlanHistory"]
+
+//queryRedPaper  我的红包
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kqueryRedPaperUrl  [kBaseUrl stringByAppendingString:@"queryRedPaper"]
+
+//queryKit  我的卡券
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kqueryKitUrl  [kBaseUrl stringByAppendingString:@"queryKit"]
+
+
+//recharge  充值
+#define krechargeUrl  [kBaseUrl stringByAppendingString:@"recharge"]
+
+//withdraw  提现
+#define kwithdrawUrl  [kBaseUrl stringByAppendingString:@"withdraw"]
+
+//queryCard  银行卡列表
+#define kqueryCardUrl  [kBaseUrl stringByAppendingString:@"queryCard"]
+
+//bindCard  绑定银行卡
+#define kbindCardUrl  [kBaseUrl stringByAppendingString:@"bindCard"]
+
+//delCard  银行卡删除
+#define kdelCardUrl  [kBaseUrl stringByAppendingString:@"delCard"]
+
+//hfUserLogin  登陆汇付
+#define khfUserLoginUrl  [kBaseUrl stringByAppendingString:@"hfUserLogin"]
+
+//bandHF  绑定汇付
+#define kbandHFUrl  [kBaseUrl stringByAppendingString:@"bandHF"]
+
+//hfAcctModify  修改汇付
+#define khfAcctModifyUrl  [kBaseUrl stringByAppendingString:@"hfAcctModify"]
+
+//loadUnReadCount  未读消息条数
+#define kloadUnReadCountUrl  [kBaseUrl stringByAppendingString:@"loadUnReadCount"]
 
 
 ///////////我的账户  end//////////////////////

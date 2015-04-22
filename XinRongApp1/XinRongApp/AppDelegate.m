@@ -16,6 +16,8 @@
 #import "Items.h"
 #import "TabBar.h"
 
+#import "UMSocial.h"
+
 @interface AppDelegate ()<TabBarDelegate>
 @property (nonatomic, strong) UITabBarController *tabBarCtr;
 @end
@@ -24,11 +26,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-//    NSURL *url = [NSURL URLWithString: @"xr58app:"];
-//    
-//    [[UIApplication sharedApplication] openURL:url];
-    
+//    [[NSUserDefaults standardUserDefaults]removeObjectForKey:kCustomerId];
+//    [[NSUserDefaults standardUserDefaults]removeObjectForKey:kUserMsg];
+    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+
     [self keyboardSet];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     

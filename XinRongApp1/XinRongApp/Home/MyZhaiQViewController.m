@@ -92,25 +92,35 @@
 #pragma mark - 我的投资请求
 - (void)getListRequestWithPageNo:(int)pageNo andPageSize:(NSString *)pageSize
 {
+    
+    /*转让中 customerId必填 statusType=0
+     已转让 customerId必填 statusType=2
+     已承接 acceptorId必填
+     customerId和acceptorId为用户ID*/
     [SVProgressHUD showWithStatus:@"加载数据中..."];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    
     if(_segementIndex==0)
     {
         //all投资
-        [parameter setObject:@"all" forKey:@"type"];
+        [parameter setObject:@"0" forKey:@"statusType"];
+        [parameter setObject:custId forKey:kCustomerId];
     }
     else if(_segementIndex==1)
     {
         //待回收
-        [parameter setObject:@"ing" forKey:@"type"];
+        [parameter setObject:@"2" forKey:@"statusType"];
+        [parameter setObject:custId forKey:kCustomerId];
     }
     else
     {
         //已回收
         [parameter setObject:@"end" forKey:@"type"];
+        [parameter setObject:custId forKey:@"acceptorId"];
     }
-    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
-    [parameter setObject:custId forKey:kCustomerId];
+    [parameter setObject:@"personalTransfer" forKey:@"type"];
+    
     [parameter setObject:[NSString stringWithFormat:@"%d",pageNo] forKey:@"pageNo"];
     [parameter setObject:pageSize forKey:@"pageSize"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
@@ -118,7 +128,7 @@
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
     securityPolicy.allowInvalidCertificates = YES;
     manager.securityPolicy = securityPolicy;
-    [manager POST:kqueryBiddingUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:kqueryTransferUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
@@ -164,7 +174,7 @@
     }
     else
     {
-        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
 }
 
@@ -218,30 +228,22 @@
             }
             //添加数据
             MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
-//            cell.info.text = dataModel.info;
-//            cell.tenderMoneyLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.tenderMoney integerValue]];
-//            cell.willProfitLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.income integerValue]];
-//            cell.didTransMoneyLab.text = [NSString stringWithFormat:@"%@元",dataModel.restCap];
-//            switch ([dataModel.status integerValue]) {
-//                    // 0投标中 1等待放款2还款中3废标4已完成
-//                case 0:
-//                    cell.statusLab.text = @"投标中";
-//                    break;
-//                case 1:
-//                    cell.statusLab.text = @"等待放款";
-//                    break;
-//                case 2:
-//                    cell.statusLab.text = @"还款中";
-//                    break;
-//                case 3:
-//                    cell.statusLab.text = @"废标";
-//                    break;
-//                case 4:
-//                    cell.statusLab.text = @"已完成";
-//                    break;
-//                default:
-//                    break;
-//            }
+            cell.titleLab.text = dataModel.title;
+            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.timeLab.text = [NSString stringWithFormat:@"%@",dataModel.time];
+            cell.appCodeLab.text = dataModel.applyCode;
+            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            switch ([dataModel.transStatus integerValue]) {
+                    // 0投标中 1等待放款2还款中3废标4已完成
+                case 0:
+                    cell.stateLab.text = @"可承接";
+                    break;
+                case 1:
+                    cell.stateLab.text = @"转让成功";
+                    break;
+                default:
+                    break;
+            }
 //            if ([dataModel.tranferAble isEqualToString:@"1"]) {
 //                [cell.transBtn setTitle:@"转让" forState:UIControlStateNormal];
 //                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];

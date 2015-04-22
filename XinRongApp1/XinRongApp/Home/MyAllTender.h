@@ -45,4 +45,5 @@
 @property (nonatomic, strong) NSNumber *status;
 @property (nonatomic, strong) NSString *tranferAble;
 @property (nonatomic, strong) NSString *biddingId;
+@property (nonatomic, strong) NSString *tenderId;
 @end

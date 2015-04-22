@@ -9,12 +9,16 @@
 #import "BaseViewController.h"
 
 @interface TiXianViewController : BaseViewController
+@property (nonatomic, strong) NSDictionary *balDic;
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLab;
 @property (weak, nonatomic) IBOutlet UILabel *keYongLab;
 @property (weak, nonatomic) IBOutlet UILabel *keQuMonLab;
-@property (weak, nonatomic) IBOutlet UITextField *inputMoneyLab;
+@property (weak, nonatomic) IBOutlet UITextField *inputMoneyTF;
 @property (weak, nonatomic) IBOutlet UILabel *shouXuFenLab;
+@property (weak, nonatomic) IBOutlet UILabel *jiFenLab;
+@property (weak, nonatomic) IBOutlet UILabel *jiFenMoney;
 @property (weak, nonatomic) IBOutlet UITextField *jieFenChangTF;
+@property (weak, nonatomic) IBOutlet UILabel *bankCardLab;
 
 @property (strong, nonatomic) IBOutlet UIView *jiFenView;
 @property (strong, nonatomic) IBOutlet UIView *footView;

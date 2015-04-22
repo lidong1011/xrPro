@@ -34,6 +34,12 @@
     [self setNeedsDisplay];
 }
 
+- (void)changeCode
+{
+    [self change];
+    [self setNeedsDisplay];
+}
+
 - (void)awakeFromNib
 {
     self.layer.cornerRadius = 5.0;

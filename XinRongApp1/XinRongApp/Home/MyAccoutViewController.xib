@@ -9,7 +9,9 @@
                 <outlet property="coverView" destination="6tH-rl-S8t" id="0aq-cD-PpP"/>
                 <outlet property="daiShouJinLab" destination="bM6-1O-7lV" id="mCX-gc-ThK"/>
                 <outlet property="daiShouLXLab" destination="cmB-WK-b5V" id="AGT-Gt-AoN"/>
+                <outlet property="huiFNextImgView" destination="akm-N6-PFY" id="pPH-GR-TIK"/>
                 <outlet property="huiFuNumLab" destination="eYY-gV-tsu" id="gr2-vt-jx1"/>
+                <outlet property="huiHuiBtn" destination="6TA-ez-psb" id="Iq3-iQ-tt4"/>
                 <outlet property="jiFenLab" destination="XT2-uH-eNC" id="WEQ-un-7fJ"/>
                 <outlet property="nameLab" destination="5ok-hg-6Iw" id="IiL-T9-CJM"/>
                 <outlet property="todayProfitLab" destination="qeU-rR-ay2" id="Jt9-PO-jkz"/>
@@ -102,7 +104,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥7878.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ShX-EK-y3R">
-                            <rect key="frame" x="200" y="0.0" width="112" height="30"/>
+                            <rect key="frame" x="200.00000037946103" y="0.0" width="112" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -337,7 +339,7 @@
                         <action selector="tiYanJin:" destination="-1" eventType="touchUpInside" id="gsk-YZ-vZI"/>
                     </connections>
                 </button>
-                <button opaque="NO" alpha="0.44999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IFZ-pH-4v0">
+                <button opaque="NO" alpha="0.44999998807907104" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IFZ-pH-4v0">
                     <rect key="frame" x="214" y="158" width="106" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -360,7 +362,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="62221234123412341232" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eYY-gV-tsu">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="还未开通汇付天下" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eYY-gV-tsu">
                             <rect key="frame" x="66" y="0.0" width="208" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>

@@ -87,7 +87,7 @@
 #pragma mark - 登陆
 - (void)loginRequest
 {
-//    [SVProgressHUD showWithStatus:@"登录中..."];
+    [SVProgressHUD showWithStatus:@"登录中..."];
 
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     [parameter setObject:_userName.text forKey:@"mobile"];
@@ -111,7 +111,7 @@
 #pragma mark - 注册请求返回数据
 - (void)success:(id)response
 {
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
 //        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:dic[@"msg"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
