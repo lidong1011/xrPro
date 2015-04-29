@@ -7,6 +7,8 @@
 //
 
 #import "HomeViewController.h"
+#import "WPAttributedStyleAction.h"
+#import "NSString+WPAttributedMarkup.h"
 
 #import "MyAccoutViewController.h"
 #import "ExepericeBiaoViewController.h"
@@ -185,8 +187,13 @@
     nianHuaLvLab.frame = CGRectMake(kWScare(kH_Space), lineImgView.top, [self getSizeWithString:nianHuaLvLab.text andFont:fontSize].width, lineImgView.height/2);
     [self.view addSubview:nianHuaLvLab];
     
+    //lab 字体大小
+    NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:14.0],
+                             @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:28.0]
+                             };
+    NSString *nianRate = [NSString stringWithFormat:@"<bold>%.2f</bold> <body>%%</body>",18.5];
     _yearRateLab = [[UILabel alloc]init];
-    _yearRateLab.text = @"16.5%";
+    _yearRateLab.attributedText = [nianRate attributedStringWithStyleBook:style1];
     _yearRateLab.textColor = [UIColor redColor];
     _yearRateLab.font = [UIFont systemFontOfSize:fontSize+8];
     _yearRateLab.frame = CGRectMake(nianHuaLvLab.right, nianHuaLvLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
@@ -225,8 +232,9 @@
     monthLab.frame = CGRectMake(lineImgView.right+5, moneyLab.top, [self getSizeWithString:monthLab.text andFont:fontSize].width, lineImgView.height/2);
     [self.view addSubview:monthLab];
     
+    NSString *month = [NSString stringWithFormat:@"<bold>%ld</bold> <body>个月</body>",6];
     _backMonthLab = [[UILabel alloc]init];
-    _backMonthLab.text = @"6个月";
+    _backMonthLab.attributedText = [month attributedStringWithStyleBook:style1];
     _backMonthLab.font = [UIFont systemFontOfSize:fontSize+8];
     _backMonthLab.frame = CGRectMake(monthLab.right, moneyLab.top, kWidth/2-kWScare(kH_Space)-_backMonthLab.width, lineImgView.height/2);
     [self.view addSubview:_backMonthLab];

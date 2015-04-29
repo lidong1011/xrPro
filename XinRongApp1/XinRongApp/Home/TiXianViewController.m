@@ -71,20 +71,43 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    static NSString *identifier = @"cell";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+//    if (cell==nil) {
+//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+//    }
+//    if(_tabViewMutArray.count==0)
+//    {
+//        cell.textLabel.text = @"还没绑定银行卡";
+//    }
+//    else
+//    {
+//        BankCardModel *dataModel = _tabViewMutArray[indexPath.row];
+//        cell.textLabel.text = dataModel.openAcctId;
+//    }
+//    return cell;
     static NSString *identifier = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell==nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
-    if(_tabViewMutArray.count==0)
-    {
-        cell.textLabel.text = @"还没绑定银行卡";
+    if (_tabViewMutArray.count==0) {
+        cell.textLabel.text = @"还未绑定银行卡";
     }
     else
     {
         BankCardModel *dataModel = _tabViewMutArray[indexPath.row];
-        cell.textLabel.text = dataModel.openAcctId;
+        UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
+        CGSize iconSize = CGSizeMake(30, 30);
+        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+        CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+        [icon drawInRect:rect];
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.textLabel.text = dataModel.openBankId;
+        cell.detailTextLabel.text = dataModel.openAcctId;
     }
+    
     return cell;
 }
 
@@ -95,9 +118,15 @@
     _bankCardTabView.hidden = YES;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 - (void)addWebView
 {
-    _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
+    [SVProgressHUD showWithStatus:@"努力加载中..."];
+    _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight-kNavigtBarH)];
     _webView.hidden=YES;
     [self.view addSubview:_webView];
     _webView.delegate = self;
@@ -125,6 +154,84 @@
     _webView.hidden = NO;
     _webView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:_webView];
+}
+
+#pragma mark webView Delegate
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    
+}
+
+
+//数据加载完
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [SVProgressHUD dismiss];
+    
+}
+
+//监听
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //    //    [self setNavigationLeftBg:@"ishome.png"];
+    //    NSString *requestString = [[request URL] absoluteString];
+    //    NSString *protocol = @"leave_view";
+    //    NSLog(@"%@",requestString);
+    //
+    ////    if ([requestString rangeOfString:flagStr].location != NSNotFound)
+    ////    {
+    ////    }
+    NSString *requestString = [[request URL] absoluteString];
+    NSArray *components = [requestString componentsSeparatedByString:@"//"];
+    if ([components count] > 1 && [(NSString *)[components objectAtIndex:0] isEqualToString:@"xr58app:"]) {
+        NSString *string = (NSString *)[components objectAtIndex:1];
+        components = [string componentsSeparatedByString:@"/"];
+        if([(NSString *)[components objectAtIndex:0] isEqualToString:@"state"])
+        {
+//            UIAlertView *alert = [[UIAlertView alloc]
+//                                  initWithTitle:@"code" message:[components objectAtIndex:1]
+//                                  delegate:self cancelButtonTitle:nil
+//                                  otherButtonTitles:@"OK", nil];
+//            [alert show];
+            /*104 参数非法
+             --105 取现失败，请重试。
+             --106 获取银行卡失败
+             --107 取现抵扣失败：抵扣积分不足
+             --108 取现抵扣失败：可取余额不足。
+             --109 取现失败：请保留本月物业费应缴金额：。
+             --000 取现成功
+             --110 交易正在处理中，稍后请查看取现记录。*/
+            if ([[components objectAtIndex:1] isEqualToString:@"000"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"105"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现失败，请重试"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"107"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现抵扣失败：抵扣积分不足"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"108"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现抵扣失败：可取余额不足"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"109"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现失败：请保留本月物业费应缴金额"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"110"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"交易正在处理中，稍后请查看取现记录"];
+                _webView.hidden = YES;
+            }
+        }
+        return NO;
+    }
+    return YES;
 }
 
 /*

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "SZTextView.h"
 @interface FeedbackViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UILabel *syLab;
+@property (weak, nonatomic) IBOutlet SZTextView *textView;
+- (IBAction)callBtn:(UIButton *)sender;
+- (IBAction)sender:(UIButton *)sender;
 
 @end

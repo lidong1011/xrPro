@@ -10,9 +10,11 @@
 
 #import "AboutUsViewController.h"
 #import "VersionsViewController.h"
+#import "HelpViewController.h"
 #import "FeedbackViewController.h"
 @interface MoreViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSString *updataStr;
 @end
 
 @implementation MoreViewController
@@ -35,11 +37,21 @@
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
 }
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
 
 #pragma mark 列表数据代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    if (section==0) {
+        return 4;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -49,142 +61,156 @@
     if (cell==nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    switch (indexPath.row)
+    if (indexPath.section==0)
     {
-        case 0:
+        switch (indexPath.row)
         {
-            UIImage *icon = [UIImage imageNamed:@"aboutUs.png"];
-            CGSize iconSize = CGSizeMake(30, 30);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"关于我们";
-            break;
+            case 0:
+            {
+                UIImage *icon = [UIImage imageNamed:@"aboutUs.png"];
+                CGSize iconSize = CGSizeMake(30, 30);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"关于我们";
+                break;
+            }
+            case 1:
+            {
+                UIImage *icon = [UIImage imageNamed:@"feedback.png"];
+                CGSize iconSize = CGSizeMake(30, 30);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"用户反馈";
+                break;
+            }
+            case 2:
+            {
+                UIImage *icon = [UIImage imageNamed:@"help.png"];
+                CGSize iconSize = CGSizeMake(30, 30);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"帮助中心";
+                break;
+            }
+            case 3:
+            {
+                UIImage *icon = [UIImage imageNamed:@"banBenMsg.png"];
+                CGSize iconSize = CGSizeMake(30, 30);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                //            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                //            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                //            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                //            cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"版本信息";
+                break;
+            }
+            default:
+                break;
         }
-        case 1:
-        {
-            UIImage *icon = [UIImage imageNamed:@"banBenMsg.png"];
-            CGSize iconSize = CGSizeMake(30, 30);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"版本信息";
-            break;
-        }
-        case 2:
-        {
-            UIImage *icon = [UIImage imageNamed:@"help.png"];
-            CGSize iconSize = CGSizeMake(30, 30);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"帮助中心";
-            break;
-        }
-        case 3:
-        {
-            UIImage *icon = [UIImage imageNamed:@"feedback.png"];
-            CGSize iconSize = CGSizeMake(30, 30);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"用户反馈";
-            break;
-        }
-        case 4:
-        {
-            UIImage *icon = [UIImage imageNamed:@"clear.png"];
-            CGSize iconSize = CGSizeMake(30, 30);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"清理缓存";
-            break;
-        }
-        default:
-            break;
+    }
+    else
+    {
+        UIImage *icon = [UIImage imageNamed:@"clear.png"];
+        CGSize iconSize = CGSizeMake(30, 30);
+        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+        CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+        [icon drawInRect:rect];
+        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        //箭头
+//        UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+//        UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+//        jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+//        cell.accessoryView = jianTimgView;
+        cell.textLabel.text = @"清理缓存";
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section==0) {
+        return 15;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case 0:
-        {
-            //关于我们
-            AboutUsViewController *aboutUsVC = [[AboutUsViewController alloc]init];
-            [self.navigationController pushViewController:aboutUsVC animated:YES];
-            break;
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 0:
+            {
+                //关于我们
+                AboutUsViewController *aboutUsVC = [[AboutUsViewController alloc]init];
+                [self.navigationController pushViewController:aboutUsVC animated:YES];
+                break;
+            }
+            case 1:
+            {
+                //用户反馈
+                FeedbackViewController *feedbackVC = [[FeedbackViewController alloc]init];
+                [self.navigationController pushViewController:feedbackVC animated:YES];
+                break;
+            }
+            case 2:
+            {
+                //帮助
+                HelpViewController *helpVC = [[HelpViewController alloc]init];
+                [self.navigationController pushViewController:helpVC animated:YES];
+                break;
+            }
+            case 3:
+            {
+                //版本信息
+                [self checkUpdata];
+                break;
+            }
+            default:
+                break;
         }
-        case 1:
-        {
-            //版本信息
-            VersionsViewController *versionsVC = [[VersionsViewController alloc]init];
-            [self.navigationController pushViewController:versionsVC animated:YES];
-            break;
-        }
-        case 2:
-        {
-            //检查更新
-            AboutUsViewController *aboutUsVC = [[AboutUsViewController alloc]init];
-            [self.navigationController pushViewController:aboutUsVC animated:YES];
-            break;
-        }
-        case 3:
-        {
-            //用户反馈
-            FeedbackViewController *feedbackVC = [[FeedbackViewController alloc]init];
-            [self.navigationController pushViewController:feedbackVC animated:YES];
-            break;
-        }
-        case 4:
-        {
-            //清理缓存
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要清除缓存" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
-            [alert show];
-            break;
-        }
-
-        default:
-            break;
     }
+    else
+    {
+        //清理缓存
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要清除缓存" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        alert.tag = 100;
+        [alert show];
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,8 +221,85 @@
 #pragma mark - alertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex) {
-        [self showWithProgress];
+    if (alertView.tag==10000)
+    {
+        
+        if (buttonIndex==1) {
+            
+            NSURL *url = [NSURL URLWithString:_updataStr];
+            
+            [[UIApplication sharedApplication]openURL:url];
+            
+        }
+        
+    }
+    if (alertView.tag==100) {
+        if (buttonIndex) {
+            [self showWithProgress];
+        }
+    }
+}
+
+#pragma mark 检查更新
+- (void)checkUpdata
+{
+    //    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    //    [parameter setObject:@"id" forKey:@"959293324"];
+    AFHTTPSessionManager *_manager = [[AFHTTPSessionManager alloc]init];
+    [_manager POST:@"http://itunes.apple.com/lookup?id=" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        [self verionback:responseObject];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+        //        [_mbProgressHUD hide:YES];
+        //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"网络不稳定" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //            [alert show];
+    }];
+}
+
+- (void)verionback:(id)response
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    //    //    SBJsonParser *sbParser = [[SBJsonParser alloc]init];
+    //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:dic[@"msg"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    //    [alert show];
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    
+    //CFShow((__bridge CFTypeRef)(infoDic));
+    
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+    NSLog(@"----%@----",currentVersion);
+    
+    NSArray *infoArray = [dic objectForKey:@"results"];
+    
+    if ([infoArray count]) {
+        
+        NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+        
+        NSString *lastVersion = [releaseInfo objectForKey:@"version"];
+        _updataStr = [releaseInfo objectForKey:@"trackViewUrl"];
+        MyLog(@"%@",_updataStr);
+        
+        if (![lastVersion isEqualToString:currentVersion]) {
+            
+            //trackViewURL = [releaseInfo objectForKey:@"trackVireUrl"];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"有新的版本更新，是否前往更新？" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"更新", nil];
+            
+            alert.tag = 10000;
+            
+            [alert show];
+            
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"当前为最新版本" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
+            
+            alert.tag = 10001;
+            
+            [alert show];
+        }
     }
 }
 

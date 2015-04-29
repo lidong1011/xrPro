@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 @interface LoginViewController : BaseViewController
-
+@property (nonatomic, assign) NSInteger fromFlag;
 @end

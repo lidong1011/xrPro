@@ -11,6 +11,7 @@
 @interface MyAccoutViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *coverView;
 @property (weak, nonatomic) IBOutlet UIImageView *vipImgView;
+@property (weak, nonatomic) IBOutlet UIImageView *messageImg;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *jiFenLab;

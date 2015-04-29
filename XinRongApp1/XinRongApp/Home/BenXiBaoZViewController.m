@@ -7,8 +7,10 @@
 //
 
 #import "BenXiBaoZViewController.h"
+#import "KaiTongHFViewController.h"
 #import "BenXBZCell.h"
-@interface BenXiBaoZViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface BenXiBaoZViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *tabViewMutArray;
 @end
@@ -21,6 +23,10 @@
     _tabViewMutArray = [NSMutableArray array];
     [self addTableView];
     
+    _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight)];
+    _webView.hidden=YES;
+    [self.view addSubview:_webView];
+    _webView.delegate = self;
     [self getBenXiJLRequest];
 }
 
@@ -73,10 +79,11 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
-        for (NSDictionary *dataDic in dic[@"data"])
-        {
-            [_tabViewMutArray addObject:dataDic];
-        }
+//        for (NSDictionary *dataDic in dic[@"data"])
+//        {
+//            [_tabViewMutArray addObject:dataDic];
+//        }
+        [_tabViewMutArray addObject:dic[@"data"]];
         [_tableView reloadData];
     }
     else
@@ -151,13 +158,41 @@
             break;
         }
         case 1:
+        {
             //加入A计划
-            [self getTransfDataRequestWithWay:@"a"];
+            //先判断是否开通汇付
+            NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+            if(userMsgDic[@"usrCustId"])
+            {
+                [self getTransfDataRequestWithWay:@"a"];
+            }
+            else
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"还未开通汇付，请开通汇付"];
+                KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+                [self.navigationController pushViewController:kaitongHFVC animated:YES];
+            }
+            
             break;
+        }
         case 2:
+        {
             //加入B计划
-            [self getTransfDataRequestWithWay:@"b"];
+            //先判断是否开通汇付
+            NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+            if(userMsgDic[@"usrCustId"])
+            {
+                [self getTransfDataRequestWithWay:@"b"];
+            }
+            else
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"还未开通汇付，请开通汇付"];
+                KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+                [self.navigationController pushViewController:kaitongHFVC animated:YES];
+            }
+            
             break;
+        }
         default:
             break;
     }
@@ -166,29 +201,38 @@
 #pragma mark - 加入本息请求
 - (void)getTransfDataRequestWithWay:(NSString *)way
 {
-    /*用户IDcustomerId 必填
-     转让标ID tenderId 必填
-     */
+//    [SVProgressHUD showWithStatus:@"加载数据中..."];
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
-    
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
-    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    [parameter setObject:custId forKey:@"customerId"];
-    [parameter setObject:@"ios" forKey:@"reqType"];
-    [parameter setObject:way forKey:@"type"];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    //https请求方式设置
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
-    securityPolicy.allowInvalidCertificates = YES;
-    manager.securityPolicy = securityPolicy;
-    __weak typeof(self) weakSelf = self;
-    [manager POST:kusrAcctPay4safeplanUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [weakSelf joinBenXiJLSuccess:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        MyLog(@"%@",error);
-        
-    }];
+    NSString *url = [NSString stringWithFormat:@"%@&customerId=%@&type=%@&reqType=ios",kusrAcctPay4safeplanUrl,custId,way];
+    //    string = @"http://baidu.com";
+//    if ([way isEqualToString:@"a"]) {
+//        url = [NSString stringWithFormat:@"%@&customerId=%@&type=%@&reqType=ios",kusrAcctPay4safeplanUrl,custId,way];
+//    }
+//    else
+//    {
+//        
+//    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [_webView loadRequest:request];
+    _webView.hidden = NO;
+//    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+//    [parameter setObject:custId forKey:@"customerId"];
+//    [parameter setObject:@"ios" forKey:@"reqType"];
+//    [parameter setObject:way forKey:@"type"];
+//    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+//    //https请求方式设置
+//    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+//    securityPolicy.allowInvalidCertificates = YES;
+//    manager.securityPolicy = securityPolicy;
+//    __weak typeof(self) weakSelf = self;
+//    [manager POST:kusrAcctPay4safeplanUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        [weakSelf joinBenXiJLSuccess:responseObject];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        MyLog(@"%@",error);
+//        
+//    }];
 }
+
 
 #pragma mark - 请求返回数据
 - (void)joinBenXiJLSuccess:(id)response
@@ -257,6 +301,21 @@
         cell.lab2.text = @"暂未加入";
         cell.lab3.text = @"暂未加入";
     }
+    else
+    {
+        NSDictionary *dataDic = _tabViewMutArray[indexPath.row];
+        if ([[dataDic[@"transAmt"] stringValue] isEqualToString:@"120"]) {
+            cell.lab1.text = @"A计划";
+            cell.lab2.text = @"10万";
+            cell.lab3.text = [dataDic[@"missDate"] substringToIndex:10];
+        }
+        else
+        {
+            cell.lab1.text = @"B计划";
+            cell.lab2.text = @"全额垫付";
+            cell.lab3.text = [dataDic[@"missDate"] substringToIndex:10];
+        }
+    }
     return cell;
 }
 
@@ -279,6 +338,84 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 30;
+}
+
+#pragma mark webView Delegate
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    
+}
+
+
+//数据加载完
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+//    [SVProgressHUD dismiss];
+}
+
+//监听
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //    //    [self setNavigationLeftBg:@"ishome.png"];
+    //    NSString *requestString = [[request URL] absoluteString];
+    //    NSString *protocol = @"leave_view";
+    //    NSLog(@"%@",requestString);
+    //
+    ////    if ([requestString rangeOfString:flagStr].location != NSNotFound)
+    ////    {
+    ////    }
+    NSString *requestString = [[request URL] absoluteString];
+    NSArray *components = [requestString componentsSeparatedByString:@"//"];
+    if ([components count] > 1 && [(NSString *)[components objectAtIndex:0] isEqualToString:@"xr58app:"]) {
+        NSString *string = (NSString *)[components objectAtIndex:1];
+        components = [string componentsSeparatedByString:@"/"];
+        if([(NSString *)[components objectAtIndex:0] isEqualToString:@"state"])
+        {
+            //            UIAlertView *alert = [[UIAlertView alloc]
+            //                                  initWithTitle:@"code" message:[components objectAtIndex:1]
+            //                                  delegate:self cancelButtonTitle:nil
+            //                                  otherButtonTitles:@"OK", nil];
+            //            [alert show];
+            /* 104 参数非法
+             --131 类别错误
+             --132 已加入，尚在有效期之内
+             --133 支付失败，请重试
+             --128 没有绑定汇付天下
+             --000 成功
+             --105 微信支付信息：抱歉！支付失败*/
+            if ([[components objectAtIndex:1] isEqualToString:@"000"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"成功加入本息保障"];
+                _webView.hidden = YES;
+                [self getBenXiJLRequest];
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"132"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"已加入，尚在有效期之内"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"131"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"类别错误"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"133"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"支付失败，请重试"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"128"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"没有绑定汇付天下"];
+                _webView.hidden = YES;
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"105"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"微信支付信息：抱歉！支付失败"];
+                _webView.hidden = YES;
+            }
+        }
+        return NO;
+    }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

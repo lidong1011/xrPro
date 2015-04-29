@@ -18,8 +18,12 @@
 
 @interface HuiKuanJHModel : BaseModel
 @property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *child;
+@property (nonatomic, strong) NSNumber *child;
 @property (nonatomic, strong) NSNumber *tenderMoney;
+@property (nonatomic, strong) NSNumber *capital;
 @property (nonatomic, strong) NSNumber *step;
+@property (nonatomic, strong) NSNumber *interest;
+@property (nonatomic, strong) NSNumber *additionalInterest;
+@property (nonatomic, strong) NSString *payDate;
 
 @end

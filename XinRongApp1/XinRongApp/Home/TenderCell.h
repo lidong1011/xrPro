@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LDProgressView.h"
 @interface TenderCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *leftBianImgView;
 @property (weak, nonatomic) IBOutlet UILabel *biaoName;
@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *bianNum;
 @property (weak, nonatomic) IBOutlet UIButton *touBiaoBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *rightStatusImgView;
+@property (weak, nonatomic) IBOutlet LDProgressView *myProcess;
 
 @end

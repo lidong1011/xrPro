@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *faBuTime;
 @property (weak, nonatomic) IBOutlet UILabel *stateLab;
 @property (weak, nonatomic) IBOutlet UILabel *appCodeLab;
+@property (weak, nonatomic) IBOutlet UILabel *chengjieLabN;
 
 @end

@@ -12,6 +12,7 @@
 #import "DiYanQDViewController.h"
 #import "TouZiDetailTopView.h"
 #import "BeginTenderViewController.h"
+#import "ZhaiQuanTransViewController.h"
 #import "CalculatorViewController.h"
 
 #import "WPAttributedStyleAction.h"
@@ -47,6 +48,8 @@
 //    _tableView.backgroundColor = KLColor(246, 246, 246);
     //tableview head and foot
     _topView = [TouZiDetailTopView createView];
+    CGRect rect = _bottonView.frame;
+    _bottonView.frame = CGRectMake(0, 0, kWidth, kHScare(rect.size.height));
     _tableView.tableHeaderView = _topView;
     _tableView.tableFooterView = _bottonView;
     [self.view addSubview:_tableView];
@@ -122,7 +125,7 @@
         self.topView.timeLab.attributedText = [timeString attributedStringWithStyleBook:style1];
         self.topView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_tenderDetModel.biddingMoney stringValue]];
         
-        self.topView.text1Lab.text = [NSString stringWithFormat:@"%d",[_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue]];
+        self.topView.text1Lab.text = [NSString stringWithFormat:@"%d元",[_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue]];
         MyLog(@"%@",_tenderDetModel.biddingStatus);
         switch ([_tenderDetModel.biddingStatus intValue]) {
             case 0:
@@ -178,12 +181,12 @@
         self.topView.nianHLLab.attributedText = [nianString attributedStringWithStyleBook:style1];
         NSString *timeString = [NSString stringWithFormat:@"<bold>%@</bold> <body>个月</body> ",[_zhaiQuanDetModel.surplusDays stringValue]];
         self.topView.timeLab.attributedText = [timeString attributedStringWithStyleBook:style1];
-        self.topView.moneyLab.text = [_zhaiQuanDetModel.biddingMoney stringValue];
+        self.topView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.biddingMoney stringValue]];
         
         self.topView.text1_lab.text = @"转让本金：";
-        self.topView.text1Lab.text = [_zhaiQuanDetModel.transAmt stringValue];
+        self.topView.text1Lab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.transAmt stringValue]];
         self.topView.text2_lab.text = @"承接价格：";
-        self.topView.text2Lab.text = [_zhaiQuanDetModel.creditDealAmt stringValue];
+        self.topView.text2Lab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.creditDealAmt stringValue]];
         if([_zhaiQuanDetModel.repaymentSort intValue] == 0)
         {
             self.topView.text3Lab.text = @"按月等额本息";
@@ -359,15 +362,22 @@
             if (_vcFlag == 0) {
                 biddingId = _tenderDetModel.biddingId;
                 title = _tenderDetModel.title;
+                BeginTenderViewController *touBiaoVC = [[BeginTenderViewController alloc]init];
+                touBiaoVC.biddingId = biddingId;
+                touBiaoVC.keTouMoney = [_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue];
+                [self.navigationController pushViewController:touBiaoVC animated:YES];
             }
             else
             {
                 biddingId = _zhaiQuanDetModel.ordId;
                 title = _zhaiQuanDetModel.title;
+                ZhaiQuanTransViewController *zhaiQuanVC = [[ZhaiQuanTransViewController alloc]init];
+                zhaiQuanVC.ordId = _zhaiQuanDetModel.ordId;
+                zhaiQuanVC.transMoney = _zhaiQuanDetModel.transAmt;
+                zhaiQuanVC.chengJieJin = _zhaiQuanDetModel.creditDealAmt;
+                [self.navigationController pushViewController:zhaiQuanVC animated:YES];
             }
-            BeginTenderViewController *touBiaoVC = [[BeginTenderViewController alloc]init];
-            touBiaoVC.biddingId = biddingId;
-            [self.navigationController pushViewController:touBiaoVC animated:YES];
+            
             break;
         }
         default:

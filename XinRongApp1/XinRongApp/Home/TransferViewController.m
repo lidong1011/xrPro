@@ -60,11 +60,11 @@
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
         _balaDic = dic;
-        self.tenderMoneyLab.text = [dic[@"restCap"] stringValue];
-        self.didTransLab.text = [dic[@"useRestCap"] stringValue];
-        self.canTransLab.text = [dic[@"hasrestCap"] stringValue];
+        self.tenderMoneyLab.text = [NSString stringWithFormat:@"%@元",[dic[@"restCap"] stringValue]];
+        self.didTransLab.text = [NSString stringWithFormat:@"%@元",[dic[@"useRestCap"] stringValue]];
+        self.canTransLab.text = [NSString stringWithFormat:@"%@元",[dic[@"hasrestCap"] stringValue]];
     }
     else
     {
@@ -111,6 +111,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
+        [self.navigationController popViewControllerAnimated:YES];
 //        self.keYongLab.text = [dic[@"avlBal"] stringValue];
     }
     else
@@ -147,10 +148,10 @@
         [SVProgressHUD showInfoWithStatus:@"转让金额不能大于可转金额"];
         return;
     }
-    if (_transPriceTF.text.length<3) {
-        [SVProgressHUD showInfoWithStatus:@"承接价格输入有误"];
-        return;
-    }
+//    if (_transPriceTF.text.length<3) {
+//        [SVProgressHUD showInfoWithStatus:@"承接价格输入有误"];
+//        return;
+//    }
     if ([_transPriceTF.text integerValue]>[_transMoneyTF.text integerValue]||[_transPriceTF.text integerValue]<[_transMoneyTF.text integerValue]*0.9) {
         [SVProgressHUD showInfoWithStatus:@"承接价格不能大于转让金额且不能低于转让金额的90%"];
         return;

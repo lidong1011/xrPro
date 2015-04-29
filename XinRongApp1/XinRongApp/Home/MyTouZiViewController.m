@@ -44,7 +44,17 @@
     [self initData];
     //初始化试图
     [self initSubview];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [_endMutArray  removeAllObjects];
+    [_allTenderMutArray removeAllObjects];
+    [self.tabViewMutArray removeAllObjects];
+    _allTenderPageNo = 1;
+    _ingTenderPageNo = 1;
+    _endTenderPageNo = 1;
     [self getListRequestWithPageNo:1 andPageSize:@"20"];
 }
 
@@ -97,7 +107,7 @@
 #pragma mark - 我的投资请求
 - (void)getListRequestWithPageNo:(int)pageNo andPageSize:(NSString *)pageSize
 {
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"加载数据中..." maskType:SVProgressHUDMaskTypeGradient];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     if(_segementIndex==0)
     {
@@ -143,7 +153,7 @@
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功"];
         if (_segementIndex==0) {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_allTenderMutArray addObject:[MyAllTender messageWithDict:dataDic]];
@@ -157,7 +167,7 @@
             }
             _tabViewMutArray = [NSMutableArray arrayWithArray:_ingMutArray];;
         }
-        else if(_segementIndex == 1)
+        else if(_segementIndex == 2)
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_endMutArray addObject:[MyEndTenderModel messageWithDict:dataDic]];
@@ -175,22 +185,48 @@
 
 - (void)didTapSegment:(UISegmentedControl *)sender
 {
+    [self.tableView.footer resetNoMoreData];
     _segementIndex = sender.selectedSegmentIndex;
     if (sender.selectedSegmentIndex == 0)
     {
         //全部投资
-        [self getListRequestWithPageNo:_allTenderPageNo andPageSize:@"20"];
+        if (_allTenderMutArray.count) {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_allTenderMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self getListRequestWithPageNo:_allTenderPageNo andPageSize:@"20"];
+            [self.tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+        }
     }
     else if(sender.selectedSegmentIndex == 1)
     {
-        [self getListRequestWithPageNo:_ingTenderPageNo andPageSize:@"20"];
+        if (_ingMutArray.count) {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_ingMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self.tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+            [self getListRequestWithPageNo:_ingTenderPageNo andPageSize:@"20"];
+        }
     }
     else
     {
-        [self getListRequestWithPageNo:_endTenderPageNo andPageSize:@"20"];
+        if (_endMutArray.count) {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_endMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self.tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+            [self getListRequestWithPageNo:_endTenderPageNo andPageSize:@"20"];
+        }
     }
-    [self.tabViewMutArray removeAllObjects];
-    [self.tableView reloadData];
     MyLog(@"%ld",sender.selectedSegmentIndex);
 }
 
@@ -203,6 +239,7 @@
     if (_dataCount == _tabViewMutArray.count) {
         [self.tableView.footer noticeNoMoreData];
     }
+    MyLog(@"%ld--%ld--%ld--%ld",_tabViewMutArray.count,_allTenderMutArray.count,_ingMutArray.count,_endMutArray.count);
     _dataCount = _tabViewMutArray.count;
     
     return _tabViewMutArray.count;
@@ -252,11 +289,14 @@
             if ([dataModel.tranferAble isEqualToString:@"1"]) {
                 cell.transBtn.tag = indexPath.row;
                 cell.stateLab.text = @"转让";
+                cell.transImgView.image = [UIImage imageNamed:@"transBtn_bg.png"];
                 [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
             }
             else
             {
                 cell.stateLab.text = @"不可转让";
+                cell.transImgView.image = [UIImage imageNamed:@"noTransfer_bg.png"];
+//                cell.transBtn.enabled = NO;
 //                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
             }
             cell.backgroundColor = KLColor(246, 246, 246);
@@ -301,8 +341,8 @@
             MyEndTenderModel *dataModel = _tabViewMutArray[indexPath.row];
             cell.infoLab.text = [NSString stringWithFormat:@"%@ 第%@期(第%@标)",dataModel.title,[dataModel.child stringValue],[dataModel.step stringValue]];
             cell.jieKNameLab.text = dataModel.outCustAccount;
-            NSString *dateString = [dataModel.payDate substringToIndex:10];
-            cell.dateLab.text = dateString;
+//            NSString *dateString = [dataModel.payDate substringToIndex:10];
+            cell.dateLab.text = [dataModel.late stringValue];
             cell.didFJLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
             cell.didGetLX.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
             cell.geRenFeiLab.text = [NSString stringWithFormat:@"%@元",[dataModel.fee stringValue]];

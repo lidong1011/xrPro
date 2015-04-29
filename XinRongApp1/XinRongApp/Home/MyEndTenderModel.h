@@ -33,7 +33,7 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *payDate;
 @property (nonatomic, strong) NSString *outCustAccount;
-@property (nonatomic, strong) NSString *late;
+@property (nonatomic, strong) NSNumber *late;
 @property (nonatomic, strong) NSNumber *interest;
 @property (nonatomic, strong) NSNumber *capital;
 @property (nonatomic, strong) NSNumber *lateInt;

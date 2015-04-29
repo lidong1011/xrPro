@@ -11,6 +11,7 @@
 @interface AllTouZiCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *stateLab;
 
+@property (weak, nonatomic) IBOutlet UIImageView *transImgView;
 @property (weak, nonatomic) IBOutlet UILabel *info;
 @property (weak, nonatomic) IBOutlet UILabel *tenderMoneyLab;
 @property (weak, nonatomic) IBOutlet UILabel *didTransMoneyLab;

@@ -21,7 +21,11 @@
         
         self.layer.cornerRadius = 5.0;
         self.layer.masksToBounds = YES;
-        self.backgroundColor = [UIColor blueColor];
+        float red = arc4random() % 100 / 100.0;
+        float green = arc4random() % 100 / 100.0;
+        float blue = arc4random() % 100 / 100.0;
+        UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+        self.backgroundColor = color;
 
         [self change];
     }
@@ -44,7 +48,11 @@
 {
     self.layer.cornerRadius = 5.0;
     self.layer.masksToBounds = YES;
-    self.backgroundColor = [UIColor blueColor];
+    float red = arc4random() % 100 / 100.0;
+    float green = arc4random() % 100 / 100.0;
+    float blue = arc4random() % 100 / 100.0;
+    UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    self.backgroundColor = color;
     
     [self change];
 }

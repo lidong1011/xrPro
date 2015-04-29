@@ -120,29 +120,52 @@
 #pragma mark 分段条目点击方法
 - (void)selectedSegment:(DZNSegmentedControl *)control
 {
+    //重新设置可以加载更多
+    [self.tableView.footer resetNoMoreData];
     MyLog(@"选择了第%ld项",(long)control.selectedSegmentIndex);
-    
     _segementIndex = control.selectedSegmentIndex;
     [_tabViewMutArray removeAllObjects];
     switch (control.selectedSegmentIndex) {
         case 0: // 投资记录
         {
-            [self getListRequestWithPageNo:_tenderPageNo andPageSize:@"20"];
+            if (_tenderMutArray.count) {
+                _tabViewMutArray = [NSMutableArray arrayWithArray:_tenderMutArray];
+            }
+            else
+            {
+                [self getListRequestWithPageNo:_tenderPageNo andPageSize:@"20"];
+                [self.tabViewMutArray removeAllObjects];
+            }
             break;
         }
         case 1: // 充值记录
         {
-            [self getListRequestWithPageNo:_chongZPageNo andPageSize:@"20"];
+            if (_chongZMutArray.count) {
+                _tabViewMutArray = [NSMutableArray arrayWithArray:_chongZMutArray];
+            }
+            else
+            {
+                [self getListRequestWithPageNo:_chongZPageNo andPageSize:@"20"];
+                [self.tabViewMutArray removeAllObjects];
+            }
             break;
         }
         case 2: // 取现记录
         {
-            [self getListRequestWithPageNo:_quXianPageNo andPageSize:@"20"];
+            if (_quXianMutArray.count) {
+                _tabViewMutArray = [NSMutableArray arrayWithArray:_quXianMutArray];
+            }
+            else
+            {
+                [self getListRequestWithPageNo:_quXianPageNo andPageSize:@"20"];
+                [self.tabViewMutArray removeAllObjects];
+            }
             break;
         }
         default:
             break;
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - 明细列表请求
@@ -188,13 +211,13 @@
 {
     //把tableView 清空
     [_tabViewMutArray removeAllObjects];
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:nil];
         if (_segementIndex==0) {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_tenderMutArray addObject:[TenderBill messageWithDict:dataDic]];
@@ -222,7 +245,7 @@
     }
     else
     {
-        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
 }
 
@@ -243,7 +266,7 @@
         [self.tableView.footer noticeNoMoreData];
     }
     _dataCount = _tabViewMutArray.count;
-    MyLog(@"%ld",_dataCount);
+    MyLog(@"%ld--%ld-%ld-%ld",_dataCount,_tenderMutArray.count,_chongZMutArray.count,_quXianMutArray.count);
     return _tabViewMutArray.count;
 }
 
@@ -273,11 +296,31 @@
         //交易类型 settlCode O支出，A购买本息保障，I收入，F冻结，OW物业费缴纳， IW物业费收取，U解冻
         if ([dataModel.settlCode isEqualToString:@"0"])
         {
+            cell.lab3.text = @"支出";
+        }
+        else if ([dataModel.settlCode isEqualToString:@"A"])
+        {
+            cell.lab3.text = @"购买本息保障";
+        }
+        else if ([dataModel.settlCode isEqualToString:@"I"])
+        {
             cell.lab3.text = @"收入";
+        }
+        else if ([dataModel.settlCode isEqualToString:@"F"])
+        {
+            cell.lab3.text = @"冻结";
+        }
+        else if ([dataModel.settlCode isEqualToString:@"0W"])
+        {
+            cell.lab3.text = @"物业费缴纳";
+        }
+        else if ([dataModel.settlCode isEqualToString:@"Iw"])
+        {
+            cell.lab3.text = @"物业费收取";
         }
         else
         {
-            cell.lab3.text = @"支出";
+            cell.lab3.text = @"解冻";
         }
         cell.lab4.text = [dataModel.aftAvlBal stringValue];
         return cell;

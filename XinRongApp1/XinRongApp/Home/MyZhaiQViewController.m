@@ -115,8 +115,8 @@
     }
     else
     {
-        //已回收
-        [parameter setObject:@"end" forKey:@"type"];
+        //已承接
+//        [parameter setObject:@"end" forKey:@"type"];
         [parameter setObject:custId forKey:@"acceptorId"];
     }
     [parameter setObject:@"personalTransfer" forKey:@"type"];
@@ -148,7 +148,7 @@
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
         if (_segementIndex==0) {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_transIngMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
@@ -158,11 +158,11 @@
         else if(_segementIndex == 1)
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
-                [_transIngMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
+                [_transDidMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
             }
-            _tabViewMutArray = [NSMutableArray arrayWithArray:_transIngMutArray];;
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_transDidMutArray];;
         }
-        else if(_segementIndex == 1)
+        else if(_segementIndex == 2)
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_chengJieDidMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
@@ -180,22 +180,57 @@
 
 - (void)didTapSegment:(UISegmentedControl *)sender
 {
+    [self.tableView.footer resetNoMoreData];
+    
     _segementIndex = sender.selectedSegmentIndex;
     if (sender.selectedSegmentIndex == 0)
     {
-        //全部投资
-        [self getListRequestWithPageNo:_transIngPageNo andPageSize:@"20"];
+        //转让中债权
+        if(_transIngMutArray.count)
+        {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_transIngMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self getListRequestWithPageNo:_transIngPageNo andPageSize:@"20"];
+            [_tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+        }
+        
     }
     else if(sender.selectedSegmentIndex == 1)
     {
-        [self getListRequestWithPageNo:_transDidPageNo andPageSize:@"20"];
+        //已转让债权
+        if(_transDidMutArray.count)
+        {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_transDidMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self getListRequestWithPageNo:_transDidPageNo andPageSize:@"20"];
+            [_tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+        }
     }
     else
     {
-        [self getListRequestWithPageNo:_chengJieDidPageNo andPageSize:@"20"];
+        //已承接债权
+        if(_chengJieDidMutArray.count)
+        {
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_chengJieDidMutArray];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self getListRequestWithPageNo:_chengJieDidPageNo andPageSize:@"20"];
+            [_tabViewMutArray removeAllObjects];
+            [self.tableView reloadData];
+        }
     }
-    [self.tabViewMutArray removeAllObjects];
-    [self.tableView reloadData];
+//    [self.tabViewMutArray removeAllObjects];
+//    [self.tableView reloadData];
     MyLog(@"%ld",sender.selectedSegmentIndex);
 }
 
@@ -209,7 +244,7 @@
         [self.tableView.footer noticeNoMoreData];
     }
     _dataCount = _tabViewMutArray.count;
-    
+    MyLog(@"%ld--%ld--%ld--%ld",_tabViewMutArray.count,_transIngMutArray.count,_transDidMutArray.count,_chengJieDidMutArray.count);
     return _tabViewMutArray.count;
 }
 
@@ -230,29 +265,22 @@
             MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
             cell.titleLab.text = dataModel.title;
             cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
-            cell.timeLab.text = [NSString stringWithFormat:@"%@",dataModel.time];
+            cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
+            cell.chengjieLabN.hidden = YES;
             cell.appCodeLab.text = dataModel.applyCode;
+            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
             cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
             switch ([dataModel.transStatus integerValue]) {
                     // 0投标中 1等待放款2还款中3废标4已完成
                 case 0:
                     cell.stateLab.text = @"可承接";
                     break;
-                case 1:
+                case 2:
                     cell.stateLab.text = @"转让成功";
                     break;
                 default:
                     break;
             }
-//            if ([dataModel.tranferAble isEqualToString:@"1"]) {
-//                [cell.transBtn setTitle:@"转让" forState:UIControlStateNormal];
-//                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
-//            }
-//            else
-//            {
-//                [cell.transBtn setTitle:@"不可转让" forState:UIControlStateNormal];
-//                [cell.transBtn addTarget:self action:@selector(transBtnAct:) forControlEvents:UIControlEventTouchUpInside];
-//            }
             cell.backgroundColor = KLColor(246, 246, 246);
             return cell;
             break;
@@ -264,23 +292,28 @@
             if (cell==nil) {
                 cell = [[NSBundle mainBundle]loadNibNamed:@"MyZhaiQuanCell" owner:self options:nil][0];
             }
-            
             //添加数据
-            /*还款日期 payDate
-             项目名称 | 周期 '第'+data.child+'标 | 第 '+data.repayment.step+'期'
-             借款人 outCustAccount
-             逾期天数 late
-             待收利息 interest
-             待收本金 capital
-             罚息 lateInt
-             */
-//            MyIngTenderModel *dataModel = _tabViewMutArray[indexPath.row];
-//            cell.infoLab.text = [NSString stringWithFormat:@"%@ 第%@期(第%@标)",dataModel.title,[dataModel.child stringValue],[dataModel.step stringValue]];
-//            cell.jieKNameLab.text = dataModel.outCustAccount;
-//            NSString *dateString = [dataModel.payDate substringToIndex:10];
-//            cell.dateLab.text = dateString;
-//            cell.daiSJLba.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
-//            cell.daiSLXLab.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
+            MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
+            cell.titleLab.text = dataModel.title;
+            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.chengjieLabN.hidden = NO;
+            cell.timeLab.text = [dataModel.buyDate substringToIndex:10];
+            cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
+            cell.appCodeLab.text = dataModel.applyCode;
+            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
+            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            switch ([dataModel.transStatus integerValue]) {
+                    //
+                case 0:
+                    cell.stateLab.text = @"可承接";
+                    break;
+                case 2:
+                    cell.stateLab.text = @"转让成功";
+                    break;
+                default:
+                    break;
+            }
+            cell.backgroundColor = KLColor(246, 246, 246);
             return cell;
             break;
         }
@@ -291,15 +324,28 @@
             if (cell==nil) {
                 cell = [[NSBundle mainBundle]loadNibNamed:@"MyZhaiQuanCell" owner:self options:nil][0];
             }
-            
-//            MyEndTenderModel *dataModel = _tabViewMutArray[indexPath.row];
-//            cell.infoLab.text = [NSString stringWithFormat:@"%@ 第%@期(第%@标)",dataModel.title,[dataModel.child stringValue],[dataModel.step stringValue]];
-//            cell.jieKNameLab.text = dataModel.outCustAccount;
-//            NSString *dateString = [dataModel.payDate substringToIndex:10];
-//            cell.dateLab.text = dateString;
-//            cell.didFJLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
-//            cell.didGetLX.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
-//            cell.geRenFeiLab.text = [NSString stringWithFormat:@"%@元",[dataModel.fee stringValue]];
+            //添加数据
+            MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
+            cell.titleLab.text = dataModel.title;
+            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.timeLab.text = [dataModel.buyDate substringToIndex:10];
+            cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
+            cell.chengjieLabN.hidden = NO;
+            cell.appCodeLab.text = dataModel.applyCode;
+            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
+            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            switch ([dataModel.transStatus integerValue]) {
+                    // 0投标中 1等待放款2还款中3废标4已完成
+                case 0:
+                    cell.stateLab.text = @"可承接";
+                    break;
+                case 2:
+                    cell.stateLab.text = @"转让成功";
+                    break;
+                default:
+                    break;
+            }
+            cell.backgroundColor = KLColor(246, 246, 246);
             return cell;
             break;
         }

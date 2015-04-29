@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccoutViewController">
@@ -13,6 +13,7 @@
                 <outlet property="huiFuNumLab" destination="eYY-gV-tsu" id="gr2-vt-jx1"/>
                 <outlet property="huiHuiBtn" destination="6TA-ez-psb" id="Iq3-iQ-tt4"/>
                 <outlet property="jiFenLab" destination="XT2-uH-eNC" id="WEQ-un-7fJ"/>
+                <outlet property="messageImg" destination="Eab-BH-BfQ" id="xbE-qD-HdE"/>
                 <outlet property="nameLab" destination="5ok-hg-6Iw" id="IiL-T9-CJM"/>
                 <outlet property="todayProfitLab" destination="qeU-rR-ay2" id="Jt9-PO-jkz"/>
                 <outlet property="totalMoneyLab" destination="ShX-EK-y3R" id="hgw-QL-PQu"/>
@@ -45,12 +46,38 @@
                     <rect key="frame" x="0.0" y="519" width="320" height="49"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottom_bg.png" id="Lg1-fs-Lme">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chongZBtn_bg.png" id="QUm-hU-Bdl">
+                            <rect key="frame" x="39" y="14" width="28" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="充值" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dmj-H9-sHt">
+                            <rect key="frame" x="76" y="15" width="59" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="quXianBtn_bg.png" id="7lR-JM-OO0">
+                            <rect key="frame" x="189" y="14" width="28" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="取现" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IQ0-kU-SrE">
+                            <rect key="frame" x="226" y="15" width="59" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9X-y8-ZAf">
-                            <rect key="frame" x="0.0" y="0.0" width="107" height="49"/>
+                            <rect key="frame" x="0.0" y="0.0" width="160" height="49"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="18" maxY="5"/>
-                            <state key="normal" backgroundImage="chongZhi.png">
+                            <state key="normal">
                                 <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -59,29 +86,16 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="c34-b7-smd">
-                            <rect key="frame" x="107" y="0.0" width="106" height="49"/>
+                            <rect key="frame" x="160" y="0.0" width="160" height="49"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="18" maxY="5"/>
-                            <state key="normal" backgroundImage="quXian.png">
+                            <state key="normal">
                                 <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="nextAction:" destination="-1" eventType="touchUpInside" id="HRA-QI-KLu"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6sy-Jx-x93">
-                            <rect key="frame" x="213" y="0.0" width="107" height="49"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="7" maxX="18" maxY="5"/>
-                            <state key="normal" backgroundImage="huiKuang.png">
-                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="nextAction:" destination="-1" eventType="touchUpInside" id="ZSN-Pd-WFR"/>
                             </connections>
                         </button>
                     </subviews>
@@ -317,8 +331,8 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥232" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qeU-rR-ay2">
-                            <rect key="frame" x="11" y="35" width="288" height="30"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qeU-rR-ay2">
+                            <rect key="frame" x="11" y="35" width="288" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="29"/>
                             <color key="textColor" red="0.11372549019607843" green="0.50588235294117645" blue="0.83529411764705885" alpha="1" colorSpace="calibratedRGB"/>
@@ -343,7 +357,7 @@
                     <rect key="frame" x="214" y="158" width="106" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="本息保障">
+                    <state key="normal" title="回款计划">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -419,7 +433,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="xiaoWu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5ok-hg-6Iw">
-                    <rect key="frame" x="118" y="59" width="113" height="21"/>
+                    <rect key="frame" x="118" y="63" width="113" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -440,7 +454,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15575394951" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LwQ-C9-pWX">
-                    <rect key="frame" x="118" y="108" width="113" height="21"/>
+                    <rect key="frame" x="118" y="103" width="113" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -456,9 +470,13 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Eab-BH-BfQ">
+                    <rect key="frame" x="290" y="21" width="13" height="13"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
-            <point key="canvasLocation" x="222" y="285"/>
+            <point key="canvasLocation" x="230" y="301"/>
         </view>
         <view alpha="0.45000000000000001" contentMode="scaleToFill" id="6tH-rl-S8t">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -475,21 +493,26 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="578" y="285"/>
         </view>
+        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SKF-Fb-UHE">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <point key="canvasLocation" x="196" y="604"/>
+        </imageView>
     </objects>
     <resources>
         <image name="back.png" width="44" height="44"/>
-        <image name="chongZhi.png" width="213" height="100"/>
-        <image name="huiKuang.png" width="214" height="100"/>
+        <image name="bottom_bg.png" width="640" height="100"/>
+        <image name="chongZBtn_bg.png" width="57" height="42"/>
         <image name="jianTou.png" width="20" height="28"/>
         <image name="jiaoymx.png" width="22" height="28"/>
         <image name="ka.png" width="32" height="25"/>
         <image name="licjh.png" width="29" height="22"/>
         <image name="personIcon.png" width="64" height="64"/>
         <image name="qiandao.png" width="17" height="73"/>
-        <image name="quXian.png" width="213" height="100"/>
+        <image name="quXianBtn_bg.png" width="57" height="42"/>
         <image name="settings.png" width="45" height="45"/>
         <image name="topImg_bg.png" width="364" height="371"/>
-        <image name="vip1.png" width="43" height="42"/>
+        <image name="vip1.png" width="19" height="20"/>
         <image name="wodjlb.png" width="29" height="27"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -167,7 +167,7 @@
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"注册成功"];
         User *user = [[User alloc]init];
         user.username = _phoneNum.text;
         user.password = _passwordTF.text;
@@ -191,7 +191,7 @@
         [SVProgressHUD showErrorWithStatus:@"密码太短！"];
         return YES;
     }
-    if ([_phoneNum.text isEqualToString:_confirmPsTF.text]) {
+    if ([_passwordTF.text isEqualToString:_confirmPsTF.text]==NO) {
         [SVProgressHUD showErrorWithStatus:@"两次密码输入不一致！"];
         return YES;
     }

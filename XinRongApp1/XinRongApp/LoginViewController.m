@@ -12,7 +12,7 @@
 #import "AccountManager.h"
 #import "NSString+DES.h"
 #import "KeychainItemWrapper.h"
-@interface LoginViewController ()
+@interface LoginViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIButton *isRemembBtn;
@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"登陆";
-    
+    _userName.delegate = self;
     [self initSubview];
 }
 
@@ -51,8 +51,6 @@
     [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(registerBtn) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
-    
-    
 }
 
 - (void)registerBtn
@@ -119,7 +117,7 @@
     
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"登录成功"];
         User *user = [[User alloc]init];
         user.username = _userName.text;
         user.password = _password.text;
@@ -127,11 +125,20 @@
         [[NSUserDefaults standardUserDefaults]setBool:_isRememb forKey:kIsRemembPsd];
         [[NSUserDefaults standardUserDefaults]setObject:dic[@"customerId"] forKey:kCustomerId];
         [[NSUserDefaults standardUserDefaults]setObject:dic forKey:kUserMsg];
-        [self.navigationController popViewControllerAnimated:YES];
+        if (_fromFlag==1)
+        {
+            NSArray *vcArray = self.navigationController.viewControllers;
+            [self.navigationController popToViewController:vcArray[vcArray.count-3] animated:YES];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
     }
     else
     {
-        [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
+        [SVProgressHUD showInfoWithStatus:@"登陆失败" maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 
@@ -146,6 +153,18 @@
 {
     sender.selected = !sender.selected;
     _isRememb = sender.selected;
+}
+
+#pragma mark - textfeild delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if(textField==_userName)
+    {
+        if (range.location>=11) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

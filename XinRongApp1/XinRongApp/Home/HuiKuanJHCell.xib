@@ -98,7 +98,7 @@
             <connections>
                 <outlet property="benQiBenJinLab" destination="xaS-Gt-fYk" id="wmg-Rf-ddt"/>
                 <outlet property="huiKZQlab" destination="pkw-E5-8vX" id="6BA-eN-6Cn"/>
-                <outlet property="tenderMoneyLab" destination="wgA-jP-36x" id="LTF-cJ-PQX"/>
+                <outlet property="tenderMoneyLab" destination="wgA-jP-36x" id="v1A-jV-EVI"/>
                 <outlet property="timeLab" destination="KV1-Tr-Ktg" id="b2m-Jr-gVz"/>
                 <outlet property="titleLab" destination="aBp-Z5-uUx" id="Gfo-qi-RE7"/>
                 <outlet property="yinShouInvestLab" destination="eDh-Hd-yyB" id="HaJ-pY-SOS"/>

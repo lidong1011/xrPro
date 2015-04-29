@@ -84,6 +84,9 @@
 //https://www.xr58.com:8443/xr58/apprequest/request?code=updatePwd
 #define kupdatePwdUrl  [kBaseUrl stringByAppendingString:@"updatePwd"]
 
+//losePwd  找回密码
+#define klosePwdUrl  [kBaseUrl stringByAppendingString:@"losePwd"]
+
 ///////////////个人中心 end////////////////////
 
 
@@ -168,6 +171,20 @@
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
 #define kqueryKitUrl  [kBaseUrl stringByAppendingString:@"queryKit"]
 
+//checkMobileUnique  检查手机号码注册了没
+#define kcheckMobileUniqueUrl  [kBaseUrl stringByAppendingString:@"checkMobileUnique"]
+
+//kitTransfer  加息券转让
+#define kkitTransferUrl  [kBaseUrl stringByAppendingString:@"kitTransfer"]
+
+//undoTransferKit  撤销转让
+#define kundoTransferKitUrl  [kBaseUrl stringByAppendingString:@"undoTransferKit"]
+
+//kitTransferPay  加息券付款
+#define kkitTransferPayUrl  [kBaseUrl stringByAppendingString:@"kitTransferPay"]
+
+//kitTransferCancel  加息券付款取消
+#define kkitTransferCancelUrl  [kBaseUrl stringByAppendingString:@"kitTransferCancel"]
 
 //recharge  充值
 #define krechargeUrl  [kBaseUrl stringByAppendingString:@"recharge"]
@@ -188,7 +205,7 @@
 #define khfUserLoginUrl  [kBaseUrl stringByAppendingString:@"hfUserLogin"]
 
 //bandHF  绑定汇付
-#define kbandHFUrl  [kBaseUrl stringByAppendingString:@"bandHF"]
+#define kbindHFUrl  [kBaseUrl stringByAppendingString:@"bindHF"]
 
 //hfAcctModify  修改汇付
 #define khfAcctModifyUrl  [kBaseUrl stringByAppendingString:@"hfAcctModify"]
@@ -196,6 +213,24 @@
 //loadUnReadCount  未读消息条数
 #define kloadUnReadCountUrl  [kBaseUrl stringByAppendingString:@"loadUnReadCount"]
 
+//listMessage 消息列表
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define klistMessageUrl  [kBaseUrl stringByAppendingString:@"listMessage"]
+
+//loadMessage 消息详情
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kloadMessageUrl  [kBaseUrl stringByAppendingString:@"loadMessage"]
+
+//delMessage 删除消息
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kdelMessageUrl  [kBaseUrl stringByAppendingString:@"delMessage"]
+
+//readedMessage 消息设为已读
+//https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
+#define kreadedMessageUrl  [kBaseUrl stringByAppendingString:@"readedMessage"]
+
+//addOpinion  反馈意见
+#define kaddOpinionUrl  [kBaseUrl stringByAppendingString:@"addOpinion"]
 
 ///////////我的账户  end//////////////////////
 

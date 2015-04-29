@@ -8,9 +8,16 @@
 
 #import "SettingsViewController.h"
 #import "PersonSetViewController.h"
+#import "MessageViewController.h"
+#import "BankCardManageViewController.h"
+#import "LoginHuiFuViewController.h"
+#import "ChangeHFViewController.h"
+#import "LoginViewController.h"
+#import "LoginHFCell.h"
 #import "UMSocial.h"
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) BOOL isSelectHF;
 @end
 
 @implementation SettingsViewController
@@ -48,7 +55,13 @@
 #pragma mark 列表数据代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    if (_isSelectHF) {
+        return 6;
+    }
+    else
+    {
+        return 5;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -61,7 +74,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
+            UIImage *icon = [UIImage imageNamed:@"person_person.png"];
             CGSize iconSize = CGSizeMake(20, 20);
             UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
             CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
@@ -78,69 +91,138 @@
         }
         case 1:
         {
-            UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
+            UIImage *icon = [UIImage imageNamed:@"huiftx.png"];
             CGSize iconSize = CGSizeMake(20, 20);
             UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
             CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
             [icon drawInRect:rect];
             cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
+//            //箭头
+//            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+//            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+//            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+//            cell.accessoryView = jianTimgView;
             cell.textLabel.text = @"汇付天下";
             break;
         }
         case 2:
         {
-            UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
-            CGSize iconSize = CGSizeMake(20, 20);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"银行卡管理";
+            if (_isSelectHF)
+            {
+                //
+                LoginHFCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"LoginHFCell" owner:self options:nil] firstObject];
+                cell.loginHFBtn.tag = 0;
+                [cell.loginHFBtn addTarget:self action:@selector(huiFuAct:) forControlEvents:UIControlEventTouchUpInside];
+                cell.changeHFBtn.tag = 1;
+                [cell.changeHFBtn addTarget:self action:@selector(huiFuAct:) forControlEvents:UIControlEventTouchUpInside];
+                return cell;
+//                UIButton *loginHFBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                
+            }
+            else
+            {//银行卡管理
+                UIImage *icon = [UIImage imageNamed:@"bankcard_p.png"];
+                CGSize iconSize = CGSizeMake(20, 20);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"银行卡管理";
+            }
             break;
         }
         case 3:
         {
-            UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
-            CGSize iconSize = CGSizeMake(20, 20);
-            UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-            CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-            [icon drawInRect:rect];
-            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
-            cell.textLabel.text = @"消息中心";
+            if (_isSelectHF) {
+                //银行卡管理
+                UIImage *icon = [UIImage imageNamed:@"bankcard_p.png"];
+                CGSize iconSize = CGSizeMake(20, 20);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"银行卡管理";
+            }
+            else
+            {
+                UIImage *icon = [UIImage imageNamed:@"message_p.png"];
+                CGSize iconSize = CGSizeMake(20, 20);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"消息中心";
+            }
             break;
         }
         case 4:
         {
-            UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
+            if (_isSelectHF) {
+                UIImage *icon = [UIImage imageNamed:@"message_p.png"];
+                CGSize iconSize = CGSizeMake(20, 20);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //箭头
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"消息中心";
+            }
+            else
+            {
+                UIImage *icon = [UIImage imageNamed:@"share.png"];
+                CGSize iconSize = CGSizeMake(20, 20);
+                UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+                CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
+                [icon drawInRect:rect];
+                cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                //            //箭头
+                //            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                //            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                //            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                //            cell.accessoryView = jianTimgView;
+                cell.textLabel.text = @"邀请好友";
+            }
+            break;
+        }
+        case 5:
+        {
+            UIImage *icon = [UIImage imageNamed:@"share.png"];
             CGSize iconSize = CGSizeMake(20, 20);
             UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
             CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
             [icon drawInRect:rect];
             cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            //箭头
-            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-            cell.accessoryView = jianTimgView;
+            //            //箭头
+            //            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+            //            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+            //            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+            //            cell.accessoryView = jianTimgView;
             cell.textLabel.text = @"邀请好友";
             break;
         }
@@ -163,33 +245,75 @@
         }
         case 1:
         {
-            //版本信息
-//            VersionsViewController *versionsVC = [[VersionsViewController alloc]init];
-//            [self.navigationController pushViewController:versionsVC animated:YES];
+            _isSelectHF = !_isSelectHF;
+            [_tableView reloadData];
             break;
         }
         case 2:
         {
-            //检查更新
-//            AboutUsViewController *aboutUsVC = [[AboutUsViewController alloc]init];
-//            [self.navigationController pushViewController:aboutUsVC animated:YES];
+            if (_isSelectHF) {
+                //
+            }
+            else
+            {//银行卡管理
+                 BankCardManageViewController *messageVC = [[BankCardManageViewController alloc]init];
+                [self.navigationController pushViewController:messageVC animated:YES];
+            }
             break;
         }
         case 3:
         {
-            //用户反馈
-//            FeedbackViewController *feedbackVC = [[FeedbackViewController alloc]init];
-//            [self.navigationController pushViewController:feedbackVC animated:YES];
+            
+            if (_isSelectHF)
+            {
+                //银行卡管理
+                BankCardManageViewController *messageVC = [[BankCardManageViewController alloc]init];
+                [self.navigationController pushViewController:messageVC animated:YES];
+            }
+            else
+            {//消息中心
+                MessageViewController *messageVC = [[MessageViewController alloc]init];
+                [self.navigationController pushViewController:messageVC animated:YES];
+            }
             break;
         }
         case 4:
         {
-            [self share];
+            if (_isSelectHF) {
+                MessageViewController *messageVC = [[MessageViewController alloc]init];
+                [self.navigationController pushViewController:messageVC animated:YES];
+            }
+            else
+            {
+                [self share];
+            }
             break;
         }
-            
+        case 5:
+        {
+            if (_isSelectHF) {
+                [self share];
+            }
+            break;
+        }
+
         default:
             break;
+    }
+}
+
+#pragma mark 汇付操作
+- (void)huiFuAct:(UIButton *)sender
+{
+    if (sender.tag==0)
+    {
+        LoginHuiFuViewController *loginHFVC = [[LoginHuiFuViewController alloc]init];
+        [self.navigationController pushViewController:loginHFVC animated:YES];
+    }
+    else
+    {
+        ChangeHFViewController *changeHFVC = [[ChangeHFViewController alloc]init];
+        [self.navigationController pushViewController:changeHFVC animated:YES];
     }
 }
 
@@ -197,9 +321,9 @@
 {
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"507fcab25270157b37000010"
-                                      shareText:@"你要分享的文字"
-                                     shareImage:[UIImage imageNamed:@"icon.png"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToQzone,nil]
+                                      shareText:@"https://www.xr58.com"
+                                     shareImage:[UIImage imageNamed:@"logo_tu"]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToQzone,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToQQ,UMShareToSms,nil]
                                        delegate:nil];
 
 }
@@ -217,7 +341,11 @@
         //退出登录
         [[NSUserDefaults standardUserDefaults]removeObjectForKey:kCustomerId];
         [[NSUserDefaults standardUserDefaults]removeObjectForKey:kUserMsg];
-        exit(0);
+        [[NSUserDefaults standardUserDefaults]removeObjectForKey:kIsRemembPsd];
+        LoginViewController *loginVC = [[LoginViewController alloc]init];
+        loginVC.fromFlag = 1;
+        [self.navigationController pushViewController:loginVC animated:YES];
+//        exit(0);
     }
 }
 

@@ -32,7 +32,7 @@
     NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:14.0],
                              @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:28.0]
                              };
-    NSString *nianRate = [NSString stringWithFormat:@"<bold>%@</bold> <body>%%</body>",[_nianRate stringValue]];
+    NSString *nianRate = [NSString stringWithFormat:@"<bold>%.2f</bold> <body>%%</body>",[_nianRate floatValue]*100];
     _calculatorView.nianRateLab.attributedText = [nianRate attributedStringWithStyleBook:style1];
     NSString *timeStr = [NSString stringWithFormat:@"<bold>%@</bold> <body>个月</body>",[_time stringValue]];
     _calculatorView.timeLab.attributedText = [timeStr attributedStringWithStyleBook:style1];
@@ -50,7 +50,7 @@
         [SVProgressHUD showErrorWithStatus:@"输入年化率有误"];
         return;
     }
-    float profit = [_calculatorView.inputMoney.text integerValue]*[_calculatorView.inputRateTF.text floatValue];
+    float profit = [_calculatorView.inputMoney.text integerValue]*[_calculatorView.inputRateTF.text floatValue]*[_time intValue];
     _calculatorView.profitLab.text = [NSString stringWithFormat:@"%.0f元",profit];
 }
 

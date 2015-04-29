@@ -58,7 +58,7 @@
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
         _dic = dic;
-        self.keYongELab.text = [dic[@"avlBal"] stringValue];
+        self.keYongELab.text = [NSString stringWithFormat:@"%@元",[dic[@"avlBal"] stringValue]];
     }
     else
     {
@@ -73,6 +73,7 @@
 
 - (void)addWebView
 {
+    [SVProgressHUD showWithStatus:@"努力加载中..."];
     _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight)];
     _webView.hidden=YES;
     [self.view addSubview:_webView];
@@ -88,7 +89,6 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [_webView loadRequest:request];
     _webView.hidden = NO;
-    _chongView.hidden = YES;
     _webView.backgroundColor = [UIColor greenColor];
 //    [self.view addSubview:_webView];
 }
@@ -148,7 +148,7 @@
 //数据加载完
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    
+    [SVProgressHUD dismiss];
 }
 
 //监听
@@ -168,12 +168,35 @@
         components = [string componentsSeparatedByString:@"/"];
         if([(NSString *)[components objectAtIndex:0] isEqualToString:@"state"])
         {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"code" message:[components objectAtIndex:1]
-                                  delegate:self cancelButtonTitle:nil
-                                  otherButtonTitles:@"OK", nil];
-            [alert show];
-            [self.navigationController popViewControllerAnimated:YES];
+//            UIAlertView *alert = [[UIAlertView alloc]
+//                                  initWithTitle:@"code" message:[components objectAtIndex:1]
+//                                  delegate:self cancelButtonTitle:nil
+//                                  otherButtonTitles:@"OK", nil];
+//            [alert show];
+            /* --104 参数非法
+             --105 取现失败，请重试。
+             --106 获取银行卡失败
+             --107 取现抵扣失败：抵扣积分不足
+             --108 取现抵扣失败：可取余额不足。
+             --109 取现失败：请保留本月物业费应缴金额：。
+             --000 取现成功
+             --110 交易正在处理中，稍后请查看取现记录。*/
+            if ([[components objectAtIndex:1] isEqualToString:@"000"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"充值成功"];
+                _webView.hidden = YES;
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+            else if ([[components objectAtIndex:1] isEqualToString:@"128"])
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"未开通汇付天下"];
+                _webView.hidden = YES;
+            }
+            else
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"充值失败，请重试"];
+                _webView.hidden = YES;
+            }
         }
         return NO;
     }

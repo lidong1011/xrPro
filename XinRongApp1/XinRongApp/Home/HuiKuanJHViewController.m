@@ -25,9 +25,16 @@
     [super viewDidLoad];
     self.navigationItem.title = @"回款计划";
     
+    [self initData];
+    
     [self initSubview];
     
     [self getListRequest];
+}
+
+- (void)initData
+{
+    _tabViewMutArray = [NSMutableArray array];
 }
 
 #pragma mark - 回款列表请求
@@ -100,21 +107,35 @@
 {
     //判断是否还有数据可以加载
     if (_dataCount == _tabViewMutArray.count) {
-        [self.tableView.footer noticeNoMoreData];
+//        [self.tableView.footer noticeNoMoreData];
     }
     _dataCount = _tabViewMutArray.count;
-//    return _tabViewMutArray.count;
-    return 10;
+    return _tabViewMutArray.count;
+//    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //按情况加载不同的cell
+    //
+    /*标题 title
+    第几标 child
+    投资金额 tenderMoney
+    本期应收本金 capital
+    回款周期 step
+    应收利息 interest+additionalInterest
+    日期 payDate*/
     static NSString *identifier = @"tendCell1";
     HuiKuanJHCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"HuiKuanJHCell" owner:self options:nil][0];
     }
+    HuiKuanJHModel *dataModel = _tabViewMutArray[indexPath.row];
+    cell.titleLab.text = [NSString stringWithFormat:@"%@(第%@标)",dataModel.title,[dataModel.child stringValue]];
+    cell.tenderMoneyLab.text = [NSString stringWithFormat:@"%@元",[dataModel.tenderMoney stringValue]];
+    cell.timeLab.text = [dataModel.payDate substringToIndex:10];
+    cell.huiKZQlab.text = [NSString stringWithFormat:@"%@个月",[dataModel.step stringValue]];
+    cell.yinShouInvestLab.text = [NSString stringWithFormat:@"%.1f元",[dataModel.additionalInterest floatValue]+[dataModel.interest floatValue]];
+    cell.benQiBenJinLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
     return cell;
 }
 

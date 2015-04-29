@@ -78,6 +78,7 @@
 
     NSString *md5String = [NSString md5_base64:_kNewPasswordTF.text];
     [parameter setObject:md5String forKey:@"psw"];
+    [parameter setObject:@"ios" forKey:@"reqType"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     //https请求方式设置
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];

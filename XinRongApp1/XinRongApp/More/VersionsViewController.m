@@ -17,27 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"版本信息";
-    // 此数组用来保存BWMCoverViewModel
-    NSMutableArray *realArray = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i<5; i++) {
-        NSString *imageStr = [NSString stringWithFormat:@"http://ikaola-image.b0.upaiyun.com/club/2014/9/28/575ba9141352103160644106f6ea328d_898_600.jpg"];
-        NSString *imageTitle = [NSString stringWithFormat:@"第%d个小猫", i+1];
-        BWMCoverViewModel *model = [[BWMCoverViewModel alloc] initWithImageURLString:imageStr imageTitle:imageTitle];
-        [realArray addObject:model];
-    }
-    
-    // 以上代码只为了构建一个包含BWMCoverViewModel的数组而已——realArray
-    //* 快速创建BWMCoverView
-    // * models是一个包含BWMCoverViewModel的数组
-    //* placeholderImageNamed为图片加载前的本地占位图片名
-    
-    BWMCoverView *coverView = [BWMCoverView coverViewWithModels:realArray andFrame:CGRectMake(0, kNavigtBarH, self.view.bounds.size.width, kHScare(300)) andPlaceholderImageNamed:@"banner" andClickdCallBlock:^(NSInteger index) {
-        NSLog(@"你点击了第%d个图片", index);
-    }];
-    [coverView setAutoPlayWithDelay:2.0];
-    [self.view addSubview:coverView];
 
+    //版本号
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    
+    //CFShow((__bridge CFTypeRef)(infoDic));
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+    //    lab.text = [NSString stringWithFormat:@"iOS %@版",currentVersion];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -16,7 +16,21 @@
 #import "Items.h"
 #import "TabBar.h"
 
+//#import "UMSocial.h"
+//#import "UMSocialConfig.h"
+//#import "UMSocialWechatHandler.h"
+//#import "UMSocialQQHandler.h"
+//#import <TencentOpenAPI/QQApiInterface.h>
+//#import <TencentOpenAPI/TencentOAuth.h>
+
 #import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSnsPlatformManager.h"
+#import "UMSocialSnsService.h"
+#import "UMSocialConfig.h"
+
 
 @interface AppDelegate ()<TabBarDelegate>
 @property (nonatomic, strong) UITabBarController *tabBarCtr;
@@ -28,8 +42,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    [[NSUserDefaults standardUserDefaults]removeObjectForKey:kCustomerId];
 //    [[NSUserDefaults standardUserDefaults]removeObjectForKey:kUserMsg];
-    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+//    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
 
+    //设置友盟
+    [self setUMSocial];
+    
+    
     [self keyboardSet];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -50,6 +68,24 @@
     [_tabBarCtr.tabBar addSubview:[self makeTabBar]];
     self.window.rootViewController = _tabBarCtr;
     return YES;
+}
+
+- (void)setUMSocial
+{
+    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+    
+    //设置微信AppId，设置分享url，默认使用友盟的网址
+    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.umeng.com/social"];
+    
+    //设置手机QQ的AppId，指定你的分享url，若传nil，将使用友盟的网址
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.umeng.com/social"];
+    
+    //    //设置支持没有客户端情况下使用SSO授权
+    [UMSocialQQHandler setSupportWebView:YES];
+
+//    
+    //打开新浪微博的SSO开关
+//    [UMSocialConfig setSupportSinaSSO:YES];
 }
 
 - (void)keyboardSet

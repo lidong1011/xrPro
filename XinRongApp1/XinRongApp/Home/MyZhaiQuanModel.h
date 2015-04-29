@@ -43,7 +43,8 @@
 @property (nonatomic, strong) NSString *applyCode;
 @property (nonatomic, strong) NSNumber *transAmt;
 @property (nonatomic, strong) NSNumber *creditDealAmt;
-//@property (nonatomic, strong) NSString *buyDate;
+@property (nonatomic, strong) NSString *buyDate;
+@property (nonatomic, strong) NSString *ordDate;
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *restStep;
 @property (nonatomic, strong) NSNumber *transStatus;

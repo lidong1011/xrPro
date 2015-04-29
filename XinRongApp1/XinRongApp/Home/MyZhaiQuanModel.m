@@ -14,7 +14,7 @@
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         self.dataDic = dict;
-        self.time = [NSString getTimeWithString:[self.dataDic[@"ordDate"][@"time"] stringValue]];
+//        self.time = [NSString getTimeWithString:[self.dataDic[@"ordDate"][@"time"] stringValue]];
     }
     return self;
 }

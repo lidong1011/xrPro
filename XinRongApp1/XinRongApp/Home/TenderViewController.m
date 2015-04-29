@@ -43,7 +43,7 @@
 @property (nonatomic, assign) NSInteger dataCount;
 @end
 
-#define kSegmentedControlHeight 35
+#define kSegmentedControlHeight 40
 
 @implementation TenderViewController
 
@@ -56,8 +56,18 @@
     
     //添加子视图
     [self initSubview];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     //加载数据
+    _tenderPageNo = 1;
+    _zaiQuanPageNo = 1;
+    [self.tableView.footer resetNoMoreData];
+    [_zaiQuanMutArray removeAllObjects];
+    [_tenderMutArray removeAllObjects];
+    [_tabViewMutArray removeAllObjects];
     [self getListRequestWithPageNo:1 andPageSize:@"20"];
 }
 
@@ -102,7 +112,9 @@
 #pragma mark - 项目列表请求
 - (void)getListRequestWithPageNo:(int)pageNo andPageSize:(NSString *)pageSize
 {
+//    [SVProgressHUD showImage:[UIImage imageNamed:@"loadData.png"] status:@"加载数据中..."];
     [SVProgressHUD showWithStatus:@"加载数据中..."];
+//    [SVProgressHUD showImage:[UIImage imageWithName:@"1.png"] status:@"fdfdsffs"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     if(_segementIndex==0)
     {
@@ -126,23 +138,26 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"加载失败"];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
 }
 
-#pragma mark - 注册请求返回数据
+#pragma mark - 请求返回数据
 - (void)success:(id)response
 {
     //把tableView 清空
     [_tabViewMutArray removeAllObjects];
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-//        [SVProgressHUD showSuccessWithStatus:@"成功"];
+//        [SVProgressHUD showSuccessWithStatus:@"获取数据成功" ];
+//        [SVProgressHUD showInfoWithStatus:@"" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"获取数据成功" maskType:SVProgressHUDMaskTypeGradient];
         if (_segementIndex==0) {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_tenderMutArray addObject:[TenderListModel messageWithDict:dataDic]];
@@ -237,7 +252,7 @@
     // 添加分段条
     DZNSegmentedControl *segmentedControl = [[DZNSegmentedControl alloc] initWithItems:self.menuItems];
     
-    segmentedControl.height = kSegmentedControlHeight;
+    segmentedControl.height = kWScare(kSegmentedControlHeight);
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.bouncySelectionIndicator = YES;
     segmentedControl.tintColor = kZhuTiColor;
@@ -261,22 +276,34 @@
     
     switch (control.selectedSegmentIndex) {
         case 0: // 投资项目
-            
-            [self getListRequestWithPageNo:_tenderPageNo andPageSize:@"20"];
+            if (_tenderMutArray.count==0) {
+                [self getListRequestWithPageNo:_tenderPageNo andPageSize:@"20"];
+            }
+            else
+            {
+                _tabViewMutArray = [NSMutableArray arrayWithArray:_tenderMutArray];
+            }
             break;
         case 1: // 债权转让
-//            [self.tableView reloadData];
-            [self getListRequestWithPageNo:_zaiQuanPageNo andPageSize:@"20"];
+            if (_zaiQuanMutArray.count==0) {
+                [self getListRequestWithPageNo:_zaiQuanPageNo andPageSize:@"20"];
+            }
+            else
+            {
+                _tabViewMutArray = [NSMutableArray arrayWithArray:_zaiQuanMutArray];
+            }
             break;
         default:
             break;
     }
+    [self.tableView reloadData];
+    MyLog(@"%ld--%ld--%ld",_tabViewMutArray.count,_tenderMutArray.count,_zaiQuanMutArray.count);
 }
 
 #pragma mark -添加列表视图
 - (void)addTableView
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kSegmentedControlHeight+2, kWidth, kHeight-kSegmentedControlHeight-2-kNavigtBarH-49) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHeight-kWScare(kSegmentedControlHeight)-2-kNavigtBarH-49) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = KLColor(246, 246, 246);
@@ -305,6 +332,7 @@
     if (_dataCount == _tabViewMutArray.count) {
         [self.tableView.footer noticeNoMoreData];
     }
+    MyLog(@"%ld--%ld--%ld",_tabViewMutArray.count,_tenderMutArray.count,_zaiQuanMutArray.count);
     _dataCount = _tabViewMutArray.count;
     return _tabViewMutArray.count;
 }
@@ -327,13 +355,15 @@
         cell.bianNum.text = dataModel.applyCode;
         cell.huiKuangQiLab.text = [NSString stringWithFormat:@"%@个月",[dataModel.timeLimit stringValue]];
         cell.nianRateLab.text = [NSString stringWithFormat:@"%.1f%%",([dataModel.interestRate floatValue]*100)];
-        cell.monyeLab.text = [dataModel.biddingMoney stringValue];
-        cell.progress.progress = [dataModel.process floatValue]/100;
+        cell.monyeLab.text = [NSString stringWithFormat:@"%@元",[dataModel.biddingMoney stringValue]];
+//        cell.progress.progress = [dataModel.process floatValue]/100;
         
-        CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 15.0f);
-        cell.progress.transform = transform;
-//        [UIProgressView appearanceWhenContainedIn:[self class], nil];
-//        [cell.progress setFrame:CGRectMake(10.0, 10.0, 300.0, 19.0)];
+        cell.myProcess.color = kZhuTiColor;
+        cell.myProcess.progress = [dataModel.process floatValue]/100;
+        cell.myProcess.showText = @NO;
+        cell.myProcess.borderRadius = @5;
+        cell.myProcess.animate = @NO;
+//        cell.myProcess.type = LDProgressSolid;
         cell.progressNum.text = [NSString stringWithFormat:@"%d%%",(int)([dataModel.process intValue])];
         //状态
         switch([dataModel.biddingStatus integerValue]) {
@@ -437,6 +467,7 @@
         TenderListModel *model = _tabViewMutArray[sender.tag];
         BeginTenderViewController *touBiaoVC = [[BeginTenderViewController alloc]init];
         touBiaoVC.biddingId = model.biddingId;
+        touBiaoVC.keTouMoney = [model.biddingMoney intValue]-[model.totalTenders intValue];
         touBiaoVC.keTouMoney = [model.biddingMoney integerValue]-[model.totalTenders integerValue];
         [self.navigationController pushViewController:touBiaoVC animated:YES];
     }
@@ -489,7 +520,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_segementIndex==0) {
-        return 132;
+        return 146;
     }
     else
     {
