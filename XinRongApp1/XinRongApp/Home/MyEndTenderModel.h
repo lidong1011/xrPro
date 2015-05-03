@@ -39,5 +39,5 @@
 @property (nonatomic, strong) NSNumber *lateInt;
 @property (nonatomic, strong) NSNumber *child;
 @property (nonatomic, strong) NSNumber *step;
-@property (nonatomic, strong) NSNumber *fee;
+@property (nonatomic, strong) NSNumber *intFee;
 @end

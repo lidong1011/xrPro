@@ -35,6 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     if ([[NSUserDefaults standardUserDefaults] stringForKey:kCustomerId]==nil)
     {
@@ -49,6 +50,7 @@
         [self getMyMessageRequest];
     }
 }
+
 
 #pragma mark - 获取我的消息条数请求（判断按设置是否进入消息中心界面）
 - (void)getMyMessageRequest
@@ -103,7 +105,7 @@
         [weakSelf getBalansuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -164,7 +166,7 @@
         [weakSelf getMyMsgSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -226,6 +228,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
     self.navigationController.navigationBar.hidden = NO;
 }
 
@@ -476,4 +480,6 @@
         [self.navigationController pushViewController:huiKuanVC animated:YES];
     }
 }
+
+
 @end

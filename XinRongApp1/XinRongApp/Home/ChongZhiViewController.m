@@ -183,18 +183,18 @@
              --110 交易正在处理中，稍后请查看取现记录。*/
             if ([[components objectAtIndex:1] isEqualToString:@"000"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"充值成功"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"充值成功"];
                 _webView.hidden = YES;
                 [self.navigationController popViewControllerAnimated:YES];
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"128"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"未开通汇付天下"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"未开通汇付天下"];
                 _webView.hidden = YES;
             }
             else
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"充值失败，请重试"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"充值失败，请重试"];
                 _webView.hidden = YES;
             }
         }

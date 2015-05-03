@@ -9,6 +9,7 @@
 #import "TiYanJinViewController.h"
 #import "WPAttributedStyleAction.h"
 #import "NSString+WPAttributedMarkup.h"
+#import "MyAccoutViewController.h"
 #import "JiaoYiMXCell.h"
 #import "TiYanJinModel.h"
 @interface TiYanJinViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
@@ -40,10 +41,16 @@
 //添加子视图
 - (void)addSubview
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(_titleView.bottom), kWidth, kHeight-kHScare(_titleView.bottom)) style:UITableViewStylePlain];
+    if (isOver3_5Inch) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(_bgView.bottom), kWidth, kHeight-kHScare(_bgView.bottom)) style:UITableViewStylePlain];
+    }
+    else
+    {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(_bgView.bottom)+5, kWidth, kHeight-kHScare(_bgView.bottom)-5) style:UITableViewStylePlain];
+    }
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     
@@ -71,11 +78,11 @@
     securityPolicy.allowInvalidCertificates = YES;
     manager.securityPolicy = securityPolicy;
     __weak typeof(self) weakSelf = self;
-    [manager POST:kqueryExperienceUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:kexperienceRcordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [weakSelf TiYanJSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -88,7 +95,7 @@
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:dic[@"msg"]];
         self.tiYanZELab.text = [NSString stringWithFormat:@"￥%@元",dic[@"unTenderAmt"]];
         self.didTiYanLab.text = [NSString stringWithFormat:@"￥%@元",dic[@"tenderAmt"]];
 //        self.tiYanProfit.text = [NSString stringWithFormat:@"￥%@元",dic[@"incomeAmt"]];
@@ -133,7 +140,7 @@
     }
     TiYanJinModel *dataModel = _tabViewMutArray[indexPath.row];
     cell.lab1.text = dataModel.ordDate;
-    cell.lab2.text = dataModel.transAmt;
+    cell.lab2.text = [NSString stringWithFormat:@"%@元",[dataModel.transAmt stringValue]];
     cell.lab3.text = dataModel.income;
     cell.lab4.text = dataModel.status;
     cell.backgroundColor = [UIColor clearColor];
@@ -144,6 +151,12 @@
 {
     return 30;
 }
+
+//- (void)back
+//{
+//    MyAccoutViewController *myacountVC = [[MyAccoutViewController alloc]init];
+//    [self.navigationController pushViewController:myacountVC animated:YES];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

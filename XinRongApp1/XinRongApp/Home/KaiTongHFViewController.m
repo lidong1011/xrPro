@@ -20,6 +20,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"开通汇付";
     
+    [SVProgressHUD showInfoWithStatus:@"努力加载中..."];
     _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH)];
     _webView.delegate = self;
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
@@ -41,7 +42,7 @@
 //数据加载完
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    
+    [SVProgressHUD dismiss];
 }
 
 //监听

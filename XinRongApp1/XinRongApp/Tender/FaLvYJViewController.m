@@ -19,7 +19,17 @@
     [super viewDidLoad];
     
     self.navigationItem.title = _titleString;
-//    self.navigationItem.title = @"法律意见";
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    //设置导航栏的背景图片
+    
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@""] forBarMetrics:UIBarMetricsDefault];
+////    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                                                     [UIColor colorWithRed:0 green:0.7 blue:0.8 alpha:1], UITextAttributeTextColor,
+//                                                                     [UIColor colorWithRed:0 green:0.7 blue:0.8 alpha:1], UITextAttributeTextShadowColor,
+//                                                                     [NSValue valueWithUIOffset:UIOffsetMake(0, 0)], UITextAttributeTextShadowOffset,
+//                                                                     [UIFont fontWithName:@"Arial-Bold" size:0.0], UITextAttributeFont,
+//                                                                     nil]];
     [self initSubview];
 }
 
@@ -38,7 +48,7 @@
     [self.view addSubview:topBtn];
     
     _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, topBtn.size.width, topBtn.size.width)];
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"1.png"]];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"faLv.png"]];
     _imageView.center = CGPointMake(kWidth/2, topBtn.bottom+20+_imageView.size.height/2);
     [self.view addSubview:_imageView];
     
@@ -64,8 +74,11 @@
     //文字
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(kWScare(20), _imageView.bottom+20, kWidth-2*kWScare(20), kHeight-_imageView.bottom-20)];
     _textView.editable = NO;
-    _textView.text = @"新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展";
+//    _textView.text = @"新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展";
     _textView.text = _detailString;
+    if (_isTiYanBiao) {
+        _textView.text = @"湖南芙蓉律师事务所的前身为直属长沙市司法局的长沙市法律顾问处， 1991年法律法律顾问处改制为律师事务所,更名为“长沙市第一律师事务所”， 1996年根据《律师法》的规范要求更名为现用名“湖南芙蓉律师事务所”，是省内成立最早的国办综合法律服务机构之一， 2009年改制为合伙制律师事务所。基于芙蓉律师于法律业务、律师事务所管理和社会活动诸多领域皆有卓越表现，获得业内和社会的广泛赞同， 事务所被多次评为“湖南省优秀律师事务所”、“长沙市优秀律师事务所”。芙蓉律师曾办理过数千件诉讼、仲裁和非诉讼法律案件， 代理案件具有较高的社会关注度，部分案件曾被评为优秀案例或被作为经典案例列入有关数据库。芙蓉具有提供综合性法律业务服务的出色能力， 芙蓉律师的业务操作水准和案件解决结果始终获得高度评价，在疑难、复杂、跨专业诉讼及非诉讼领域，芙蓉都享有很高的信誉。";
+    }
     [self.view addSubview:_textView];
 }
 

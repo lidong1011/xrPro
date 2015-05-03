@@ -9,10 +9,16 @@
 #import "BeginTenderViewController.h"
 #import "ChongZhiViewController.h"
 #import "KaiTongHFViewController.h"
-@interface BeginTenderViewController ()<UIWebViewDelegate>
+#import "JiaXiQuanModel.h"
+#import "JiaXiQuanCell.h"
+@interface BeginTenderViewController ()<UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, assign) int btnSelectFlag;
 @property (nonatomic, strong) UITableView *tableView;
+
+//加息券
+@property (nonatomic, strong) UITableView *jiaxqTableView;
+@property (nonatomic, strong) NSMutableArray *tabViewMutArray;
 @end
 
 @implementation BeginTenderViewController
@@ -35,10 +41,18 @@
     NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
     _jiFenLab.text = [msg[@"points"] stringValue];
     [_changJFTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    [self initData];
+    
     [self addSubview];
     
     //获取可用余额
     [self getMyBalanceRequest];
+}
+
+- (void)initData
+{
+    _tabViewMutArray = [NSMutableArray array];
 }
 
 #pragma mark - 获取我的余额请求
@@ -168,7 +182,7 @@
     _tableView.tableFooterView = _queRenView;
     [self.view addSubview:_tableView];
     _tableView.scrollEnabled = NO;
-    _keTouLab.text = [NSString stringWithFormat:@"%ld",_keTouMoney];
+    _keTouLab.text = [NSString stringWithFormat:@"%ld元",_keTouMoney];
 }
 
 - (void)chongZhi
@@ -210,7 +224,7 @@
             _tableView.tableHeaderView = nil;
         }
     }
-    else
+    else if(sender.tag==1)
     {
         _redBagFBtn.selected = NO;
         if(_jiFenBtn.selected)
@@ -223,6 +237,167 @@
             _btnSelectFlag = 0;
             _tableView.tableHeaderView = nil;
         }
+    }
+    else
+    {
+        _jiFenBtn.selected = NO;
+        _redBagFBtn.selected = NO;
+        if(_jiaXiBtn.selected)
+        {
+            _btnSelectFlag = 3;
+            _tableView.tableHeaderView = _jiFenView;
+            //获取加息券
+            [self getJiaXiQuan];
+            [self JiaXiQuanTableView];
+        }
+        else
+        {
+            _btnSelectFlag = 0;
+            _tableView.tableHeaderView = nil;
+        }
+    }
+}
+
+- (void)JiaXiQuanTableView
+{
+    _jiaxqTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight-kNavigtBarH)];
+    _jiaxqTableView.delegate = self;
+    _jiaxqTableView.dataSource = self;
+    _jiaxqTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    [self.view addSubview:_jiaxqTableView];
+}
+
+- (void)getJiaXiQuan
+{
+    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        //加息券
+    NSString *url = kqueryKitUrl;
+    NSDictionary *dic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+    [parameter setObject:dic[@"mobile"] forKey:@"mobile"];
+    
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    [parameter setObject:custId forKey:kCustomerId];
+    [parameter setObject:@"0" forKey:@"status"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    //https请求方式设置
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+    securityPolicy.allowInvalidCertificates = YES;
+    manager.securityPolicy = securityPolicy;
+    [manager POST:url parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self getJiaXiQuan:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MyLog(@"%@",error);
+        [_tabViewMutArray removeAllObjects];
+        [self.tableView reloadData];
+    }];
+}
+
+#pragma mark - 注册请求返回数据
+- (void)getJiaXiQuan:(id)response
+{
+    //把tableView 清空
+    [_tabViewMutArray removeAllObjects];
+    //    [SVProgressHUD dismiss];
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    if ([dic[@"code"] isEqualToString:@"000"])
+    {
+        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
+        [_tabViewMutArray removeAllObjects];
+        for (NSDictionary *dataDic in dic[@"data"]) {
+            [_tabViewMutArray addObject:[JiaXiQuanModel messageWithDict:dataDic]];
+        }
+        [_jiaxqTableView reloadData];
+    }
+    else
+    {
+        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+    }
+}
+
+#pragma mark - tableView dataSource and delegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _tabViewMutArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //按情况加载不同的cell
+    static NSString *identifier = @"cell";
+    
+    NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:14.0],
+                             @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:32.0]
+                             };
+
+    JiaXiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
+    JiaXiQuanCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[NSBundle mainBundle] loadNibNamed:@"JiaXiQuanCell" owner:self options:nil][0];
+    }
+//        //status 0/未使用, 1/转让中, 2/已使用,3/已转让, 4,无效 无效状态需要在页面上根据当前时间和有效期 edate去对比
+    cell.title.text = dataModel.name;
+
+    cell.intRateLab.text = [NSString stringWithFormat:@"%.1f%%",[dataModel.intRate floatValue]*100];
+    cell.youXiaoQiLab.text = [dataModel.edate substringToIndex:10];
+    /*加息券名称name
+     有效期 edate
+     利率 intRate
+     状态 status
+     加息券ID kitId
+     购买人ID targetId
+     卖家ID userId
+     加息券转让ID ordId*/
+
+    if([self isEndTimeWithEtime:dataModel.edate])
+    {
+        //过期
+        cell.statusLab.text = @"";
+        cell.stateBtn1.hidden = YES;
+        cell.stateBtn2.hidden = NO;
+        cell.stateBtn3.hidden = YES;
+        [cell.stateBtn2 setTitle:@"已过期" forState:UIControlStateNormal];
+        cell.stateBtn2.enabled = NO;
+    }
+    else
+    {
+        cell.statusLab.text = @"";
+        cell.stateBtn1.hidden = YES;
+        cell.stateBtn2.hidden = NO;
+        cell.stateBtn3.hidden = YES;
+        [cell.stateBtn2 setTitle:@"可使用" forState:UIControlStateNormal];
+//        cell.stateBtn2.enabled = NO;
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_jiaxqTableView removeFromSuperview];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 134;
+}
+
+#pragma mark 是否过期-加息券
+- (BOOL)isEndTimeWithEtime:(NSString *)endTime
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
+    NSDate *endDate= [dateFormatter dateFromString:endTime];
+    NSTimeInterval nowTimeInter = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval endTimeInter = [endDate timeIntervalSince1970];
+    if(endTimeInter>nowTimeInter)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
     }
 }
 
@@ -276,7 +451,7 @@
 {
     NSInteger money = [_changJFTF.text integerValue]*10;
 //    _diKeJiFenLab.text = [NSString stringWithFormat:@"￥%ld元",[_changJFTF.text integerValue]];
-    _diKeJiFenLab.text = [NSString stringWithFormat:@"%ld元",money];
+    _diKeJiFenLab.text = [NSString stringWithFormat:@"%ld",money];
     NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
     if (money>[msg[@"points"] integerValue]) {
         [SVProgressHUD showErrorWithStatus:@"抵换积分不能大于拥有积分"];

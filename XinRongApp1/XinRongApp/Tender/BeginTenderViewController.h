@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *inputMoneyTF;
 @property (weak, nonatomic) IBOutlet UIButton *redBagFBtn;
 @property (weak, nonatomic) IBOutlet UIButton *jiFenBtn;
+@property (weak, nonatomic) IBOutlet UIButton *jiaXiBtn;
 
 @property (weak, nonatomic) IBOutlet PooCodeView *codeView;
 @property (weak, nonatomic) IBOutlet UITextField *yanZCode;

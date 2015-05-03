@@ -8,7 +8,7 @@
 
 #import "TiXianViewController.h"
 #import "BankCardModel.h"
-@interface TiXianViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
+@interface TiXianViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,UITextFieldDelegate>
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *tabViewMutArray;
@@ -48,7 +48,13 @@
 
 - (void)addSubview
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(self.shouXuFenLab.bottom)+15, kWidth, kHeight-kHScare(self.shouXuFenLab.bottom)-5) style:UITableViewStylePlain];
+    if (isOver3_5Inch) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(self.midView.bottom), kWidth, kHeight-kHScare(self.midView.bottom)) style:UITableViewStylePlain];
+    }
+    else
+    {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(self.midView.bottom)+7, kWidth, kHeight-kHScare(self.midView.bottom)-7) style:UITableViewStylePlain];
+    }
     _tableView.tableFooterView = _footView;
     [self.view addSubview:_tableView];
     
@@ -64,7 +70,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_tabViewMutArray.count==0) {
-        return 1;
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"您还未绑定银行卡" maskType:SVProgressHUDMaskTypeGradient];
     }
     return _tabViewMutArray.count;
 }
@@ -200,32 +206,32 @@
              --110 交易正在处理中，稍后请查看取现记录。*/
             if ([[components objectAtIndex:1] isEqualToString:@"000"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现成功"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取现成功"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"105"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现失败，请重试"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取现失败，请重试"];
                 _webView.hidden = YES;
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"107"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现抵扣失败：抵扣积分不足"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取现抵扣失败：抵扣积分不足"];
                 _webView.hidden = YES;
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"108"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现抵扣失败：可取余额不足"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取现抵扣失败：可取余额不足"];
                 _webView.hidden = YES;
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"109"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"取现失败：请保留本月物业费应缴金额"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取现失败：请保留本月物业费应缴金额"];
                 _webView.hidden = YES;
             }
             else if ([[components objectAtIndex:1] isEqualToString:@"110"])
             {
-                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"交易正在处理中，稍后请查看取现记录"];
+                [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"交易正在处理中，稍后请查看取现记录"];
                 _webView.hidden = YES;
             }
         }

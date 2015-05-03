@@ -22,6 +22,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     if ([[NSUserDefaults standardUserDefaults] stringForKey:kCustomerId]==nil)
     {
         [SVProgressHUD showInfoWithStatus:@"还未登录，去登录或注册" maskType:SVProgressHUDMaskTypeGradient];
@@ -61,7 +62,6 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showSuccessWithStatus:@"反馈成功"];
-        
     }
     else
     {
@@ -84,6 +84,14 @@
     else
     {
         [SVProgressHUD showInfoWithStatus:@"字数不能超过200字"];
+        textView.text = [textView.text substringToIndex:200];
+    }
+    if (_textView.text.length==0) {
+        self.tiJiaobtn.enabled = NO;
+    }
+    else
+    {
+        self.tiJiaobtn.enabled = YES;
     }
 }
 

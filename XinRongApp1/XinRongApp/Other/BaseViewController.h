@@ -10,6 +10,6 @@
 //#import "MBProgressHUD.h"
 //#import "AFNetworking.h"
 @interface BaseViewController : UIViewController
-@property (nonatomic, strong) MBProgressHUD *HUD;
+//@property (nonatomic, strong) MBProgressHUD *HUD;
 
 @end

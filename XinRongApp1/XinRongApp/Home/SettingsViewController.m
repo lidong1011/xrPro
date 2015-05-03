@@ -13,11 +13,13 @@
 #import "LoginHuiFuViewController.h"
 #import "ChangeHFViewController.h"
 #import "LoginViewController.h"
+#import "XiangMuDetailViewController.h"
 #import "LoginHFCell.h"
 #import "UMSocial.h"
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) BOOL isSelectHF;
+@property (nonatomic, strong) NSString *updataStr;
 @end
 
 @implementation SettingsViewController
@@ -29,6 +31,8 @@
     
     //初始化试图
     [self initSubview];
+    
+    [self checkUpdata];
 }
 
 //把视图初始化
@@ -37,7 +41,7 @@
     UIButton *quiteBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     quiteBtn.frame = CGRectMake(40, 20, kWidth-2*40, kHScare(35));
     [quiteBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-    quiteBtn.backgroundColor = KLColor(74, 180 , 220);
+    quiteBtn.backgroundColor = kZhuTiColor;
     quiteBtn.layer.cornerRadius = quiteBtn.height/2;
     quiteBtn.clipsToBounds = YES;
     [quiteBtn addTarget:self action:@selector(quite) forControlEvents:UIControlEventTouchUpInside];
@@ -319,11 +323,17 @@
 
 - (void)share
 {
+    NSDictionary *dic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+    NSString *msg = [NSString stringWithFormat:@"%@分享 %@",dic[@"name"],_updataStr];
+    if(_updataStr)
+    {
+        msg = [NSString stringWithFormat:@"%@分享 %@",dic[@"name"],@"https//www.xr58.com"];
+    }
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"507fcab25270157b37000010"
-                                      shareText:@"https://www.xr58.com"
-                                     shareImage:[UIImage imageNamed:@"logo_tu"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToQzone,UMShareToWechatTimeline,UMShareToWechatSession,UMShareToQQ,UMShareToSms,nil]
+                                         appKey:@"5542defa67e58ed9890060f8"
+                                      shareText:msg
+                                     shareImage:[UIImage imageNamed:@"logo_tu.png"]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToQQ,UMShareToSms,UMShareToQzone,UMShareToSina,UMShareToTencent,UMShareToWechatTimeline,nil]
                                        delegate:nil];
 
 }
@@ -346,6 +356,49 @@
         loginVC.fromFlag = 1;
         [self.navigationController pushViewController:loginVC animated:YES];
 //        exit(0);
+    }
+}
+
+#pragma mark 检查更新
+- (void)checkUpdata
+{
+    //    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    //    [parameter setObject:@"id" forKey:@"959293324"];
+    AFHTTPSessionManager *_manager = [[AFHTTPSessionManager alloc]init];
+    [_manager POST:@"http://itunes.apple.com/lookup?id=943690767" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        [self verionback:responseObject];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+        //        [_mbProgressHUD hide:YES];
+        //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"网络不稳定" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //            [alert show];
+    }];
+}
+
+- (void)verionback:(id)response
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    //    //    SBJsonParser *sbParser = [[SBJsonParser alloc]init];
+    //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:dic[@"msg"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    //    [alert show];
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    
+    //CFShow((__bridge CFTypeRef)(infoDic));
+    
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+    NSLog(@"----%@----",currentVersion);
+    
+    NSArray *infoArray = [dic objectForKey:@"results"];
+    
+    if ([infoArray count]) {
+        
+        NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+        
+//        NSString *lastVersion = [releaseInfo objectForKey:@"version"];
+        _updataStr = [releaseInfo objectForKey:@"trackViewUrl"];
+        MyLog(@"%@",_updataStr);
     }
 }
 

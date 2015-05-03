@@ -26,7 +26,7 @@
         bgImageView.image=[UIImage imageNamed:@"TabBarBackground.png"];
 //        [self addSubview:bgImageView];
     }
-    _btnMArray=[NSMutableArray array];
+    _btnMArray = [NSMutableArray array];
     return self;
 }
 

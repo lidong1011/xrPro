@@ -132,6 +132,7 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        [SVProgressHUD dismiss];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];

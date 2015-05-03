@@ -31,9 +31,9 @@
 //#import "KLCoverView.h"
 #import "UIBarButtonItem+WB.h"
 #import "AFNetworking.h"
-#import "MBProgressHUD.h"
+//#import "MBProgressHUD.h"
 #import "SVProgressHUD.h"
-#import "SBJson.h"
+//#import "SBJson.h"
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
 //#import "NSString+Date.h"
@@ -60,6 +60,9 @@
 #define kIsRemembPsd @"isRemembPsd"
 #define kUserMsg @"userMsg"
 
+#define kLogo @"logo_tu"
+#define kLoadingData @"努力加载中..."
+#define kGetDataSuccess @"数据获取成功"
 
 #define kZhuTiColor KLColor(106, 198, 192)
 
@@ -155,9 +158,24 @@
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryFunds&
 #define kusrAcctPay4safeplanUrl  [kBaseUrl stringByAppendingString:@"usrAcctPay4safeplan"]
 
+
 //queryExperience  体验金列表
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
-#define kqueryExperienceUrl  [kBaseUrl stringByAppendingString:@"queryExperience"]
+#define kexperienceRcordUrl  [kBaseUrl stringByAppendingString:@"experienceRcord"]
+
+//experience  赠送体验金
+#define kexperienceUrl  [kBaseUrl stringByAppendingString:@"experience"]
+
+//experienceTender 体验标投标
+#define kexperienceTenderUrl  [kBaseUrl stringByAppendingString:@"experienceTender"]
+
+//experienceBidding  体验标列表
+#define kexperienceBiddingUrl  [kBaseUrl stringByAppendingString:@"experienceBidding"]
+
+//experienceBiddingDetail  体验标详情
+#define kexperienceBiddingDetailUrl  [kBaseUrl stringByAppendingString:@"experienceBiddingDetail"]
+
+
 
 //queryPlanHistory   回款计划
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc

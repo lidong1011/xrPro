@@ -234,12 +234,6 @@
 #pragma mark - tableView dataSource and delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //判断是否还有数据可以加载
-    if (_dataCount == _tabViewMutArray.count) {
-        [self.tableView.footer noticeNoMoreData];
-    }
-    _dataCount = _tabViewMutArray.count;
-//    return 10;
     return _tabViewMutArray.count;
 }
 
@@ -472,6 +466,7 @@
     [manager POST:kundoTransferKitUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *dic = (NSDictionary *)responseObject;
         if ([dic[@"code"] isEqualToString:@"000"]) {
+            [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"撤销转让成功"];
             [self getListRequest];
         }
         else
@@ -498,6 +493,7 @@
         NSDictionary *dic = (NSDictionary *)responseObject;
         if ([dic[@"code"] isEqualToString:@"000"]) {
             [self getListRequest];
+            [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"取消付款成功"];
         }
         else
         {

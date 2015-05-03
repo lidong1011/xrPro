@@ -18,7 +18,7 @@
 
 @interface TiYanJinModel : BaseModel
 @property (nonatomic, strong) NSString *ordDate;
-@property (nonatomic, strong) NSString *transAmt;
+@property (nonatomic, strong) NSNumber *transAmt;
 @property (nonatomic, strong) NSString *income;
 @property (nonatomic, strong) NSString *status;
 @end

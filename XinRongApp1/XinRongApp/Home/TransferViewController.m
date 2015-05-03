@@ -98,7 +98,7 @@
         [weakSelf transSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
-        
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -110,7 +110,7 @@
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:dic[@"msg"]];
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:dic[@"msg"]];
         [self.navigationController popViewControllerAnimated:YES];
 //        self.keYongLab.text = [dic[@"avlBal"] stringValue];
     }

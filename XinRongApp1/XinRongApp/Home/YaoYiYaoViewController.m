@@ -6,35 +6,39 @@
 //  Copyright (c) 2015年 ldq. All rights reserved.
 //
 #import <AudioToolbox/AudioToolbox.h>
-#import "ExepericeBiaoViewController.h"
+#import "YaoYiYaoViewController.h"
+#import "ExpericeBiaoDetailViewController.h"
 #import "YaoYaoPopView.h"
 #import "KLCoverView.h"
-@interface ExepericeBiaoViewController ()
+@interface YaoYiYaoViewController ()
 @property (nonatomic, strong) UIImageView *imagView;
 @property (nonatomic, strong) YaoYaoPopView *popView;
 @property (nonatomic, strong) KLCoverView *coverView;
-@property (nonatomic, assign) NSInteger *money;
+@property (nonatomic, assign) int money;
 @end
 
-@implementation ExepericeBiaoViewController
+@implementation YaoYiYaoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"体验标";
+    self.navigationItem.title = @"摇一摇获取体验金";
+    //随机产生钱
+     _money = arc4random()%10*1000+1000;
+
     [[UIApplication sharedApplication] setApplicationSupportsShakeToEdit:YES];
-    
     [self becomeFirstResponder];
+    
     _imagView = [[UIImageView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight)];
     _imagView.image = [UIImage imageNamed:@"yaoyyao1.png"];
     [self.view addSubview:_imagView];
 //    [self test];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self test];
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [self test];
+//}
 
 
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
@@ -56,7 +60,7 @@
         
         //something happens
         
-        [self test];
+//        [self test];
         
     }
     
@@ -96,21 +100,77 @@
 //    } completion:^(BOOL finished) {
         //
 //    }];
-    [self showPopView];
+    [self performSelector:@selector(getMoneyRequest) withObject:self afterDelay:2];
+//    [self showPopView];
     NSLog(@"完成摇动后处理事件");
     
+}
+
+#pragma mark - 获取赠送体验金
+- (void)getMoneyRequest
+{
+    /*用户IDcustomerId
+     体验金额 transAmt
+     类型 ordRes*/
+//    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    [parameter setObject:custId forKey:kCustomerId];
+    [parameter setObject:@(_money) forKey:@"transAmt"];
+    [parameter setObject:@(1) forKey:@"ordRes"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    //https请求方式设置
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+    securityPolicy.allowInvalidCertificates = YES;
+    manager.securityPolicy = securityPolicy;
+    __weak typeof(self) weakSelf = self;
+    [manager POST:kexperienceUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [weakSelf success:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MyLog(@"%@",error);
+        [SVProgressHUD showInfoWithStatus:@"体验金获取失败"];
+    }];
+}
+
+#pragma mark - 注册请求返回数据
+- (void)success:(id)response
+{
+    //    [SVProgressHUD dismiss];
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    //    [self.tableView.footer endRefreshing];
+    if ([dic[@"code"] isEqualToString:@"000"])
+    {
+        [self showPopView];
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"isNotFristIn"];
+    }
+    else
+    {
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+    }
 }
 
 - (void)showPopView
 {
     _coverView = [KLCoverView coverWithTarget:self action:@selector(hideMenuView)];
-    _coverView.frame = CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH);
+    _coverView.frame = CGRectMake(0, 0, kWidth, kHeight);
     [self.view addSubview:_coverView];
     
     _popView = [YaoYaoPopView createView];
     _popView.center = self.view.center;
-    _popView.moneyLab.text = @"199993元";
+    _popView.moneyLab.text = [NSString stringWithFormat:@"%d元",_money];
     [self.view addSubview:_popView];
+    [self performSelector:@selector(goToTender) withObject:self afterDelay:2];
+}
+
+- (void)goToTender
+{
+    //去投体验标
+    ExpericeBiaoDetailViewController *detailVC = [[ExpericeBiaoDetailViewController alloc]init];
+    detailVC.biddingId = _biddingId;
+    [self.navigationController pushViewController:detailVC animated:YES];
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)hideMenuView

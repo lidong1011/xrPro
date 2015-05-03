@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="syLab" destination="cP6-Wc-Wvm" id="RfN-yk-3i5"/>
                 <outlet property="textView" destination="pO7-30-9of" id="grh-au-CrR"/>
+                <outlet property="tiJiaobtn" destination="urw-cL-c6c" id="Y0M-I7-0hz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -63,11 +64,11 @@
                         <action selector="callBtn:" destination="-1" eventType="touchUpInside" id="Ua7-UD-ALr"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="urw-cL-c6c">
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="urw-cL-c6c">
                     <rect key="frame" x="12" y="226" width="296" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.37647058820000001" green="0.76862745099999996" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="发送">
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="发送" backgroundImage="tiYanBtn_bg.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -88,6 +89,7 @@
     </objects>
     <resources>
         <image name="feedback.9.png" width="680" height="235"/>
+        <image name="tiYanBtn_bg.png" width="358" height="35"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

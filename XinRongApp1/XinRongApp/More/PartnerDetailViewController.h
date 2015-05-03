@@ -10,5 +10,5 @@
 
 @interface PartnerDetailViewController : BaseViewController
 @property (nonatomic, strong) NSString *titleString;
-@property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, strong) NSString *detailString;
 @end

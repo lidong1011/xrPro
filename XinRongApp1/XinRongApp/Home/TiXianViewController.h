@@ -13,6 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLab;
 @property (weak, nonatomic) IBOutlet UILabel *keYongLab;
 @property (weak, nonatomic) IBOutlet UILabel *keQuMonLab;
+
+@property (weak, nonatomic) IBOutlet UIView *midView;
+
 @property (weak, nonatomic) IBOutlet UITextField *inputMoneyTF;
 @property (weak, nonatomic) IBOutlet UILabel *shouXuFenLab;
 @property (weak, nonatomic) IBOutlet UILabel *jiFenLab;

@@ -66,7 +66,7 @@
 //    [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:kGetDataSuccess];
         for (NSDictionary *dataDic in dic[@"data"]) {
             [_tabViewMutArray addObject:[HuiKuanJHModel messageWithDict:dataDic]];
         }
@@ -142,7 +142,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *biddingId;
+//    NSString *biddingId;
     //    XiangMuDetailViewController *detialVC = [[XiangMuDetailViewController  alloc]init];
     //    if (_segementIndex == 0)
     //    {

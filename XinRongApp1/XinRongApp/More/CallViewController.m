@@ -9,14 +9,14 @@
 #import "CallViewController.h"
 
 @interface CallViewController ()
-
+@property (nonatomic, strong) UIImageView *weiXinImg;
 @end
 
 @implementation CallViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.navigationItem.title = @"联系我们";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,6 +36,39 @@
 
 - (IBAction)call:(UIButton *)sender
 {
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://4008925858"]];
+    switch (sender.tag) {
+        case 0:
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://4008925858"]];
+            break;
+        case 1://网站
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"https://www.xr58.com"]];
+            break;
+        case 2:
+            [self showWeiXin];
+            break;
+        case 3://邮箱
+            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"mailto://service@xr58.com"]];
+            break;
+        default:
+            break;
+    }
+    
 }
+
+- (void)showWeiXin
+{
+    _weiXinImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+    _weiXinImg.center = self.view.center;
+    _weiXinImg.userInteractionEnabled = YES;
+    _weiXinImg.image = [UIImage imageWithName:@"weixi_call.png"];
+    [self.view addSubview:_weiXinImg];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImg)];
+    [_weiXinImg addGestureRecognizer:tap];
+}
+
+- (void)hideImg
+{
+    [_weiXinImg removeFromSuperview];
+}
+
 @end

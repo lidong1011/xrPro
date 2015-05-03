@@ -11,4 +11,6 @@
 @interface FaLvYJViewController : BaseViewController
 @property (nonatomic, strong) NSString *detailString;
 @property (nonatomic, strong) NSString *titleString;
+
+@property (nonatomic, assign) BOOL isTiYanBiao;
 @end

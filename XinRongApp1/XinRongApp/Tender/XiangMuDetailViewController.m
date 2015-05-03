@@ -38,6 +38,12 @@
     
     [self addTableView];
     
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self getDetailRequest];
 }
 
@@ -117,6 +123,7 @@
                              @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0]
                              };
     if (_vcFlag == 0) {
+        self.navigationItem.title = _tenderDetModel.title;
         self.topView.processLab.text = [NSString stringWithFormat:@"%@%%",_tenderDetModel.process];
         [self.topView.companyBtn setTitle:_tenderDetModel.compName forState:UIControlStateNormal];
         NSString *nianString = [NSString stringWithFormat:@"<bold>%.1f</bold> <body>%%</body> ",[_tenderDetModel.interestRate floatValue]*100];
@@ -176,6 +183,7 @@
             default:
                 break;
         }
+        self.navigationItem.title = _zhaiQuanDetModel.title;
         [self.topView.companyBtn setTitle:_zhaiQuanDetModel.compName forState:UIControlStateNormal];
         NSString *nianString = [NSString stringWithFormat:@"<bold>%.1f</bold> <body>%%</body> ",[_zhaiQuanDetModel.interestRate floatValue]*100];
         self.topView.nianHLLab.attributedText = [nianString attributedStringWithStyleBook:style1];
@@ -292,16 +300,17 @@
             NSString *detailString;
             NSString *title;
             if (_vcFlag == 0) {
-                detailString = _tenderDetModel.description;
+                detailString = _tenderDetModel.compName;
                 title = _tenderDetModel.title;
             }
             else
             {
-                detailString = _zhaiQuanDetModel.description;
+                detailString = _zhaiQuanDetModel.compName;
                 title = _zhaiQuanDetModel.title;
             }
             DanBaoJGViewController *dBJGVC = [[DanBaoJGViewController alloc]init];
             dBJGVC.vCflag = 0;
+            dBJGVC.detailString = detailString;
             dBJGVC.titleString = title;
             [self.navigationController pushViewController:dBJGVC animated:YES];
             break;

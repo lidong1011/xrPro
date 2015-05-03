@@ -8,6 +8,6 @@
 
 #import "ViewController.h"
 #import "BaseViewController.h"
-@interface ExepericeBiaoViewController : BaseViewController
-
+@interface YaoYiYaoViewController : BaseViewController
+@property (nonatomic, strong) NSString *biddingId;
 @end

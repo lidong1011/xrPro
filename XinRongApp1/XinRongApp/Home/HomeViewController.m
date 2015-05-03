@@ -11,11 +11,12 @@
 #import "NSString+WPAttributedMarkup.h"
 
 #import "MyAccoutViewController.h"
-#import "ExepericeBiaoViewController.h"
+#import "YaoYiYaoViewController.h"
 #import "ActivityViewController.h"
 #import "WuYeBiaoViewController.h"
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
+#import "ExpericeBiaoDetailViewController.h"
 
 #import "ImagePlayerView.h"
 #import "BWMCoverView.h"
@@ -42,6 +43,12 @@
 @property (nonatomic, strong) KLCoverView *coverView;
 @property (nonatomic, strong) MenuView *menuView;
 @property (nonatomic, assign) BOOL menuShowFlag;  //记录菜单的是处在的状态
+
+//体验标
+@property (nonatomic, strong) NSDictionary *dic;
+
+//是否体验过体验jin
+@property (nonatomic, assign) BOOL isNotTiYan;
 @end
 
 #define kTopH 140
@@ -59,6 +66,13 @@
     [self initSubview];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getTiYanBiaoRequest];
+//    [self getTiYanJRequest];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -71,6 +85,120 @@
 {
     _imagesMuArray = [NSMutableArray array];
     _imagesMuArray = [NSMutableArray arrayWithObjects:@"banner.png",@"banner.png",@"banner.png",@"banner.png", nil];
+}
+
+#pragma mark - 体验标
+- (void)getTiYanBiaoRequest
+{
+    /*用户IDcustomerId
+     体验金额 transAmt
+     类型 ordRes*/
+    //    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    [parameter setObject:@"ios" forKey:@"reqType"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    //https请求方式设置
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+    securityPolicy.allowInvalidCertificates = YES;
+    manager.securityPolicy = securityPolicy;
+    __weak typeof(self) weakSelf = self;
+    [manager POST:kexperienceBiddingUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [weakSelf success:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MyLog(@"%@",error);
+        [SVProgressHUD showInfoWithStatus:@"体验金获取失败"];
+    }];
+}
+
+#pragma mark - 注册请求返回数据
+- (void)success:(id)response
+{
+    //    [SVProgressHUD dismiss];
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    //    [self.tableView.footer endRefreshing];
+    if ([dic[@"code"] isEqualToString:@"000"])
+    {
+        _dic = dic[@"data"];
+        [self addData];
+    }
+    else
+    {
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+    }
+}
+
+- (void)addData
+{
+    /*"process": "0",
+     "totalTender": 0,
+     "intDate": null,
+     "title": "新手体验标",
+     "biddingStatus": 0,
+     "biddingMoney": 50000,
+     "seqNo": 2,
+     "biddingId": "20150216184816881727",
+     "intRate": 0.18,
+     "ordDate": "2015-02-16"*/
+    NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:10.0],
+                             @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0]
+                             };
+    NSString *nianString = [NSString stringWithFormat:@"<bold>%.1f</bold> <body>%%</body> ",[_dic[@"intRate"] floatValue]*100];
+    self.yearRateLab.attributedText = [nianString attributedStringWithStyleBook:style1];
+    self.bianNameLab.text = _dic[@"title"];
+    self.numOfBiaoLab.text = [NSString stringWithFormat:@"No %@",[_dic[@"seqNo"] stringValue]];
+    self.moneyLab.text = [NSString stringWithFormat:@"%@元",[_dic[@"biddingMoney"] stringValue]];
+    NSString *numOfMonth = [NSString stringWithFormat:@"<bold>3</bold> <body>天</body> "];
+    self.backMonthLab.attributedText = [numOfMonth attributedStringWithStyleBook:style1];
+    self.progress.progressTotal = 100;
+    self.progress.progressCounter = [_dic[@"process"] integerValue];
+}
+
+#pragma mark - 体验金请求(判断是否获取过体验金)
+- (void)getTiYanJRequest
+{
+    /*用户IDcustomerId 必填
+     转让标ID tenderId 必填
+     */
+    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+    
+//    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    [parameter setObject:custId forKey:@"customerId"];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+    //https请求方式设置
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+    securityPolicy.allowInvalidCertificates = YES;
+    manager.securityPolicy = securityPolicy;
+    __weak typeof(self) weakSelf = self;
+    [manager POST:kexperienceRcordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [weakSelf TiYanJSuccess:responseObject];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MyLog(@"%@",error);
+        [SVProgressHUD dismiss];
+    }];
+}
+
+#pragma mark - 请求返回数据
+- (void)TiYanJSuccess:(id)response
+{
+//    [SVProgressHUD dismiss];
+    
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    if ([dic[@"code"] isEqualToString:@"000"])
+    {
+//        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:dic[@"msg"]];
+        if([dic[@"unTenderAmt"] integerValue]==0&&[dic[@"tenderAmt"] integerValue]==0)
+        {
+            _isNotTiYan = YES;
+        }
+    }
+    else
+    {
+//        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+    }
+    [self isDidYaoGuo];
 }
 
 //把视图初始化
@@ -91,6 +219,10 @@
     [rightBtn addTarget:self action:@selector(person) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
 
+    
+    UIImageView *coverImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
+    coverImageView.image = [UIImage imageNamed:@"1.png"];
+//    [self.view addSubview:coverImageView];
     //体验标的布局
     
     //马上体验按钮的高度
@@ -107,6 +239,7 @@
     [tiYanBtn addTarget:self action:@selector(tiYanAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:tiYanBtn];
     
+//    [self.view bringSubviewToFront:tiYanBtn];
     
     //轮播图
 //    _topBanner = [[ImagePlayerView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHScare(kTopH))];
@@ -167,11 +300,11 @@
     //中间图形
     _progress = [[MDRadialProgressView alloc]initWithFrame:CGRectMake(kWidth/2-allHeight/4, _bianNameLab.bottom, allHeight/2, allHeight/2)];
     _progress.theme.completedColor = KLColor(22, 174, 200);
-    _progress.progressTotal = 5;
-    _progress.progressCounter = 4;
+    _progress.progressTotal = 100;
+    _progress.progressCounter = 1;
     //    _progress.theme.completedColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1.0];
     _progress.theme.incompletedColor = KLColor(202, 201, 201);
-    _progress.theme.thickness = 30;
+    _progress.theme.thickness = kWScare(30);
     _progress.theme.sliceDividerHidden = YES;
     [self.view addSubview:_progress];
     
@@ -196,20 +329,20 @@
     _yearRateLab.attributedText = [nianRate attributedStringWithStyleBook:style1];
     _yearRateLab.textColor = [UIColor redColor];
     _yearRateLab.font = [UIFont systemFontOfSize:fontSize+8];
-    _yearRateLab.frame = CGRectMake(nianHuaLvLab.right, nianHuaLvLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
+    _yearRateLab.frame = CGRectMake(nianHuaLvLab.right+5, nianHuaLvLab.top-3, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
     [self.view addSubview:_yearRateLab];
     
     //编号
     UILabel *biaoNumLab = [[UILabel alloc]init];
     biaoNumLab.text = @"编号:";
     biaoNumLab.font = [UIFont systemFontOfSize:fontSize];
-    biaoNumLab.frame = CGRectMake(lineImgView.right+5, lineImgView.top, [self getSizeWithString:biaoNumLab.text andFont:fontSize].width, lineImgView.height/2);
+    biaoNumLab.frame = CGRectMake(lineImgView.right+15, lineImgView.top, [self getSizeWithString:biaoNumLab.text andFont:fontSize].width, lineImgView.height/2);
     [self.view addSubview:biaoNumLab];
     
     _numOfBiaoLab = [[UILabel alloc]init];
     _numOfBiaoLab.text = @"hfJJKFJKDJFKffjf";
     _numOfBiaoLab.font = [UIFont systemFontOfSize:fontSize];
-    _numOfBiaoLab.frame = CGRectMake(biaoNumLab.right, nianHuaLvLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
+    _numOfBiaoLab.frame = CGRectMake(biaoNumLab.right+5, nianHuaLvLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
     [self.view addSubview:_numOfBiaoLab];
     
     //募集总额
@@ -222,21 +355,21 @@
     _moneyLab = [[UILabel alloc]init];
     _moneyLab.text = @"200000.00元";
     _moneyLab.font = [UIFont systemFontOfSize:fontSize];
-    _moneyLab.frame = CGRectMake(moneyLab.right, moneyLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
+    _moneyLab.frame = CGRectMake(moneyLab.right+5, moneyLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
     [self.view addSubview:_moneyLab];
     
     //回款月数
     UILabel *monthLab = [[UILabel alloc]init];
     monthLab.text = @"回款月数:";
     monthLab.font = [UIFont systemFontOfSize:fontSize];
-    monthLab.frame = CGRectMake(lineImgView.right+5, moneyLab.top, [self getSizeWithString:monthLab.text andFont:fontSize].width, lineImgView.height/2);
+    monthLab.frame = CGRectMake(lineImgView.right+15, moneyLab.top, [self getSizeWithString:monthLab.text andFont:fontSize].width, lineImgView.height/2);
     [self.view addSubview:monthLab];
     
-    NSString *month = [NSString stringWithFormat:@"<bold>%ld</bold> <body>个月</body>",6];
+    NSString *month = [NSString stringWithFormat:@"<bold>%d</bold> <body>个月</body>",6];
     _backMonthLab = [[UILabel alloc]init];
     _backMonthLab.attributedText = [month attributedStringWithStyleBook:style1];
     _backMonthLab.font = [UIFont systemFontOfSize:fontSize+8];
-    _backMonthLab.frame = CGRectMake(monthLab.right, moneyLab.top, kWidth/2-kWScare(kH_Space)-_backMonthLab.width, lineImgView.height/2);
+    _backMonthLab.frame = CGRectMake(monthLab.right+5, moneyLab.top-3, kWidth/2-kWScare(kH_Space)-_backMonthLab.width, lineImgView.height/2);
     [self.view addSubview:_backMonthLab];
 }
 
@@ -258,7 +391,7 @@
 {
     //遮盖层
     _coverView = [KLCoverView coverWithTarget:self action:@selector(hideMenuView)];
-    _coverView.frame = CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH);
+    _coverView.frame = CGRectMake(0, 0, kWidth, kHeight);
     [self.view addSubview:_coverView];
     _menuView = [MenuView createView];
     _menuView.frame = CGRectMake(0, -kWidth/2*3/4+kNavigtBarH, kWidth, kWidth/2*3/4);
@@ -272,6 +405,7 @@
     [_menuView.activityBtn addTarget:self action:@selector(menuBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [_menuView.wuYeBtn addTarget:self action:@selector(menuBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_menuView];
+    
 }
 
 - (void)menuBtnAction:(UIButton *)sender
@@ -301,8 +435,6 @@
 //进入个人账号
 - (void)person
 {
-//    LoginViewController *myAccoutVC = [[LoginViewController alloc]init];
-//    RegisterViewController *myAccoutVC = [[RegisterViewController alloc]init];
     MyAccoutViewController *myAccoutVC = [[MyAccoutViewController alloc]init];
     [self.navigationController pushViewController:myAccoutVC animated:YES];
 }
@@ -310,8 +442,33 @@
 //进入体验标
 - (void)tiYanAction
 {
-    ExepericeBiaoViewController *biaoTiYVC =[[ExepericeBiaoViewController alloc]init];
-    [self.navigationController pushViewController:biaoTiYVC animated:YES];
+    if ([[NSUserDefaults standardUserDefaults] stringForKey:kCustomerId]==nil)
+    {
+        [SVProgressHUD showInfoWithStatus:@"还未登录，去登录或注册" maskType:SVProgressHUDMaskTypeGradient];
+        LoginViewController *loginVC = [[LoginViewController alloc]init];
+        [self.navigationController pushViewController:loginVC animated:YES];
+        return;
+    }
+    [self getTiYanJRequest];
+}
+
+- (void)isDidYaoGuo
+{
+    //判断是否第1次进入，第一次进入摇一摇获取体验金
+    if (_isNotTiYan==NO)
+    {
+        //去投体验标
+        ExpericeBiaoDetailViewController *detailVC = [[ExpericeBiaoDetailViewController alloc]init];
+        detailVC.biddingId = _dic[@"biddingId"];
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    else
+    {
+        //进入摇一摇
+        YaoYiYaoViewController *biaoTiYVC =[[YaoYiYaoViewController alloc]init];
+        biaoTiYVC.biddingId = _dic[@"biddingId"];
+        [self.navigationController pushViewController:biaoTiYVC animated:YES];
+    }
 }
 
 #pragma mark - 根据文字获取视图大小

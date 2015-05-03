@@ -115,7 +115,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_tabViewMutArray.count==0) {
-        
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"您还未绑定银行卡" maskType:SVProgressHUDMaskTypeGradient];
     }
     return _tabViewMutArray.count;
 }

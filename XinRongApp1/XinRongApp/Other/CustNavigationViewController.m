@@ -42,7 +42,7 @@
     // 设置标题属性
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
     textAttrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    textAttrs[NSFontAttributeName] = [UIFont boldSystemFontOfSize:19];
+    textAttrs[NSFontAttributeName] = [UIFont boldSystemFontOfSize:22];
     [navBar setTitleTextAttributes:textAttrs];
 }
 

@@ -172,8 +172,9 @@
 		CGFloat progressAngle = sliceAngle * self.progressCounter;
 		
 		if (self.progressCounter == 0) {
-			originAngle = -M_PI_2;
-			endAngle = originAngle + 2 * M_PI;
+            //我注释了
+//			originAngle = -M_PI_2;
+//			endAngle = originAngle + 2 * M_PI;
 		} else {
 			if (self.clockwise) {
 				originAngle = -M_PI_2 + startingAngle;

@@ -137,6 +137,7 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        [SVProgressHUD dismiss];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
@@ -345,7 +346,7 @@
             cell.dateLab.text = [dataModel.late stringValue];
             cell.didFJLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
             cell.didGetLX.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
-            cell.geRenFeiLab.text = [NSString stringWithFormat:@"%@元",[dataModel.fee stringValue]];
+            cell.geRenFeiLab.text = [NSString stringWithFormat:@"%@元",[dataModel.intFee stringValue]];
             return cell;
             break;
         }

@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *tiYanProfit;
 @property (weak, nonatomic) IBOutlet UILabel *tiYanZELab;
 @property (weak, nonatomic) IBOutlet UILabel *didTiYanLab;
+@property (weak, nonatomic) IBOutlet UIView *bgView;
 
 @end

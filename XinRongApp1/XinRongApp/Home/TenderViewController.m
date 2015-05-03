@@ -252,7 +252,7 @@
     // 添加分段条
     DZNSegmentedControl *segmentedControl = [[DZNSegmentedControl alloc] initWithItems:self.menuItems];
     
-    segmentedControl.height = kWScare(kSegmentedControlHeight);
+    segmentedControl.height = (kSegmentedControlHeight);
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.bouncySelectionIndicator = YES;
     segmentedControl.tintColor = kZhuTiColor;
@@ -303,7 +303,7 @@
 #pragma mark -添加列表视图
 - (void)addTableView
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHeight-kWScare(kSegmentedControlHeight)-2-kNavigtBarH-49) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, (kSegmentedControlHeight)+2, kWidth, kHeight-(kSegmentedControlHeight)-2-kNavigtBarH-49) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = KLColor(246, 246, 246);

@@ -34,6 +34,7 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-49) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.backgroundColor = KLColor(246, 246, 246);
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
 }
@@ -164,7 +165,7 @@
     }
     else
     {
-        return 0;
+        return 1;
     }
 }
 
@@ -245,15 +246,14 @@
 {
     //    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     //    [parameter setObject:@"id" forKey:@"959293324"];
+    [SVProgressHUD showImage:[UIImage imageWithName:kLogo] status:@"检查更新中..."];
     AFHTTPSessionManager *_manager = [[AFHTTPSessionManager alloc]init];
-    [_manager POST:@"http://itunes.apple.com/lookup?id=" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [_manager POST:@"http://itunes.apple.com/lookup?id=943690767" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         [self verionback:responseObject];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
-        //        [_mbProgressHUD hide:YES];
-        //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"网络不稳定" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        //            [alert show];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -261,6 +261,7 @@
 {
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
+    [SVProgressHUD dismiss];
     //    //    SBJsonParser *sbParser = [[SBJsonParser alloc]init];
     //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:dic[@"msg"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     //    [alert show];

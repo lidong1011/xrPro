@@ -201,6 +201,7 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        [SVProgressHUD dismiss];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
@@ -340,7 +341,7 @@
         cell.liuNumLab.text = dataModel.trxId;
         cell.moneyLab.text = [dataModel.transAmt stringValue];
         cell.czBankLab.text = dataModel.openBankId;
-        cell.czTimeLab.text = dataModel.ordDate;
+        cell.czTimeLab.text = [dataModel.ordDate substringToIndex:10];
         if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
             cell.stateLab.text = @"交易成功";
         }
@@ -374,9 +375,9 @@
         cell.bankNumLab.text = dataModel.openAcctId;
         cell.moneyLab.text = [dataModel.transAmt stringValue];
         cell.bankNameLab.text = dataModel.openBankId;
-        cell.txTimeLab.text = dataModel.ordDate;
+        cell.txTimeLab.text = [dataModel.ordDate substringToIndex:10];
         cell.feeLab.text = [dataModel.servFee stringValue];
-        cell.jiFenDKLab.text =[NSString stringWithFormat:@"%.2f",[dataModel.dikb floatValue]*10];
+        cell.jiFenDKLab.text =[NSString stringWithFormat:@"%.f",[dataModel.dikb floatValue]*10];
         if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
             cell.stateLab.text = @"交易成功";
         }

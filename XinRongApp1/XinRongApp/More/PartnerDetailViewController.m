@@ -17,24 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = _titleString;
-    UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
-    webView.delegate = self;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_urlString]];
-    [webView loadRequest:request];
-    [self.view addSubview:webView];
-}
-
-#pragma mark webView Delegate
-- (void)webViewDidStartLoad:(UIWebView *)webView {
+    UITextView *detailView = [[UITextView alloc]init];
+    detailView.frame = CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH);
+    detailView.editable = NO;
+    detailView.font = [UIFont systemFontOfSize:17];
+    detailView.text = _detailString;
+    [self.view addSubview:detailView];
     
 }
 
-
-//数据加载完
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

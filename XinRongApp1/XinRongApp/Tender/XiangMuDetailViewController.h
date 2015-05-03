@@ -9,10 +9,9 @@
 #import "BaseViewController.h"
 
 @interface XiangMuDetailViewController : BaseViewController
-@property (assign, nonatomic) int vcFlag;//0为投标  1为债权转让
+@property (assign, nonatomic) int vcFlag;//0为投标  1为债权转让 2为体验标
 @property (strong, nonatomic) NSString *biddingId;
 @property (strong, nonatomic) IBOutlet UIView *bottonView;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
-
 
 @end
