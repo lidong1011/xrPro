@@ -58,7 +58,7 @@
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
         _dic = dic;
-        self.keYongELab.text = [NSString stringWithFormat:@"%@元",[dic[@"avlBal"] stringValue]];
+        self.keYongELab.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"avlBal"] floatValue]];
     }
     else
     {
@@ -89,8 +89,6 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [_webView loadRequest:request];
     _webView.hidden = NO;
-    _webView.backgroundColor = [UIColor greenColor];
-//    [self.view addSubview:_webView];
 }
 
 #pragma mark - 转让请求
@@ -212,7 +210,7 @@
 - (void)textChange:(UITextField *)sender
 {
     NSInteger money = [_dic[@"avlBal"] integerValue]+[_chongZJinTF.text integerValue];
-    _cZHouJinLab.text = [NSString stringWithFormat:@"%ld元",money];
+    _cZHouJinLab.text = [NSString stringWithFormat:@"￥%ld",money];
 }
 
 /*

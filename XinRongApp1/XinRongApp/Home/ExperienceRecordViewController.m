@@ -69,16 +69,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
-    /* 投标交易流水id   ordId
-    客户id    usrId
-    投标金额 transAmt
-    投标时间  ordDate
-    开始计息日期  useDate
-    状态   ordFlag
-    收益金额   income
-    体验标ID  biddingId
-    体验标活动标识  ordType*/
     static NSString *identifier = @"cell";
     ExperienceBiaoRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
@@ -86,8 +76,10 @@
     }
     NSDictionary *dataDic = _tabViewMutArray[indexPath.row];
     cell.timeLab.text = [dataDic[@"ordDate"] substringToIndex:10];
-    cell.moneyLab.text = [NSString stringWithFormat:@"%@元",[dataDic[@"transAmt"] stringValue]];
-    cell.nameLab.text = dataDic[@"usrName"];
+    cell.moneyLab.text = [NSString stringWithFormat:@"￥%@",[dataDic[@"transAmt"] stringValue]];
+    NSMutableString *nameString = [NSMutableString stringWithString:dataDic[@"mobile"]];
+    [nameString replaceCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+    cell.nameLab.text = nameString;
     return cell;
 }
 
@@ -117,10 +109,10 @@
     return 35;
 }
 
-- (void)back
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+//- (void)back
+//{
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

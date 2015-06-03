@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
-@interface TenderViewController : ViewController
+#import "BaseViewController.h"
+@interface TenderViewController : BaseViewController
 
 @end

@@ -20,7 +20,7 @@
 //        self.layer.borderWidth = 0.5;
         _titleLab = [[UILabel alloc]init];
         _titleLab.textAlignment = NSTextAlignmentCenter;
-        _titleLab.font = [UIFont systemFontOfSize:10];
+        _titleLab.font = [UIFont systemFontOfSize:13];
         [self addSubview:_titleLab];
     }
     return self;
@@ -52,7 +52,7 @@
 {
     CGFloat selfW = self.bounds.size.width;
     CGFloat selfH = self.bounds.size.height;
-    _imgView.frame = CGRectMake(0, 0, 18, 18);
+    _imgView.frame = CGRectMake(0, 0, 22, 22);
     _imgView.center = CGPointMake(selfW/2, selfH/4+5);
     _titleLab.frame = CGRectMake(0, _imgView.bottom, selfW, selfH/2);
 }

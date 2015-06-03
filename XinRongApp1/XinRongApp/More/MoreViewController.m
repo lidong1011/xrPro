@@ -15,6 +15,7 @@
 @interface MoreViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSString *updataStr;
+@property (nonatomic, strong) UILabel *verLab;
 @end
 
 @implementation MoreViewController
@@ -127,11 +128,26 @@
                 cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 //箭头
-                //            UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
-                //            UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
-                //            jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
-                //            cell.accessoryView = jianTimgView;
-                cell.textLabel.text = @"版本信息";
+                UIImage *jianTouImg = [UIImage imageNamed:@"jianTou.png"];
+                UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
+                jianTimgView.frame = CGRectMake(120, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
+                
+                //版本号
+                NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+                
+                //CFShow((__bridge CFTypeRef)(infoDic));
+                NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+                _verLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, jianTimgView.height)];
+//                _verLab.backgroundColor = [UIColor redColor];
+                _verLab.textAlignment = NSTextAlignmentRight;
+                _verLab.font = [UIFont systemFontOfSize:12];
+                _verLab.text = [NSString stringWithFormat:@"当前为iOS %@版",currentVersion];
+                UIView *versionView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 120+jianTimgView.width, jianTimgView.height)];
+                
+                [versionView addSubview:_verLab];
+                [versionView addSubview:jianTimgView];
+                cell.accessoryView = versionView;
+                cell.textLabel.text = @"检查更新";
                 break;
             }
             default:
@@ -224,15 +240,13 @@
 {
     if (alertView.tag==10000)
     {
-        
         if (buttonIndex==1) {
             
             NSURL *url = [NSURL URLWithString:_updataStr];
             
             [[UIApplication sharedApplication]openURL:url];
-            
+
         }
-        
     }
     if (alertView.tag==100) {
         if (buttonIndex) {
@@ -246,9 +260,9 @@
 {
     //    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     //    [parameter setObject:@"id" forKey:@"959293324"];
-    [SVProgressHUD showImage:[UIImage imageWithName:kLogo] status:@"检查更新中..."];
+    [SVProgressHUD showWithStatus:@"检查更新中..." maskType:SVProgressHUDMaskTypeGradient];
     AFHTTPSessionManager *_manager = [[AFHTTPSessionManager alloc]init];
-    [_manager POST:@"http://itunes.apple.com/lookup?id=943690767" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    [_manager POST:@"http://itunes.apple.com/lookup?id=1001047776" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"%@", responseObject);
         [self verionback:responseObject];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -297,7 +311,7 @@
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"当前为最新版本" delegate:nil cancelButtonTitle:@"关闭" otherButtonTitles:nil, nil];
             
-            alert.tag = 10001;
+            alert.tag = 10000;
             
             [alert show];
         }
@@ -309,7 +323,7 @@ static float progress = 0.0f;
 - (void)showWithProgress
 {
     progress = 0.0f;
-    [SVProgressHUD setBackgroundColor:kZhuTiColor];
+//    [SVProgressHUD setBackgroundColor:kZhuTiColor];
     [SVProgressHUD showProgress:0 status:@"清理中..."];
     [self performSelector:@selector(increaseProgress) withObject:nil afterDelay:0.3f];
 }

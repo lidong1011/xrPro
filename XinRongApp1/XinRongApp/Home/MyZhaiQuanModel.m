@@ -14,6 +14,7 @@
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         self.dataDic = dict;
+        self.title = self.dataDic[@"bidding"][@"title"];
 //        self.time = [NSString getTimeWithString:[self.dataDic[@"ordDate"][@"time"] stringValue]];
     }
     return self;

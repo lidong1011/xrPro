@@ -29,7 +29,9 @@
 @property (nonatomic, strong) NSMutableArray *endMutArray;
 @property (nonatomic, assign) int endTenderPageNo;
 
-@property (nonatomic, assign) NSInteger dataCount;
+@property (nonatomic, assign) NSInteger dataCount_all;
+@property (nonatomic, assign) NSInteger dataCount_ing;
+@property (nonatomic, assign) NSInteger dataCount_end;
 @end
 
 #define kTopSegemH 35
@@ -87,6 +89,21 @@
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     [_tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
+    [_tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(refresData)];
+}
+
+- (void)refresData
+{
+    _allTenderPageNo = 1;
+    _ingTenderPageNo = 1;
+    _endTenderPageNo = 1;
+    [_ingMutArray removeAllObjects];
+    [_endMutArray removeAllObjects];
+    [_allTenderMutArray removeAllObjects];
+    [_tabViewMutArray removeAllObjects];
+    [self getListRequestWithPageNo:1 andPageSize:@"20"];
+    [_tableView.footer resetNoMoreData];
+    [_tableView reloadData];
 }
 
 - (void)loadMore
@@ -138,6 +155,8 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
         [SVProgressHUD dismiss];
+        [self.tableView.footer endRefreshing];
+        [self.tableView.header endRefreshing];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
@@ -152,6 +171,7 @@
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     [self.tableView.footer endRefreshing];
+    [self.tableView.header endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功"];
@@ -159,6 +179,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_allTenderMutArray addObject:[MyAllTender messageWithDict:dataDic]];
             }
+            _dataCount_all = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_allTenderMutArray];
         }
         else if(_segementIndex == 1)
@@ -166,13 +187,15 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_ingMutArray addObject:[MyIngTenderModel messageWithDict:dataDic]];
             }
-            _tabViewMutArray = [NSMutableArray arrayWithArray:_ingMutArray];;
+            _dataCount_ing = [dic[@"total"] intValue];
+            _tabViewMutArray = [NSMutableArray arrayWithArray:_ingMutArray];
         }
         else if(_segementIndex == 2)
         {
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_endMutArray addObject:[MyEndTenderModel messageWithDict:dataDic]];
             }
+            _dataCount_end = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_endMutArray];;
         }
 
@@ -237,11 +260,38 @@
     MyLog(@"%ld",_tabViewMutArray.count);
     
     //判断是否还有数据可以加载
-    if (_dataCount == _tabViewMutArray.count) {
-        [self.tableView.footer noticeNoMoreData];
+    if (_segementIndex==0)
+    {
+        if (_dataCount_all == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
+    else if(_segementIndex==1)
+    {
+        if (_dataCount_ing == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
+    else
+    {
+        if (_dataCount_end == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
     }
     MyLog(@"%ld--%ld--%ld--%ld",_tabViewMutArray.count,_allTenderMutArray.count,_ingMutArray.count,_endMutArray.count);
-    _dataCount = _tabViewMutArray.count;
+//    _dataCount = _tabViewMutArray.count;
     
     return _tabViewMutArray.count;
 }
@@ -264,9 +314,9 @@
             //添加数据
             MyAllTender *dataModel = _tabViewMutArray[indexPath.row];
             cell.info.text = dataModel.info;
-            cell.tenderMoneyLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.tenderMoney integerValue]];
-            cell.willProfitLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.income integerValue]];
-            cell.didTransMoneyLab.text = [NSString stringWithFormat:@"%@元",dataModel.restCap];
+            cell.tenderMoneyLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.tenderMoney integerValue]];
+            cell.willProfitLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.income integerValue]];
+            cell.didTransMoneyLab.text = [NSString stringWithFormat:@"￥%@",dataModel.restCap];
             switch ([dataModel.status integerValue]) {
                     // 0投标中 1等待放款2还款中3废标4已完成
                 case 0:
@@ -322,12 +372,12 @@
             罚息 lateInt
             */
             MyIngTenderModel *dataModel = _tabViewMutArray[indexPath.row];
-            cell.infoLab.text = [NSString stringWithFormat:@"%@ 第%@期(第%@标)",dataModel.title,[dataModel.child stringValue],[dataModel.step stringValue]];
+            cell.infoLab.text = [NSString stringWithFormat:@"%@ 第%@标(第%@期)",dataModel.title,[dataModel.child stringValue],[dataModel.step stringValue]];
             cell.jieKNameLab.text = dataModel.outCustAccount;
             NSString *dateString = [dataModel.payDate substringToIndex:10];
             cell.dateLab.text = dateString;
-            cell.daiSJLba.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
-            cell.daiSLXLab.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
+            cell.daiSJLba.text = [NSString stringWithFormat:@"￥%@",[dataModel.capital stringValue]];
+            cell.daiSLXLab.text = [NSString stringWithFormat:@"￥%@",[dataModel.interest stringValue]];
             return cell;
             break;
         }
@@ -344,9 +394,9 @@
             cell.jieKNameLab.text = dataModel.outCustAccount;
 //            NSString *dateString = [dataModel.payDate substringToIndex:10];
             cell.dateLab.text = [dataModel.late stringValue];
-            cell.didFJLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
-            cell.didGetLX.text = [NSString stringWithFormat:@"%@元",[dataModel.interest stringValue]];
-            cell.geRenFeiLab.text = [NSString stringWithFormat:@"%@元",[dataModel.intFee stringValue]];
+            cell.didFJLab.text = [NSString stringWithFormat:@"￥%@",[dataModel.capital stringValue]];
+            cell.didGetLX.text = [NSString stringWithFormat:@"￥%@",[dataModel.interest stringValue]];
+            cell.geRenFeiLab.text = [NSString stringWithFormat:@"￥%@",[dataModel.intFee stringValue]];
             return cell;
             break;
         }

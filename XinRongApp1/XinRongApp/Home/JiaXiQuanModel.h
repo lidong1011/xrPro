@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSString *edate;
 @property (nonatomic, strong) NSNumber *intRate;
 @property (nonatomic, strong) NSNumber *status;
-@property (nonatomic, strong) NSString *kitId;
+@property (nonatomic, strong) NSNumber *kitId;
 @property (nonatomic, strong) NSString *targetId;
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *ordId;

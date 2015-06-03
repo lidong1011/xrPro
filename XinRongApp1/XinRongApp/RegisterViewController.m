@@ -142,6 +142,7 @@
     //密码加密 MD5
     NSString *md5String = [NSString md5_base64:_passwordTF.text];
     [parameter setObject:md5String forKey:@"pwd"];
+    [parameter setObject:@"ios" forKey:@"reqType"];
     if(_tuiGuangNumTF.text.length >0)
     {
         [parameter setObject:_tuiGuangNumTF.text forKey:@"referee"];

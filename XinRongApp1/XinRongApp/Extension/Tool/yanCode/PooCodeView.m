@@ -32,11 +32,11 @@
     return self;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self change];
-    [self setNeedsDisplay];
-}
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    [self change];
+//    [self setNeedsDisplay];
+//}
 
 - (void)changeCode
 {
@@ -48,9 +48,9 @@
 {
     self.layer.cornerRadius = 5.0;
     self.layer.masksToBounds = YES;
-    float red = arc4random() % 100 / 100.0;
-    float green = arc4random() % 100 / 100.0;
-    float blue = arc4random() % 100 / 100.0;
+    float red = arc4random() % 100 / 100.0+0.3;
+    float green = arc4random() % 100 / 100.0+0.3;
+    float blue = arc4random() % 100 / 100.0+0.3;
     UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
     self.backgroundColor = color;
     
@@ -59,7 +59,7 @@
 
 - (void)change
 {
-    self.changeArray = [[NSArray alloc] initWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z",@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",@"i",@"j",@"k",@"l",@"m",@"n",@"o",@"p",@"q",@"r",@"s",@"t",@"u",@"v",@"w",@"x",@"y",@"z",nil];
+    self.changeArray = [[NSArray alloc] initWithObjects:@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"J",@"K",@"L",@"M",@"N",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"a",@"b",@"c",@"d",@"e",@"f",@"g",@"h",@"j",@"k",@"m",@"n",@"p",@"q",@"r",@"s",@"t",@"u",@"v",@"w",@"x",@"y",nil];
     
     NSMutableString *getStr = [[NSMutableString alloc] initWithCapacity:5];
     
@@ -76,9 +76,9 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-        float red = arc4random() % 100 / 100.0;
-        float green = arc4random() % 100 / 100.0;
-        float blue = arc4random() % 100 / 100.0;
+        float red = arc4random() % 100 / 100.0+0.3;
+        float green = arc4random() % 100 / 100.0+0.3;
+        float blue = arc4random() % 100 / 100.0+0.3;
         UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
         [self setBackgroundColor:color];
 
@@ -101,7 +101,7 @@
     
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSetLineWidth(context, 1.0);
-        for(int cout = 0; cout < 10; cout++)
+        for(int cout = 0; cout < 6; cout++)
         {
             red = arc4random() % 100 / 100.0;
             green = arc4random() % 100 / 100.0;

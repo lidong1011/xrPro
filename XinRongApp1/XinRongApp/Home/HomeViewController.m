@@ -2,177 +2,71 @@
 //  HomeViewController.m
 //  XinRongApp
 //
-//  Created by 李冬强 on 15/3/10.
+//  Created by 李冬强 on 15/5/7.
 //  Copyright (c) 2015年 ldq. All rights reserved.
 //
 
 #import "HomeViewController.h"
-#import "WPAttributedStyleAction.h"
-#import "NSString+WPAttributedMarkup.h"
-
-#import "MyAccoutViewController.h"
-#import "YaoYiYaoViewController.h"
+#import "TenderViewController.h"
+#import "TransferListViewController.h"
+#import "ExperenceAreaViewController.h"
 #import "ActivityViewController.h"
-#import "WuYeBiaoViewController.h"
-#import "RegisterViewController.h"
 #import "LoginViewController.h"
-#import "ExpericeBiaoDetailViewController.h"
-
-#import "ImagePlayerView.h"
+#import "TiYanJinViewController.h"
+#import "SafeViewController.h"
 #import "BWMCoverView.h"
-#import "MDRadialProgressLabel.h"
-#import "MDRadialProgressTheme.h"
-#import "MDRadialProgressView.h"
-#import "menuView.h"
-#import "KLCoverView.h"
-
-
-@interface HomeViewController ()<ImagePlayerViewDelegate>
+#import "MyButton.h"
+#import "AnimationView.h"
+@interface HomeViewController ()
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *imagesMuArray;
 @property (nonatomic, strong) BWMCoverView *topBanner;
-@property (nonatomic, strong) UILabel *bianNameLab;
-@property (nonatomic, strong) UILabel *yearRateLab;
-@property (nonatomic, strong) UILabel *numOfBiaoLab;
-@property (nonatomic, strong) UILabel *moneyLab;
-@property (nonatomic, strong) UILabel *backMonthLab;
 
-@property (nonatomic, strong) MDRadialProgressView *progress;
+@property (nonatomic, strong) NSArray *btnImages;
+@property (nonatomic, strong) NSArray *btnTitles;
+@property (nonatomic, strong) UIImageView *tipOfNew;
 
-//菜单
-@property (nonatomic, strong) KLCoverView *coverView;
-@property (nonatomic, strong) MenuView *menuView;
-@property (nonatomic, assign) BOOL menuShowFlag;  //记录菜单的是处在的状态
-
-//体验标
-@property (nonatomic, strong) NSDictionary *dic;
-
-//是否体验过体验jin
-@property (nonatomic, assign) BOOL isNotTiYan;
+@property (nonatomic, strong) NSString *updataStr;
 @end
 
-#define kTopH 140
-#define kVSpace 20 //上下之间的间隔
-#define kH_Space 20 //左右的间距
+#define kTopH 180
+
 @implementation HomeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"首页";
+    self.view.backgroundColor = KLColor(237, 239, 249);
+//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    rightBtn.frame = CGRectMake(0, 100, 31, 31);
+//    [rightBtn setBackgroundImage:[UIImage imageNamed:@"person.png"] forState:UIControlStateNormal];
+//    //    [rightBtn setTitle:@"个人" forState:UIControlStateNormal];
+//    [rightBtn addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     
-    //初始化数据
     [self initData];
-    
-    [self initSubview];
+    [self addTableView];
+    //检查更新
+    [self checkUpdata];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    [self getTiYanBiaoRequest];
-//    [self getTiYanJRequest];
+    [self getBannerPic];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)getBannerPic
 {
-    [super viewWillDisappear:animated];
-    [self hideMenuView];
-}
-
-
-//初始化数据
-- (void)initData
-{
-    _imagesMuArray = [NSMutableArray array];
-    _imagesMuArray = [NSMutableArray arrayWithObjects:@"banner.png",@"banner.png",@"banner.png",@"banner.png", nil];
-}
-
-#pragma mark - 体验标
-- (void)getTiYanBiaoRequest
-{
-    /*用户IDcustomerId
-     体验金额 transAmt
-     类型 ordRes*/
-    //    [SVProgressHUD showWithStatus:@"加载数据中..."];
+//    [SVProgressHUD showWithStatus:@"加载数据中..." maskType:SVProgressHUDMaskTypeGradient];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    [parameter setObject:@"ios" forKey:@"reqType"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     //https请求方式设置
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
     securityPolicy.allowInvalidCertificates = YES;
     manager.securityPolicy = securityPolicy;
     __weak typeof(self) weakSelf = self;
-    [manager POST:kexperienceBiddingUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [weakSelf success:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        MyLog(@"%@",error);
-        [SVProgressHUD showInfoWithStatus:@"体验金获取失败"];
-    }];
-}
-
-#pragma mark - 注册请求返回数据
-- (void)success:(id)response
-{
-    //    [SVProgressHUD dismiss];
-    NSDictionary *dic = (NSDictionary *)response;
-    MyLog(@"%@",dic);
-    //    [self.tableView.footer endRefreshing];
-    if ([dic[@"code"] isEqualToString:@"000"])
-    {
-        _dic = dic[@"data"];
-        [self addData];
-    }
-    else
-    {
-        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
-    }
-}
-
-- (void)addData
-{
-    /*"process": "0",
-     "totalTender": 0,
-     "intDate": null,
-     "title": "新手体验标",
-     "biddingStatus": 0,
-     "biddingMoney": 50000,
-     "seqNo": 2,
-     "biddingId": "20150216184816881727",
-     "intRate": 0.18,
-     "ordDate": "2015-02-16"*/
-    NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:10.0],
-                             @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:24.0]
-                             };
-    NSString *nianString = [NSString stringWithFormat:@"<bold>%.1f</bold> <body>%%</body> ",[_dic[@"intRate"] floatValue]*100];
-    self.yearRateLab.attributedText = [nianString attributedStringWithStyleBook:style1];
-    self.bianNameLab.text = _dic[@"title"];
-    self.numOfBiaoLab.text = [NSString stringWithFormat:@"No %@",[_dic[@"seqNo"] stringValue]];
-    self.moneyLab.text = [NSString stringWithFormat:@"%@元",[_dic[@"biddingMoney"] stringValue]];
-    NSString *numOfMonth = [NSString stringWithFormat:@"<bold>3</bold> <body>天</body> "];
-    self.backMonthLab.attributedText = [numOfMonth attributedStringWithStyleBook:style1];
-    self.progress.progressTotal = 100;
-    self.progress.progressCounter = [_dic[@"process"] integerValue];
-}
-
-#pragma mark - 体验金请求(判断是否获取过体验金)
-- (void)getTiYanJRequest
-{
-    /*用户IDcustomerId 必填
-     转让标ID tenderId 必填
-     */
-    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
-    
-//    [SVProgressHUD showWithStatus:@"加载数据中..."];
-    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    [parameter setObject:custId forKey:@"customerId"];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    //https请求方式设置
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
-    securityPolicy.allowInvalidCertificates = YES;
-    manager.securityPolicy = securityPolicy;
-    __weak typeof(self) weakSelf = self;
-    [manager POST:kexperienceRcordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [weakSelf TiYanJSuccess:responseObject];
+    [manager POST:kqueryIndexPicUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [weakSelf getBannerPicSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
         [SVProgressHUD dismiss];
@@ -180,307 +74,273 @@
 }
 
 #pragma mark - 请求返回数据
-- (void)TiYanJSuccess:(id)response
+- (void)getBannerPicSuccess:(id)response
 {
-//    [SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
     
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-//        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:dic[@"msg"]];
-        if([dic[@"unTenderAmt"] integerValue]==0&&[dic[@"tenderAmt"] integerValue]==0)
+        NSArray *data = dic[@"data"];
+        //判断是否有图片
+        if(data.count)
         {
-            _isNotTiYan = YES;
+            [_imagesMuArray removeAllObjects];
         }
+        else
+        {
+            BWMCoverViewModel *model = [[BWMCoverViewModel alloc] initWithImageURLString:@"1.png" imageTitle:nil];
+            _imagesMuArray = [NSMutableArray arrayWithObject:model];
+        }
+        for (int i = 0; i<data.count; i++)
+        {
+            NSString *imageStr = [NSString stringWithFormat:@"%@%@",kPicUrl,data[i][@"filePath"]];
+            //        NSString *imageTitle = [NSString stringWithFormat:@"第%d个小猫", i+1];
+            BWMCoverViewModel *model = [[BWMCoverViewModel alloc] initWithImageURLString:imageStr imageTitle:nil];
+            [_imagesMuArray addObject:model];
+        }
+        _topBanner.models = _imagesMuArray;
+//        _topBanner.placeholderImageNamed = BWMCoverViewDefaultImage;
+//        _topBanner.animationOption = UIViewAnimationOptionTransitionCurlUp;
+        
+        [_topBanner setCallBlock:^(NSInteger index) {
+            NSLog(@"你点击了第%d个图片", index);
+        }];
+        
+//        [coverView2 setScrollViewCallBlock:^(NSInteger index) {
+//            NSLog(@"当前滚动到第%d个页面", index);
+//        }];
+        
+        
+#warning 修改属性后必须调用updateView方法
+        [_topBanner updateView];
     }
     else
     {
-//        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
-    [self isDidYaoGuo];
 }
 
-//把视图初始化
-- (void)initSubview
+- (void)initData
 {
-    //菜单按钮
-    UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    leftBtn.frame = CGRectMake(0, 100, 31, 31);
-    [leftBtn setBackgroundImage:[UIImage imageNamed:@"menu.png"] forState:UIControlStateNormal];
-//    [leftBtn setTitle:@"菜单" forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(menuList:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
-    
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(0, 100, 31, 31);
-    [rightBtn setBackgroundImage:[UIImage imageNamed:@"person.png"] forState:UIControlStateNormal];
-//    [rightBtn setTitle:@"个人" forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(person) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    _btnImages = @[@"tiyb.png",@"woytz.png",@"zhaiquan.png",@"safe.png",@"huodong.png",@"",@"",@"",@""];
+    _btnTitles = @[@"新手标",@"我要投资",@"债权转让",@"安全保障",@"活动",@"",@"",@"",@""];
+    _imagesMuArray = [NSMutableArray array];
+}
 
-    
-    UIImageView *coverImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
-    coverImageView.image = [UIImage imageNamed:@"1.png"];
-//    [self.view addSubview:coverImageView];
-    //体验标的布局
-    
-    //马上体验按钮的高度
-    CGFloat tiYanBtnH = 35;
-    
-    //马上体验
-    UIButton *tiYanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    tiYanBtn.frame = CGRectMake(kWScare(kH_Space), kHeight-49-kHScare(tiYanBtnH)-kHScare(kVSpace), kWidth-2*kWScare(kH_Space), kHScare(tiYanBtnH));
-//    [tiYanBtn setBackgroundImage:[UIImage imageNamed:@"tiYanBtn_bg.png"] forState:UIControlStateNormal];
-    [tiYanBtn setTitle:@"马上体验" forState:UIControlStateNormal];
-    [tiYanBtn setBackgroundColor:kZhuTiColor];
-    tiYanBtn.layer.cornerRadius = kHScare(10);
-    tiYanBtn.clipsToBounds = YES;
-    [tiYanBtn addTarget:self action:@selector(tiYanAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:tiYanBtn];
-    
-//    [self.view bringSubviewToFront:tiYanBtn];
-    
-    //轮播图
-//    _topBanner = [[ImagePlayerView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHScare(kTopH))];
-////    [self.topBanner clearsContextBeforeDrawing];
-//    [self.topBanner initWithCount:_imagesMuArray.count delegate:self];
-//    self.topBanner.scrollInterval = 2.0f;
-//    
-//    // adjust pageControl position
-//    self.topBanner.pageControlPosition = ICPageControlPosition_BottomRight;
-//    
-//    // hide pageControl or not
-//    self.topBanner.hidePageControl = NO;
-////    self.topBanner.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:_topBanner];
+#pragma mark -添加列表视图
+- (void)addTableView
+{
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHScare(kTopH), kWidth, kHeight-kHScare(kTopH)) style:UITableViewStylePlain];
+    _tableView.backgroundColor = KLColor(236, 237, 239);
+        //    _tableView.backgroundColor = KLColor(246, 246, 2);
+    if (isOver3_5Inch)
+    {
+//        CGRect rect = _allView.frame;
+//        _allView.frame = CGRectMake(0, 0, kWidth, kHScare(rect.size.height));
+    }
+//    tableView.tableFooterView = _allView;
+    [self.view addSubview:_tableView];
     
     // 此数组用来保存BWMCoverViewModel
     NSMutableArray *realArray = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i<5; i++)
+    for (int i = 0; i<1; i++)
     {
-        NSString *imageStr = [NSString stringWithFormat:@"http://ikaola-image.b0.upaiyun.com/club/2014/9/28/575ba9141352103160644106f6ea328d_898_600.jpg"];
-//        NSString *imageTitle = [NSString stringWithFormat:@"第%d个小猫", i+1];
+        NSString *imageStr = [NSString stringWithFormat:@"http://www.xr58.com:8085/esb/apprequest/request?code=onlinePic&path=test/atta_banner_app_pic/20150518/3131431932392358.png"];
+        //        NSString *imageTitle = [NSString stringWithFormat:@"第%d个小猫", i+1];
         BWMCoverViewModel *model = [[BWMCoverViewModel alloc] initWithImageURLString:imageStr imageTitle:nil];
         [realArray addObject:model];
     }
     
     // 以上代码只为了构建一个包含BWMCoverViewModel的数组而已——realArray
-     //* 快速创建BWMCoverView
+    //* 快速创建BWMCoverView
     // * models是一个包含BWMCoverViewModel的数组
-     //* placeholderImageNamed为图片加载前的本地占位图片名
-     
-    _topBanner = [BWMCoverView coverViewWithModels:realArray andFrame:CGRectMake(0, kNavigtBarH, self.view.bounds.size.width, kHScare(kTopH)) andPlaceholderImageNamed:@"banner" andClickdCallBlock:^(NSInteger index) {
-        NSLog(@"你点击了第%d个图片", index);
+    //* placeholderImageNamed为图片加载前的本地占位图片名
+    
+    _topBanner = [BWMCoverView coverViewWithModels:realArray andFrame:CGRectMake(0, kNavigtBarH, kWidth, kHScare(kTopH)) andPlaceholderImageNamed:@"1.png" andClickdCallBlock:^(NSInteger index) {
+        NSLog(@"你点击了第%ld个图片", index);
     }];
-    [_topBanner setAutoPlayWithDelay:2.0];
+    [_topBanner setAutoPlayWithDelay:1.0];
     [self.view addSubview:_topBanner];
-    
-    
-    //新手标的高度
-    CGFloat allHeight = kHeight-_topBanner.bottom-tiYanBtn.height-49-3*kHScare(kVSpace);
-    CGFloat fontSize = 12;
-    
-    //标名
-    _bianNameLab = [[UILabel alloc]initWithFrame:CGRectMake(kH_Space, self.topBanner.bottom+kHScare(kHScare(kVSpace)), kWidth-2*kH_Space, allHeight/4)];
-    _bianNameLab.text = @"原材料采购借款（第3标）";
-    _bianNameLab.textAlignment = NSTextAlignmentCenter;
-    _bianNameLab.font = [UIFont systemFontOfSize:kWScare(fontSize+2)];
-    [self.view addSubview:_bianNameLab];
-    
-    UIImageView *leftRoundCorImgView = [[UIImageView alloc]initWithFrame:CGRectMake(kH_Space, _bianNameLab.top, kWScare(60), kWScare(70))];
-    leftRoundCorImgView.image = [UIImage imageNamed:@"leftCorner.png"];
-    [self.view addSubview:leftRoundCorImgView];
-    UIImageView *rightRoundCorImgView = [[UIImageView alloc]initWithFrame:CGRectMake(kWidth-kH_Space-kWScare(60), _bianNameLab.top, kWScare(60), kWScare(71))];
-    rightRoundCorImgView.image = [UIImage imageNamed:@"rightCorner.png"];
-    [self.view addSubview:rightRoundCorImgView];
-    
-    
-    //中间图形
-    _progress = [[MDRadialProgressView alloc]initWithFrame:CGRectMake(kWidth/2-allHeight/4, _bianNameLab.bottom, allHeight/2, allHeight/2)];
-    _progress.theme.completedColor = KLColor(22, 174, 200);
-    _progress.progressTotal = 100;
-    _progress.progressCounter = 1;
-    //    _progress.theme.completedColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1.0];
-    _progress.theme.incompletedColor = KLColor(202, 201, 201);
-    _progress.theme.thickness = kWScare(30);
-    _progress.theme.sliceDividerHidden = YES;
-    [self.view addSubview:_progress];
-    
-    //下面数据间隔线
-    UIImageView *lineImgView = [[UIImageView alloc]initWithFrame:CGRectMake(kWidth/2, _progress.bottom+4, 1, allHeight/4)];
-    lineImgView.image = [UIImage imageNamed:@"shuLine.png"];
-    [self.view addSubview:lineImgView];
-    
-    //年化率
-    UILabel *nianHuaLvLab = [[UILabel alloc]init];
-    nianHuaLvLab.text = @"年化率:";
-    nianHuaLvLab.font = [UIFont systemFontOfSize:fontSize];
-    nianHuaLvLab.frame = CGRectMake(kWScare(kH_Space), lineImgView.top, [self getSizeWithString:nianHuaLvLab.text andFont:fontSize].width, lineImgView.height/2);
-    [self.view addSubview:nianHuaLvLab];
-    
-    //lab 字体大小
-    NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:14.0],
-                             @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:28.0]
-                             };
-    NSString *nianRate = [NSString stringWithFormat:@"<bold>%.2f</bold> <body>%%</body>",18.5];
-    _yearRateLab = [[UILabel alloc]init];
-    _yearRateLab.attributedText = [nianRate attributedStringWithStyleBook:style1];
-    _yearRateLab.textColor = [UIColor redColor];
-    _yearRateLab.font = [UIFont systemFontOfSize:fontSize+8];
-    _yearRateLab.frame = CGRectMake(nianHuaLvLab.right+5, nianHuaLvLab.top-3, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
-    [self.view addSubview:_yearRateLab];
-    
-    //编号
-    UILabel *biaoNumLab = [[UILabel alloc]init];
-    biaoNumLab.text = @"编号:";
-    biaoNumLab.font = [UIFont systemFontOfSize:fontSize];
-    biaoNumLab.frame = CGRectMake(lineImgView.right+15, lineImgView.top, [self getSizeWithString:biaoNumLab.text andFont:fontSize].width, lineImgView.height/2);
-    [self.view addSubview:biaoNumLab];
-    
-    _numOfBiaoLab = [[UILabel alloc]init];
-    _numOfBiaoLab.text = @"hfJJKFJKDJFKffjf";
-    _numOfBiaoLab.font = [UIFont systemFontOfSize:fontSize];
-    _numOfBiaoLab.frame = CGRectMake(biaoNumLab.right+5, nianHuaLvLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
-    [self.view addSubview:_numOfBiaoLab];
-    
-    //募集总额
-    UILabel *moneyLab = [[UILabel alloc]init];
-    moneyLab.text = @"募集总额:";
-    moneyLab.font = [UIFont systemFontOfSize:fontSize];
-    moneyLab.frame = CGRectMake(kWScare(kH_Space), nianHuaLvLab.bottom, [self getSizeWithString:moneyLab.text andFont:fontSize].width, lineImgView.height/2);
-    [self.view addSubview:moneyLab];
-    
-    _moneyLab = [[UILabel alloc]init];
-    _moneyLab.text = @"200000.00元";
-    _moneyLab.font = [UIFont systemFontOfSize:fontSize];
-    _moneyLab.frame = CGRectMake(moneyLab.right+5, moneyLab.top, kWidth/2-kWScare(kH_Space)-nianHuaLvLab.width, lineImgView.height/2);
-    [self.view addSubview:_moneyLab];
-    
-    //回款月数
-    UILabel *monthLab = [[UILabel alloc]init];
-    monthLab.text = @"回款月数:";
-    monthLab.font = [UIFont systemFontOfSize:fontSize];
-    monthLab.frame = CGRectMake(lineImgView.right+15, moneyLab.top, [self getSizeWithString:monthLab.text andFont:fontSize].width, lineImgView.height/2);
-    [self.view addSubview:monthLab];
-    
-    NSString *month = [NSString stringWithFormat:@"<bold>%d</bold> <body>个月</body>",6];
-    _backMonthLab = [[UILabel alloc]init];
-    _backMonthLab.attributedText = [month attributedStringWithStyleBook:style1];
-    _backMonthLab.font = [UIFont systemFontOfSize:fontSize+8];
-    _backMonthLab.frame = CGRectMake(monthLab.right+5, moneyLab.top-3, kWidth/2-kWScare(kH_Space)-_backMonthLab.width, lineImgView.height/2);
-    [self.view addSubview:_backMonthLab];
-}
 
-//显示菜单栏
-- (void)menuList:(UIButton *)sender
-{
-    _menuShowFlag = !_menuShowFlag;
-    if (_menuShowFlag) {
-        [self addMenuView];
-    }
-    else
+    CGFloat bottonW = kWidth/3.0;
+    UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kWidth)];
+    _tableView.tableFooterView = footView;
+    
+    for (int i=0; i<9; i++)
     {
-        [self hideMenuView];
+        MyButton *custBtn = [MyButton createView];
+        custBtn.frame = CGRectMake(i%3*bottonW, i/3*bottonW, bottonW, bottonW);
+        custBtn.imgView.image = [UIImage imageNamed:_btnImages[i]];
+        custBtn.label.text = _btnTitles[i];
+        custBtn.botton.tag = i;
+        //是否有新标的标志
+        if (i==1)
+        {
+            _tipOfNew = [[UIImageView alloc]initWithFrame:CGRectMake(bottonW-27, 0, 27, 27)];
+            _tipOfNew.image = [UIImage imageNamed:@"newTip.png"];
+            _tipOfNew.hidden = YES;
+            [custBtn addSubview:_tipOfNew];
+        }
+        if (i==5)
+        {
+            custBtn.bgImg.image = [UIImage imageNamed:@"more_h.png"];
+        }
+        [custBtn.botton addTarget:self action:@selector(goTo:) forControlEvents:UIControlEventTouchUpInside];
+        [footView addSubview:custBtn];
     }
-}
-
-//显示菜单栏
-- (void)addMenuView
-{
-    //遮盖层
-    _coverView = [KLCoverView coverWithTarget:self action:@selector(hideMenuView)];
-    _coverView.frame = CGRectMake(0, 0, kWidth, kHeight);
-    [self.view addSubview:_coverView];
-    _menuView = [MenuView createView];
-    _menuView.frame = CGRectMake(0, -kWidth/2*3/4+kNavigtBarH, kWidth, kWidth/2*3/4);
-    _menuView.alpha = 0.5;
-    __block MenuView *blockMenu = _menuView;
-    [UIView animateWithDuration:0.35 animations:^{
-        blockMenu.frame = CGRectMake(0, kNavigtBarH, kWidth, kWidth/2*3/4);
-        blockMenu.alpha = 1;
-    } completion:nil];
+    UIImageView *hengLine = [[UIImageView alloc]init];
+    hengLine.image = [UIImage imageWithName:@"hengLine_h.9.png"];
+    hengLine.frame = CGRectMake(0, bottonW, kWidth, 1);
+    [footView addSubview:hengLine];
     
-    [_menuView.activityBtn addTarget:self action:@selector(menuBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_menuView.wuYeBtn addTarget:self action:@selector(menuBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_menuView];
+    UIImageView *hengLine2 = [[UIImageView alloc]init];
+    hengLine2.image = [UIImage imageWithName:@"hengLine_h.9.png"];
+    hengLine2.frame = CGRectMake(0, bottonW*2, kWidth, 1);
+    [footView addSubview:hengLine2];
     
-}
-
-- (void)menuBtnAction:(UIButton *)sender
-{
-    [self hideMenuView];
+    UIImageView *shuLine = [[UIImageView alloc]init];
+    shuLine.image = [UIImage imageWithName:@"shuLine_h.9.png"];
+    shuLine.frame = CGRectMake(bottonW, 0, 1, kWidth);
+    [footView addSubview:shuLine];
     
-    if (sender.tag == 0) {
-        //进入活动页
-        ActivityViewController *activityVC = [[ActivityViewController alloc]init];
-        [self.navigationController pushViewController:activityVC animated:YES];
-    }
-    else
+    UIImageView *shuLine2 = [[UIImageView alloc]init];
+    shuLine2.image = [UIImage imageWithName:@"shuLine_h.9.png"];
+    shuLine2.frame = CGRectMake(bottonW*2, 0, 1, kWidth);
+    [footView addSubview:shuLine2];
+}
+
+- (void)goTo:(UIButton *)sender
+{
+//    return;
+    switch (sender.tag)
     {
-        //物业宝
-        WuYeBiaoViewController *wuYeBiaoVC = [[WuYeBiaoViewController alloc]init];
-        [self.navigationController pushViewController:wuYeBiaoVC animated:YES];
+        case 0:
+        {//新手
+            if ([[NSUserDefaults standardUserDefaults] stringForKey:kCustomerId]==nil)
+            {
+                [SVProgressHUD showInfoWithStatus:@"还未登录，去登录或注册" maskType:SVProgressHUDMaskTypeGradient];
+                LoginViewController *loginVC = [[LoginViewController alloc]init];
+                [self.navigationController pushViewController:loginVC animated:YES];
+                return;
+            }
+//            NSDictionary *msgDic = [[NSUserDefaults standardUserDefaults] objectForKey:kUserMsg];
+//            if ([msgDic[@"allAmt"] integerValue]==0)
+            {//未领取体验金
+                ExperenceAreaViewController *experenceVC = [[ExperenceAreaViewController alloc]init];
+                [self.navigationController pushViewController:experenceVC animated:YES];
+            }
+//            else
+//            {
+//                TiYanJinViewController *tiYanJinVC = [[TiYanJinViewController alloc]init];
+//                [self.navigationController pushViewController:tiYanJinVC animated:YES];
+//            }
+            break;
+        }
+        case 1:
+        {//我要投资
+            TenderViewController *tenderVC = [[TenderViewController alloc]init];
+            [self.navigationController pushViewController:tenderVC animated:YES];
+            break;
+        }
+        case 2:
+        {//债权
+            TransferListViewController *tenderVC = [[TransferListViewController alloc]init];
+            [self.navigationController pushViewController:tenderVC animated:YES];
+            break;
+        }
+        case 3:
+        {//安全保障
+            SafeViewController *safeVC = [[SafeViewController alloc]init];
+            [self.navigationController pushViewController:safeVC animated:YES];
+            break;
+        }
+        case 4:
+        {//活动
+            ActivityViewController *actiVC = [[ActivityViewController alloc]init];
+            [self.navigationController pushViewController:actiVC animated:YES];
+            break;
+        }
+        default:
+            break;
     }
 }
 
-- (void)hideMenuView
+#pragma mark - alertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    _menuShowFlag = NO;
-    [_coverView removeFromSuperview];
-    [_menuView removeFromSuperview];
-}
-
-//进入个人账号
-- (void)person
-{
-    MyAccoutViewController *myAccoutVC = [[MyAccoutViewController alloc]init];
-    [self.navigationController pushViewController:myAccoutVC animated:YES];
-}
-
-//进入体验标
-- (void)tiYanAction
-{
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:kCustomerId]==nil)
+    if (alertView.tag==10000)
     {
-        [SVProgressHUD showInfoWithStatus:@"还未登录，去登录或注册" maskType:SVProgressHUDMaskTypeGradient];
-        LoginViewController *loginVC = [[LoginViewController alloc]init];
-        [self.navigationController pushViewController:loginVC animated:YES];
-        return;
-    }
-    [self getTiYanJRequest];
-}
-
-- (void)isDidYaoGuo
-{
-    //判断是否第1次进入，第一次进入摇一摇获取体验金
-    if (_isNotTiYan==NO)
-    {
-        //去投体验标
-        ExpericeBiaoDetailViewController *detailVC = [[ExpericeBiaoDetailViewController alloc]init];
-        detailVC.biddingId = _dic[@"biddingId"];
-        [self.navigationController pushViewController:detailVC animated:YES];
-    }
-    else
-    {
-        //进入摇一摇
-        YaoYiYaoViewController *biaoTiYVC =[[YaoYiYaoViewController alloc]init];
-        biaoTiYVC.biddingId = _dic[@"biddingId"];
-        [self.navigationController pushViewController:biaoTiYVC animated:YES];
+        if (buttonIndex==1) {
+            
+            NSURL *url = [NSURL URLWithString:_updataStr];
+            
+            [[UIApplication sharedApplication]openURL:url];
+            
+        }
     }
 }
 
-#pragma mark - 根据文字获取视图大小
-- (CGSize)getSizeWithString:(NSString *)string andFont:(CGFloat)font
+#pragma mark 检查更新
+- (void)checkUpdata
 {
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.lineBreakMode = NSLineBreakByWordWrapping;
-    style.alignment = NSTextAlignmentLeft;
+    //    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    //    [parameter setObject:@"id" forKey:@"959293324"];
+    [SVProgressHUD showWithStatus:@"检查更新中..." maskType:SVProgressHUDMaskTypeGradient];
+    AFHTTPSessionManager *_manager = [[AFHTTPSessionManager alloc]init];
+    [_manager POST:@"http://itunes.apple.com/lookup?id=1001047776" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSLog(@"%@", responseObject);
+        [self verionback:responseObject];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"%@", error);
+        [SVProgressHUD dismiss];
+    }];
+}
+
+- (void)verionback:(id)response
+{
+    NSDictionary *dic = (NSDictionary *)response;
+    MyLog(@"%@",dic);
+    [SVProgressHUD dismiss];
+    //    //    SBJsonParser *sbParser = [[SBJsonParser alloc]init];
+    //    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:dic[@"msg"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    //    [alert show];
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
     
-    NSDictionary *dict = @{NSFontAttributeName:[UIFont systemFontOfSize:font], NSParagraphStyleAttributeName:style};
-    CGSize size = [string sizeWithAttributes:dict];
-    return size;
+    //CFShow((__bridge CFTypeRef)(infoDic));
+    
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
+    NSLog(@"----%@----",currentVersion);
+    
+    NSArray *infoArray = [dic objectForKey:@"results"];
+    
+    if ([infoArray count]) {
+        
+        NSDictionary *releaseInfo = [infoArray objectAtIndex:0];
+        
+        NSString *lastVersion = [releaseInfo objectForKey:@"version"];
+        _updataStr = [releaseInfo objectForKey:@"trackViewUrl"];
+        [[NSUserDefaults standardUserDefaults]setObject:_updataStr forKey:kDownloadUrl];
+        MyLog(@"%@",_updataStr);
+        
+        if (![lastVersion isEqualToString:currentVersion]) {
+            
+            //trackViewURL = [releaseInfo objectForKey:@"trackVireUrl"];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"更新" message:@"有新的版本更新，是否前往更新？" delegate:self cancelButtonTitle:@"关闭" otherButtonTitles:@"更新", nil];
+            
+            alert.tag = 10000;
+            
+            [alert show];
+            
+        }
+        else
+        {
+           
+        }
+    }
 }
 
 
@@ -488,24 +348,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - ImagePlayerViewDelegate
-- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView loadImageForImageView:(UIImageView *)imageView index:(NSInteger)index
-{
-    // recommend to use SDWebImage lib to load web image
-    //    [imageView setImageWithURL:[self.imageURLs objectAtIndex:index] placeholderImage:nil];
-    //    imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[imageURLs objectAtIndex:index]]];
-//    [imageView sd_setImageWithURL:_imagesMuArray[index] placeholderImage:[UIImage imageNamed:@"banner.png"]];
-    imageView.image = [UIImage imageNamed:@"banner.png"];
-//    [imageView setImageWithURL:[NSURL URLWithString:_imagesMuArray[index]] placeholderImage:[UIImage imageNamed:@"banner.png"]];
-    //    imageView.image = [UIImage imageNamed:@"banner.png"];
-}
-
-- (void)imagePlayerView:(ImagePlayerView *)imagePlayerView didTapAtIndex:(NSInteger)index
-{
-    NSLog(@"did tap index = %d", (int)index);
-}
-
 
 /*
 #pragma mark - Navigation

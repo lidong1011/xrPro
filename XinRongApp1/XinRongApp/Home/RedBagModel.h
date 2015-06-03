@@ -19,6 +19,6 @@
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *mdate;
 @property (nonatomic, strong) NSNumber *status;
-@property (nonatomic, strong) NSString *limitBal;
+@property (nonatomic, strong) NSNumber *limitBal;
 
 @end

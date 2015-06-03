@@ -29,10 +29,12 @@
 @property (nonatomic, strong) NSMutableArray *quXianMutArray;
 @property (nonatomic, assign) int quXianPageNo;
 
-@property (nonatomic, assign) NSInteger dataCount;
+@property (nonatomic, assign) NSInteger dataCount_jy;
+@property (nonatomic, assign) NSInteger dataCount_cz;
+@property (nonatomic, assign) NSInteger dataCount_qx;
 @end
 
-#define kSegmentedControlHeight 35
+#define kSegmentedControlHeight 42
 @implementation JiaoYiMXViewController
 
 - (void)viewDidLoad {
@@ -71,9 +73,9 @@
     _tableViewHeader.lab3.text = @"类型";
     _tableViewHeader.lab4.text = @"余额";
     _tableViewHeader.backgroundColor = KLColor(230, 230, 230);
-    _tableViewHeader.frame = CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHScare(30));
+    _tableViewHeader.frame = CGRectMake(0, (kSegmentedControlHeight), kWidth, kHScare(30));
     [self.view addSubview:_tableViewHeader];
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _tableViewHeader.bottom, kWidth, kHeight-_tableViewHeader.bottom-kNavigtBarH-2) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _tableViewHeader.bottom, kWidth, kHeight-_tableViewHeader.bottom-kNavigtBarH) style:UITableViewStylePlain];
 //    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kWScare(kSegmentedControlHeight)+2, kWidth, kHeight-kWScare(kSegmentedControlHeight)-kNavigtBarH-2) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -82,6 +84,21 @@
     [self.view addSubview:_tableView];
    
     [_tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
+    [_tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(refresData)];
+}
+
+- (void)refresData
+{
+    _tenderPageNo = 1;
+    _chongZPageNo = 1;
+    _quXianPageNo = 1;
+    [_tenderMutArray removeAllObjects];
+    [_chongZMutArray removeAllObjects];
+    [_quXianMutArray removeAllObjects];
+    [_tabViewMutArray removeAllObjects];
+    [_tableView reloadData];
+    [self getListRequestWithPageNo:1 andPageSize:@"20"];
+    [_tableView.footer resetNoMoreData];
 }
 
 - (void)loadMore
@@ -105,7 +122,7 @@
     // 添加分段条
     DZNSegmentedControl *segmentedControl = [[DZNSegmentedControl alloc] initWithItems:self.menuItems];
     
-    segmentedControl.height = kWScare(kSegmentedControlHeight);
+    segmentedControl.height = (kSegmentedControlHeight);
     segmentedControl.selectedSegmentIndex = 0;
     segmentedControl.bouncySelectionIndicator = YES;
     segmentedControl.tintColor = kZhuTiColor;
@@ -202,6 +219,8 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
         [SVProgressHUD dismiss];
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
@@ -215,6 +234,7 @@
 //    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
+    [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
@@ -223,6 +243,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_tenderMutArray addObject:[TenderBill messageWithDict:dataDic]];
             }
+            _dataCount_jy = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_tenderMutArray];
             MyLog(@"%ld",_tabViewMutArray.count);
         }
@@ -231,6 +252,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_chongZMutArray addObject:[ChongZhiRecordMod messageWithDict:dataDic]];
             }
+            _dataCount_cz = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_chongZMutArray];
              MyLog(@"%ld",_tabViewMutArray.count);
         }
@@ -240,6 +262,7 @@
                 [_quXianMutArray addObject:[QuXianRecord messageWithDict:dataDic]];
             }
             _tabViewMutArray = [NSMutableArray arrayWithArray:_quXianMutArray];
+            _dataCount_qx = [dic[@"total"] intValue];
              MyLog(@"%ld",_tabViewMutArray.count);
         }
         [_tableView reloadData];
@@ -260,14 +283,40 @@
     else
     {
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.frame = CGRectMake(0, kHScare(kSegmentedControlHeight)+2, kWidth, kHeight-kNavigtBarH-2);
+        _tableView.frame = CGRectMake(0, (kSegmentedControlHeight)+2, kWidth, kHeight-kNavigtBarH-2);
     }
     //判断是否还有数据可以加载
-    if (_dataCount == _tabViewMutArray.count) {
-        [self.tableView.footer noticeNoMoreData];
+    if (_segementIndex==0)
+    {
+        if (_dataCount_jy == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
     }
-    _dataCount = _tabViewMutArray.count;
-    MyLog(@"%ld--%ld-%ld-%ld",_dataCount,_tenderMutArray.count,_chongZMutArray.count,_quXianMutArray.count);
+    else if(_segementIndex==1)
+    {
+        if (_dataCount_cz == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
+    else
+    {
+        if (_dataCount_qx == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
+    MyLog(@"%ld--%ld-%ld-%ld",_tabViewMutArray.count,_tenderMutArray.count,_chongZMutArray.count,_quXianMutArray.count);
     return _tabViewMutArray.count;
 }
 
@@ -293,8 +342,9 @@
         }
         TenderBill *dataModel = _tabViewMutArray[indexPath.row];
         cell.lab1.text = [dataModel.ordDate substringToIndex:10];
-        cell.lab2.text = [dataModel.transAmt stringValue];
+        cell.lab2.text = [NSString stringWithFormat:@"￥%@",[dataModel.transAmt stringValue]];
         //交易类型 settlCode O支出，A购买本息保障，I收入，F冻结，OW物业费缴纳， IW物业费收取，U解冻
+        
         if ([dataModel.settlCode isEqualToString:@"0"])
         {
             cell.lab3.text = @"支出";
@@ -315,15 +365,15 @@
         {
             cell.lab3.text = @"物业费缴纳";
         }
-        else if ([dataModel.settlCode isEqualToString:@"Iw"])
+        else if ([dataModel.settlCode isEqualToString:@"IW"])
         {
             cell.lab3.text = @"物业费收取";
         }
-        else
+        else if ([dataModel.settlCode isEqualToString:@"U"])
         {
             cell.lab3.text = @"解冻";
         }
-        cell.lab4.text = [dataModel.aftAvlBal stringValue];
+        cell.lab4.text = [NSString stringWithFormat:@"￥%.2f",[dataModel.aftAvlBal floatValue]];
         return cell;
     }
     else if(_segementIndex == 1)
@@ -339,7 +389,7 @@
          状态 status 1交易成功 2 处理中 其它就是处理失败*/
         ChongZhiRecordMod *dataModel = _tabViewMutArray[indexPath.row];
         cell.liuNumLab.text = dataModel.trxId;
-        cell.moneyLab.text = [dataModel.transAmt stringValue];
+        cell.moneyLab.text = [NSString stringWithFormat:@"￥%.2f",[dataModel.transAmt floatValue]];
         cell.czBankLab.text = dataModel.openBankId;
         cell.czTimeLab.text = [dataModel.ordDate substringToIndex:10];
         if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
@@ -373,10 +423,10 @@
 */
         QuXianRecord *dataModel = _tabViewMutArray[indexPath.row];
         cell.bankNumLab.text = dataModel.openAcctId;
-        cell.moneyLab.text = [dataModel.transAmt stringValue];
+        cell.moneyLab.text = [NSString stringWithFormat:@"￥%.2f",[dataModel.transAmt floatValue]];
         cell.bankNameLab.text = dataModel.openBankId;
         cell.txTimeLab.text = [dataModel.ordDate substringToIndex:10];
-        cell.feeLab.text = [dataModel.servFee stringValue];
+        cell.feeLab.text = [NSString stringWithFormat:@"￥%.2f",[dataModel.servFee floatValue]];
         cell.jiFenDKLab.text =[NSString stringWithFormat:@"%.f",[dataModel.dikb floatValue]*10];
         if ([[dataModel.status stringValue] isEqualToString:@"1"]) {
             cell.stateLab.text = @"交易成功";

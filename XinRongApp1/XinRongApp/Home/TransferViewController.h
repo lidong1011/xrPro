@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *transMoneyTF;
 @property (weak, nonatomic) IBOutlet UITextField *transPriceTF;
 @property (weak, nonatomic) IBOutlet UITextField *yanCodeTF;
+@property (weak, nonatomic) IBOutlet UIImageView *isRightImg;
 @property (weak, nonatomic) IBOutlet PooCodeView *code;
 - (IBAction)changeCode:(UIButton *)sender;
 - (IBAction)transBtnAct:(UIButton *)sender;

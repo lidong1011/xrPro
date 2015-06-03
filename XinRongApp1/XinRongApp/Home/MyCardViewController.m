@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UIAlertView *cancelTransAlertView;
 @property (nonatomic, strong) UIAlertView *cancelPayAlertView;
 @end
-#define kSegmentedControlHeight 35
+#define kSegmentedControlHeight 42
 @implementation MyCardViewController
 
 - (void)viewDidLoad {
@@ -93,7 +93,7 @@
         //加息券
         url = kqueryKitUrl;
         NSDictionary *dic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
-        [parameter setObject:dic[@"mobile"] forKey:@"mobile"];
+//        [parameter setObject:dic[@"mobile"] forKey:@"mobile"];
     }
     else
     {
@@ -111,6 +111,7 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        [SVProgressHUD dismiss];
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
@@ -215,9 +216,24 @@
     _tableView.backgroundColor = KLColor(224, 224, 224);
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(copy:)];
+    [_tableView addGestureRecognizer:longGesture];
     [self.view addSubview:_tableView];
     
 //    [_tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
+}
+
+- (void)copy:(UILongPressGestureRecognizer *)sender
+{
+    if (_segementIndex==1) {
+        CGPoint point = [sender locationInView:_tableView];
+        NSIndexPath  *index = [_tableView indexPathForRowAtPoint:point];
+        RedBagModel *model = _tabViewMutArray[index.row];
+        UIPasteboard *paste = [UIPasteboard generalPasteboard];
+        paste.string = model.code;
+        NSString *tip = [NSString stringWithFormat:@"红包F码:%@ 已拷贝",model.code];
+        [SVProgressHUD showInfoWithStatus:tip];
+    }
 }
 
 //- (void)loadMore
@@ -254,7 +270,7 @@
         }
         //status 0/未使用, 1/转让中, 2/已使用,3/已转让, 4,无效 无效状态需要在页面上根据当前时间和有效期 edate去对比
         if ([dataModel.status integerValue]==1) {
-            cell.title.text = [NSString stringWithFormat:@"%@  %@元",dataModel.name,[dataModel.transAmt stringValue]];
+            cell.title.text = [NSString stringWithFormat:@"%@  ￥%@",dataModel.name,[dataModel.transAmt stringValue]];
         }
         else
         {
@@ -369,23 +385,23 @@
         cell.nameLab.text = dataModel.name;
         cell.codeLab.text = dataModel.code;
         cell.youXiaoQiLab.text = [dataModel.mdate substringToIndex:10];
-//        cell.limitLab.text = dataModel.limitBal;
+        cell.limitLab.text = [NSString stringWithFormat:@"投标金额大于%ld元才能使用",[dataModel.limitBal integerValue]];
         NSString *moneyString = [NSString stringWithFormat:@"<bold>%ld</bold> <body>元</body> ",[dataModel.value integerValue]];
         cell.moneyLab.attributedText = [moneyString attributedStringWithStyleBook:style1];
         //状态  status -1 未兑换/0 未激活/1已激活/2已使用
         switch([dataModel.status integerValue]) {
-            case -1:
-                //
-                cell.nameLab.textColor = KLColor(242, 109, 109);
-                cell.lineLab.backgroundColor = KLColor(242, 109, 109);
-                cell.moneyLab.textColor = KLColor(242, 109, 109);
-                cell.statusImgeView.image = [UIImage imageNamed:@"weidh.png"];
-                break;
+//            case -1:
+//                //
+//                cell.nameLab.textColor = KLColor(242, 109, 109);
+//                cell.lineLab.backgroundColor = KLColor(242, 109, 109);
+//                cell.moneyLab.textColor = KLColor(242, 109, 109);
+//                cell.statusImgeView.image = [UIImage imageNamed:@"weidh.png"];
+//                break;
             case 0:
                 cell.nameLab.textColor = KLColor(20, 160, 160);
                 cell.lineLab.backgroundColor = KLColor(20, 160, 160);
                 cell.moneyLab.textColor = KLColor(20, 160, 160);
-                cell.statusImgeView.image = [UIImage imageNamed:@"weijh.png"];
+                cell.statusImgeView.image = [UIImage imageNamed:@"weisy.png"];
                 break;
             case 1:
                 cell.nameLab.textColor = KLColor(90, 90, 90);
@@ -393,12 +409,12 @@
                 cell.moneyLab.textColor = KLColor(90, 90, 90);
                 cell.statusImgeView.image = [UIImage imageNamed:@"didsy.png"];
                 break;
-            case 2:
-                cell.nameLab.textColor = KLColor(217, 118, 12);
-                cell.lineLab.backgroundColor =  KLColor(217, 118, 12);
-                cell.moneyLab.textColor = KLColor(217, 118, 12);
-                cell.statusImgeView.image = [UIImage imageNamed:@"yijh.png"];
-                break;
+//            case 2:
+//                cell.nameLab.textColor = KLColor(217, 118, 12);
+//                cell.lineLab.backgroundColor =  KLColor(217, 118, 12);
+//                cell.moneyLab.textColor = KLColor(217, 118, 12);
+//                cell.statusImgeView.image = [UIImage imageNamed:@"yijh.png"];
+//                break;
             default:
                 break;
         }
@@ -556,22 +572,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSString *biddingId;
-//    XiangMuDetailViewController *detialVC = [[XiangMuDetailViewController  alloc]init];
-//    if (_segementIndex == 0)
-//    {
-//        TenderListModel *tenderModel = _tabViewMutArray[indexPath.row];
-//        biddingId = tenderModel.biddingId;
-//        detialVC.vcFlag = 0;
-//    }
-//    else
-//    {
-//        ZaiQuanModel *zaiQuanModel = _tabViewMutArray[indexPath.row];
-//        biddingId = zaiQuanModel.ordId;
-//        detialVC.vcFlag = 1;
-//    }
-//    detialVC.biddingId = biddingId;
-//    [self.navigationController pushViewController:detialVC animated:YES];
+//    UIPasteboard *paste = [UIPasteboard generalPasteboard];
+//    paste.string = @"Fma";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

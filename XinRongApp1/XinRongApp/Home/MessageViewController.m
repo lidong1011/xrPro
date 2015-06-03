@@ -83,6 +83,7 @@
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     [_tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
+    [_tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(refresData)];
     
     //编辑时顶部的全选
     _blackView = [[UIView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kEditBlackTopH)];
@@ -179,9 +180,6 @@
     }
     else
     {
-        //删除选中的消息
-        _deleteAlert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要删除所选消息" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
-        [_deleteAlert show];
         NSString *msgId;
         for (int i=0;i<_selectMutArray.count;i++)
         {
@@ -198,6 +196,13 @@
             }
         }
         _msgId = msgId;
+        if (msgId==nil) {
+            [SVProgressHUD showImage:[UIImage imageWithName:kLogo] status:@"未选中消息"];
+            return;
+        }
+        //删除选中的消息
+        _deleteAlert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要删除所选消息" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [_deleteAlert show];
     }
 }
 
@@ -217,7 +222,7 @@
         NSDictionary *dic = (NSDictionary *)responseObject;
         if ([dic[@"code"] isEqualToString:@"000"])
         {
-            [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+            [SVProgressHUD showSuccessWithStatus:@"设置成功"];
             _messagePageNo = 1;
             [weakSelf getListRequestWithPageNo:1 andPageSize:@"20"];
             [weakSelf.tabViewMutArray removeAllObjects];
@@ -227,12 +232,21 @@
     }];
 }
 
+- (void)refresData
+{
+    _messagePageNo = 1;
+    [_tabViewMutArray removeAllObjects];
+    [self getListRequestWithPageNo:1 andPageSize:@"20"];
+    [_tableView.footer resetNoMoreData];
+    [_tableView reloadData];
+}
+
 - (void)loadMore
 {
     [self getListRequestWithPageNo:(++_messagePageNo) andPageSize:@"20"];
 }
 
-#pragma mark - 我的投资请求
+#pragma mark - 获取消息请求
 - (void)getListRequestWithPageNo:(int)pageNo andPageSize:(NSString *)pageSize
 {
     [SVProgressHUD showWithStatus:@"加载数据中..."];
@@ -251,12 +265,13 @@
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
+        
         [_tabViewMutArray removeAllObjects];
         [self.tableView reloadData];
     }];
 }
 
-#pragma mark - 注册请求返回数据
+#pragma mark - 请求返回数据
 - (void)success:(id)response
 {
     //把tableView 清空
@@ -264,6 +279,7 @@
 //    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
+    [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
@@ -272,6 +288,7 @@
         {
             [_tabViewMutArray addObject:[MessageListModel messageWithDict:dataDic]];
         }
+        _dataCount = [dic[@"total"] intValue];
         [_tableView reloadData];
     }
     else
@@ -289,7 +306,11 @@
     if (_dataCount == _tabViewMutArray.count) {
         [self.tableView.footer noticeNoMoreData];
     }
-    _dataCount = _tabViewMutArray.count;
+    else
+    {
+        [self.tableView.footer resetNoMoreData];
+    }
+//    _dataCount = _tabViewMutArray.count;
     
 //    //
 //    for(int i=0;i<_tabViewMutArray.count;i++)
@@ -324,7 +345,7 @@
         }
         //添加数据
         MessageListModel *dataModel = _tabViewMutArray[indexPath.row];
-        cell.titleLab.text = dataModel.type;
+        cell.titleLab.text = dataModel.title;
         cell.infoLab.text = dataModel.content;
         cell.timeLab.text = [dataModel.sdate substringToIndex:10];
         cell.singleSeleBtn.tag = indexPath.row;
@@ -361,7 +382,7 @@
         }
         //添加数据
         MessageListModel *dataModel = _tabViewMutArray[indexPath.row];
-        cell.titleLab.text = dataModel.type;
+        cell.titleLab.text = dataModel.title;
         cell.infoLab.text = dataModel.content;
         cell.timeLab.text = [dataModel.sdate substringToIndex:10];
         switch ([dataModel.isread integerValue]) {
@@ -442,10 +463,14 @@
 {
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
     
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    [SVProgressHUD showWithStatus:@"删除中..."];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     [parameter setObject:custId forKey:@"customerId"];
     
+    if (msgId==nil) {
+        [SVProgressHUD showImage:[UIImage imageWithName:kLogo] status:@"未选中消息"];
+        return;
+    }
     [parameter setObject:msgId forKey:@"msgIds"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     //https请求方式设置

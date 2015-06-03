@@ -7,7 +7,7 @@
 //
 
 #import "TenderDetailViewController.h"
-#import "TenderDetView.h"
+
 @interface TenderDetailViewController ()
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, weak) UILabel *companyInfoLab;
@@ -27,7 +27,7 @@
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight) style:UITableViewStylePlain];
 //    _tableView.delegate = self;
 //    _tableView.dataSource = self;
-    _tableView.tableHeaderView = [TenderDetView createView];
+//    _tableView.tableHeaderView = [TenderDetView createView];
     [self.view addSubview:_tableView];
     [self addTableViewFoot];
 }

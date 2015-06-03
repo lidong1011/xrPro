@@ -46,6 +46,6 @@
 @property (nonatomic, strong) NSString *buyDate;
 @property (nonatomic, strong) NSString *ordDate;
 @property (nonatomic, strong) NSString *time;
-@property (nonatomic, strong) NSString *restStep;
+@property (nonatomic, strong) NSNumber *transStep;
 @property (nonatomic, strong) NSNumber *transStatus;
 @end

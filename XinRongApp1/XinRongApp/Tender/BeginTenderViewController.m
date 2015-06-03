@@ -16,6 +16,7 @@
 @property (nonatomic, assign) int btnSelectFlag;
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) NSDictionary *balaceDic;
 //加息券
 @property (nonatomic, strong) UITableView *jiaxqTableView;
 @property (nonatomic, strong) NSMutableArray *tabViewMutArray;
@@ -25,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.title = @"投标";
     //充值
     //UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -36,23 +37,33 @@
     UIBarButtonItem *right=[[UIBarButtonItem alloc]initWithTitle:@"充值" style:UIBarButtonItemStylePlain target:self action:@selector(chongZhi)];
     self.navigationItem.rightBarButtonItem = right;
     
-    _keTouLab.text = [NSString stringWithFormat:@"%ld元",_keTouMoney];
+    _keTouLab.text = [NSString stringWithFormat:@"￥%ld",_keTouMoney];
     
     NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
-    _jiFenLab.text = [msg[@"points"] stringValue];
+    _jiFenLab.text = [NSString stringWithFormat:@"%@分",[msg[@"points"] stringValue]];
+    _jjJiFenLab.text = [NSString stringWithFormat:@"%@分",[msg[@"points"] stringValue]];
     [_changJFTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+    [_jjChangJFTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
+    [_yanZCode addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
     
     [self initData];
     
     [self addSubview];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     //获取可用余额
     [self getMyBalanceRequest];
 }
 
+
 - (void)initData
 {
     _tabViewMutArray = [NSMutableArray array];
+    _balaceDic = [NSDictionary dictionary];
 }
 
 #pragma mark - 获取我的余额请求
@@ -85,7 +96,8 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
-        self.keYongLab.text = [NSString stringWithFormat:@"%@元",[dic[@"avlBal"] stringValue]];
+        self.keYongLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"avlBal"] stringValue]];
+        _balaceDic = dic;
     }
     else
     {
@@ -103,7 +115,10 @@
      agioPoint 积分抵扣 非必填
      页面上面抵扣金额的积分 dikb 非必填
      是否为定向标 authStr 非必填
-     请求类别 reqType 必填*/
+     请求类别 reqType 必填
+     投标方式 tenderWay  必填
+     抵扣类型 offWay  非必填
+     加息券ID kitId 非必填*/
     [SVProgressHUD showWithStatus:@"努力加载中..."];
     _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight-kNavigtBarH)];
     _webView.hidden=YES;
@@ -114,15 +129,27 @@
     NSString *tenderMoney = _inputMoneyTF.text;
     NSString *url;
     if (_btnSelectFlag==1) {
-        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&depositNo=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_FCodeTF.text];
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5&offWay=1&depositNo=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_FCodeTF.text];
     }
     else if(_btnSelectFlag==2)
     {
-        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&dikb=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_changJFTF.text];
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5&offWay=2&dikb=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_changJFTF.text];
+    }
+    else if(_btnSelectFlag==3)
+    {
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5&kitId=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_jiaXiQNumTF.text];
+    }
+    else if(_btnSelectFlag==4)
+    {
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5&offWay=2&kitId=%@&depositNo=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_rjJiaXiQTF.text,_rjFCodeTF.text];
+    }
+    else if(_btnSelectFlag==5)
+    {
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5&kitId=%@&dikb=%@",kinitiativeTenderUrl,custId,tenderMoney,_biddingId,_jjChangJFTF.text,_jjJiaXiQTF];
     }
     else
     {
-        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios",kinitiativeTenderUrl,custId,tenderMoney,_biddingId];
+        url = [NSString stringWithFormat:@"%@&customerId=%@&tenderMoney=%@&biddingId=%@&reqType=ios&tenderWay=5",kinitiativeTenderUrl,custId,tenderMoney,_biddingId];
     }
     //    string = @"http://baidu.com";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -167,7 +194,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
-        self.keYongLab.text = [NSString stringWithFormat:@"%@元",dic[@"avlBal"]];
+        self.keYongLab.text = [NSString stringWithFormat:@"￥%@",dic[@"avlBal"]];
     }
     else
     {
@@ -182,7 +209,7 @@
     _tableView.tableFooterView = _queRenView;
     [self.view addSubview:_tableView];
     _tableView.scrollEnabled = NO;
-    _keTouLab.text = [NSString stringWithFormat:@"%ld元",_keTouMoney];
+    _keTouLab.text = [NSString stringWithFormat:@"￥%ld",_keTouMoney];
 }
 
 - (void)chongZhi
@@ -206,70 +233,155 @@
 }
 */
 
+- (IBAction)selectJXQ:(UIButton *)sender
+{
+    if (_tabViewMutArray.count) {
+        [self JiaXiQuanTableView];
+    }
+    else
+    {
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"没有可以用的加息券"];
+    }
+}
+
 - (IBAction)changeBtnAct:(UIButton *)sender
 {
     sender.selected = !(sender.selected);
-    if (sender.tag == 0)
-    {
+//    if (sender.tag == 0)
+//    {
+//        _jiFenBtn.selected = NO;
+//        _jiaXiBtn.selected = NO;
+//        //判断是否选中
+//        if(_redBagFBtn.selected)
+//        {
+//            _btnSelectFlag = 1;
+//            _tableView.tableHeaderView = _redBagView;
+//        }
+//        else
+//        {
+//            _btnSelectFlag = 0;
+//            _tableView.tableHeaderView = nil;
+//        }
+//    }
+//    else if(sender.tag==1)
+//    {
+//        _redBagFBtn.selected = NO;
+//        _jiaXiBtn.selected = NO;
+//        if(_jiFenBtn.selected)
+//        {
+//            _btnSelectFlag = 2;
+//            _tableView.tableHeaderView = _jiFenView;
+//        }
+//        else
+//        {
+//            _btnSelectFlag = 0;
+//            _tableView.tableHeaderView = nil;
+//        }
+//    }
+//    else
+//    {
+//        _jiFenBtn.selected = NO;
+//        _redBagFBtn.selected = NO;
+//        if(_jiaXiBtn.selected)
+//        {
+//            _btnSelectFlag = 3;
+//            _tableView.tableHeaderView = _jiaXiQView;
+//            //获取加息券
+//            [self getJiaXiQuan];
+//            
+//        }
+//        else
+//        {
+//            _btnSelectFlag = 0;
+//            _tableView.tableHeaderView = nil;
+//        }
+//    }
+    
+    //红包和积分不能同时用
+    if (sender.tag==0) {
         _jiFenBtn.selected = NO;
-        //判断是否选中
-        if(_redBagFBtn.selected)
-        {
-            _btnSelectFlag = 1;
-            _tableView.tableHeaderView = _redBagView;
-        }
-        else
-        {
-            _btnSelectFlag = 0;
-            _tableView.tableHeaderView = nil;
-        }
     }
     else if(sender.tag==1)
     {
         _redBagFBtn.selected = NO;
-        if(_jiFenBtn.selected)
-        {
-            _btnSelectFlag = 2;
-            _tableView.tableHeaderView = _jiFenView;
-        }
-        else
-        {
-            _btnSelectFlag = 0;
-            _tableView.tableHeaderView = nil;
-        }
+    }
+    
+    //判断是那种方式
+    if (_redBagFBtn.selected==1&&_jiFenBtn.selected==0&&_jiaXiBtn.selected==0)
+    {
+        _btnSelectFlag = 1;
+    }
+    else if (_redBagFBtn.selected==0&&_jiFenBtn.selected==1&&_jiaXiBtn.selected==0)
+    {
+        _btnSelectFlag = 2;
+    }
+    else if (_redBagFBtn.selected==0&&_jiFenBtn.selected==0&&_jiaXiBtn.selected==1)
+    {
+        _btnSelectFlag = 3;
+    }
+    else if (_redBagFBtn.selected==1&&_jiFenBtn.selected==0&&_jiaXiBtn.selected==1)
+    {
+        _btnSelectFlag = 4;
+    }
+    else if (_redBagFBtn.selected==0&&_jiFenBtn.selected==1&&_jiaXiBtn.selected==1)
+    {
+        _btnSelectFlag = 5;
     }
     else
     {
-        _jiFenBtn.selected = NO;
-        _redBagFBtn.selected = NO;
-        if(_jiaXiBtn.selected)
-        {
-            _btnSelectFlag = 3;
-            _tableView.tableHeaderView = _jiFenView;
-            //获取加息券
-            [self getJiaXiQuan];
-            [self JiaXiQuanTableView];
-        }
-        else
-        {
-            _btnSelectFlag = 0;
+        _btnSelectFlag = 0;
+    }
+    [self viewOfWay];
+}
+
+//是那种方式投资，对应有不同的界面(0为默认，1使用红包，2使用积分，3使用加息，4红包和加息，5积分和加息)
+- (void)viewOfWay
+{
+    switch (_btnSelectFlag) {
+        case 0:
             _tableView.tableHeaderView = nil;
-        }
+            break;
+        case 1:
+            _tableView.tableHeaderView = _redBagView;
+            break;
+        case 2:
+            _tableView.tableHeaderView = _jiFenView;
+            break;
+        case 3:
+            _tableView.tableHeaderView = _jiaXiQView;
+            break;
+        case 4:
+            _tableView.tableHeaderView = _redBagAndJXQView;
+            break;
+        case 5:
+            _tableView.tableHeaderView = _jiFenAndJXQView;
+            break;
+
+        default:
+            _tableView.tableHeaderView = nil;
+            break;
     }
 }
 
 - (void)JiaXiQuanTableView
 {
     _jiaxqTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight-kNavigtBarH)];
+//    _jiaxqTableView.center = self.view.center;
     _jiaxqTableView.delegate = self;
     _jiaxqTableView.dataSource = self;
+    UILabel *titleLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kWidth, 30)];
+    titleLab.text = @"选择加息券";
+    titleLab.textColor = [UIColor grayColor];
+//    titleLab.backgroundColor = [UIColor greenColor];
+    titleLab.textAlignment = NSTextAlignmentCenter;
+    _jiaxqTableView.tableHeaderView = titleLab;
     _jiaxqTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_jiaxqTableView];
 }
 
 - (void)getJiaXiQuan
 {
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    [SVProgressHUD showWithStatus:@"获取可用..."];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         //加息券
     NSString *url = kqueryKitUrl;
@@ -298,21 +410,27 @@
 {
     //把tableView 清空
     [_tabViewMutArray removeAllObjects];
-    //    [SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
+//        [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
         [_tabViewMutArray removeAllObjects];
         for (NSDictionary *dataDic in dic[@"data"]) {
             [_tabViewMutArray addObject:[JiaXiQuanModel messageWithDict:dataDic]];
         }
         [_jiaxqTableView reloadData];
+        if (_tabViewMutArray.count) {
+        }
+        else
+        {
+            [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"没有可以用的加息券"];
+        }
     }
     else
     {
-        //        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
 }
 
@@ -374,6 +492,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    JiaXiQuanModel *model = _tabViewMutArray[indexPath.row];
+    _jiaXiQNumTF.text = [model.kitId stringValue];
     [_jiaxqTableView removeFromSuperview];
 }
 
@@ -403,6 +523,8 @@
 
 - (IBAction)comfireTuoZi:(UIButton *)sender {
     if ([self isRightInput]) {
+        [self.codeView changeCode];
+        _isRightImg.hidden = YES;
         [self touBiaoRequest];
     }
 }
@@ -411,6 +533,14 @@
 {
     if ([_inputMoneyTF.text integerValue]<100||[_inputMoneyTF.text integerValue]%100!=0) {
         [SVProgressHUD showErrorWithStatus:@"投资金额必须是100的整数倍！" maskType:SVProgressHUDMaskTypeGradient];
+        return NO;
+    }
+    if ([_inputMoneyTF.text integerValue]>= _keTouMoney) {
+        [SVProgressHUD showErrorWithStatus:@"投资金额不能大于可投余额！" maskType:SVProgressHUDMaskTypeGradient];
+        return NO;
+    }
+    if ([_inputMoneyTF.text integerValue]>= [_balaceDic[@"avlBal"] integerValue]) {
+        [SVProgressHUD showErrorWithStatus:@"投资金额不能大于可用余额！" maskType:SVProgressHUDMaskTypeGradient];
         return NO;
     }
     if (_btnSelectFlag==1) {
@@ -424,6 +554,35 @@
     {
         if (_changJFTF.text.length<1) {
             [SVProgressHUD showErrorWithStatus:@"积分输入有误" maskType:SVProgressHUDMaskTypeGradient];
+            return NO;
+        }
+    }
+    else if(_btnSelectFlag==3)
+    {
+        if (_jiaXiQNumTF.text.length<1) {
+            [SVProgressHUD showErrorWithStatus:@"还未选择加息券" maskType:SVProgressHUDMaskTypeGradient];
+            return NO;
+        }
+    }
+    else if(_btnSelectFlag==4)
+    {
+        if (_rjFCodeTF.text.length<10) {
+            [SVProgressHUD showErrorWithStatus:@"F码输入有误" maskType:SVProgressHUDMaskTypeGradient];
+            return NO;
+        }
+        if (_rjJiaXiQTF.text.length<1) {
+            [SVProgressHUD showErrorWithStatus:@"还未选择加息券" maskType:SVProgressHUDMaskTypeGradient];
+            return NO;
+        }
+    }
+    else if(_btnSelectFlag==5)
+    {
+        if (_jjChangJFTF.text.length<1) {
+            [SVProgressHUD showErrorWithStatus:@"积分输入有误" maskType:SVProgressHUDMaskTypeGradient];
+            return NO;
+        }
+        if (_jjJiaXiQTF.text.length<1) {
+            [SVProgressHUD showErrorWithStatus:@"还未选择加息券" maskType:SVProgressHUDMaskTypeGradient];
             return NO;
         }
     }
@@ -445,16 +604,41 @@
 
 - (IBAction)getCodeAct:(UIButton *)sender {
     [_codeView changeCode];
+    _isRightImg.hidden = YES;
 }
 
 - (void)textChange:(UITextField *)sender
 {
-    NSInteger money = [_changJFTF.text integerValue]*10;
-//    _diKeJiFenLab.text = [NSString stringWithFormat:@"￥%ld元",[_changJFTF.text integerValue]];
-    _diKeJiFenLab.text = [NSString stringWithFormat:@"%ld",money];
-    NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
-    if (money>[msg[@"points"] integerValue]) {
-        [SVProgressHUD showErrorWithStatus:@"抵换积分不能大于拥有积分"];
+    if (sender==_yanZCode)
+    {
+        if ([[_yanZCode.text uppercaseString] isEqualToString:[_codeView.changeString uppercaseString]]==NO)
+        {
+//                [SVProgressHUD showErrorWithStatus:@"验证码输入有误" maskType:SVProgressHUDMaskTypeGradient];
+                _isRightImg.hidden = YES;
+            }
+            else
+            {
+                _isRightImg.hidden = NO;
+            }
+        }
+    else
+    {
+        NSInteger money;
+        if (sender==_changJFTF)
+        {
+            money = [_changJFTF.text integerValue]*10;
+            _diKeJiFenLab.text = [NSString stringWithFormat:@"%ld分",money];
+        }
+        else
+        {
+            money = [_jjChangJFTF.text integerValue]*10;
+            _jjDiKeJiFenLab.text = [NSString stringWithFormat:@"%ld分",money];
+        }
+        
+        NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+        if (money>[msg[@"points"] integerValue]) {
+            [SVProgressHUD showErrorWithStatus:@"抵换积分不能大于拥有积分"];
+        }
     }
 }
 
@@ -506,7 +690,47 @@
                 [SVProgressHUD showInfoWithStatus:@"投标成功"];
                 [self.navigationController popViewControllerAnimated:YES];
             }
-            else if([[components objectAtIndex:1] isEqualToString:@"000"])
+            else if([[components objectAtIndex:1] isEqualToString:@"112"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：该红包F码已过期"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"116"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：红包F码不存在"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"113"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"该类型的红包F码只能兑换1次"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"117"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：非推广员用户不能使用积分抵扣"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"118"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：理财师投资总额低于3万元时不能使用积分抵扣"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"119"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：抵扣金额输入非法"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"120"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：抵扣金额超出投资金额"];
+                self.webView.hidden = YES;
+            }
+            else if([[components objectAtIndex:1] isEqualToString:@"117"])
+            {
+                [SVProgressHUD showInfoWithStatus:@"投标失败：非推广员用户不能使用积分抵扣"];
+                self.webView.hidden = YES;
+            }
+            else
             {
                 [SVProgressHUD showInfoWithStatus:@"投标失败"];
                 self.webView.hidden = YES;

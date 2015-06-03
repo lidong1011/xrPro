@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSString *sdate;
 @property (nonatomic, strong) NSNumber *isread;
 @property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *title;
 
 @end

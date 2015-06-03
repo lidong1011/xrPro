@@ -14,6 +14,7 @@
 #import "BeginTenderViewController.h"
 #import "ZhaiQuanTransViewController.h"
 #import "CalculatorViewController.h"
+#import "LoginViewController.h"
 
 #import "WPAttributedStyleAction.h"
 #import "NSString+WPAttributedMarkup.h"
@@ -130,9 +131,9 @@
         self.topView.nianHLLab.attributedText = [nianString attributedStringWithStyleBook:style1];
         NSString *timeString = [NSString stringWithFormat:@"<bold>%@</bold> <body>个月</body> ",[_tenderDetModel.timeLimit stringValue]];
         self.topView.timeLab.attributedText = [timeString attributedStringWithStyleBook:style1];
-        self.topView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_tenderDetModel.biddingMoney stringValue]];
+        self.topView.moneyLab.text = [NSString stringWithFormat:@"￥%@",[_tenderDetModel.biddingMoney stringValue]];
         
-        self.topView.text1Lab.text = [NSString stringWithFormat:@"%d元",[_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue]];
+        self.topView.text1Lab.text = [NSString stringWithFormat:@"￥%d",[_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue]];
         MyLog(@"%@",_tenderDetModel.biddingStatus);
         switch ([_tenderDetModel.biddingStatus intValue]) {
             case 0:
@@ -149,10 +150,10 @@
                 self.bottomBtn.enabled = NO;
                 [self.bottomBtn setTitle:@"回款中" forState:UIControlStateNormal];
                 break;
-            case 3:
+            case 4:
                 self.topView.text2Lab.text = @"回款成功";
                 self.bottomBtn.enabled = NO;
-                [self.bottomBtn setTitle:@"回款中" forState:UIControlStateNormal];
+                [self.bottomBtn setTitle:@"回款成功" forState:UIControlStateNormal];
                 break;
             default:
                 break;
@@ -163,7 +164,7 @@
         }
         else
         {
-            self.topView.text3Lab.text = @"先息后本";
+            self.topView.text3Lab.text = @"按月付息，到期还本";
         }
     }
     else
@@ -189,19 +190,19 @@
         self.topView.nianHLLab.attributedText = [nianString attributedStringWithStyleBook:style1];
         NSString *timeString = [NSString stringWithFormat:@"<bold>%@</bold> <body>个月</body> ",[_zhaiQuanDetModel.surplusDays stringValue]];
         self.topView.timeLab.attributedText = [timeString attributedStringWithStyleBook:style1];
-        self.topView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.biddingMoney stringValue]];
+        self.topView.moneyLab.text = [NSString stringWithFormat:@"￥%@",[_zhaiQuanDetModel.biddingMoney stringValue]];
         
         self.topView.text1_lab.text = @"转让本金：";
-        self.topView.text1Lab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.transAmt stringValue]];
+        self.topView.text1Lab.text = [NSString stringWithFormat:@"￥%@",[_zhaiQuanDetModel.transAmt stringValue]];
         self.topView.text2_lab.text = @"承接价格：";
-        self.topView.text2Lab.text = [NSString stringWithFormat:@"%@元",[_zhaiQuanDetModel.creditDealAmt stringValue]];
+        self.topView.text2Lab.text = [NSString stringWithFormat:@"￥%@",[_zhaiQuanDetModel.creditDealAmt stringValue]];
         if([_zhaiQuanDetModel.repaymentSort intValue] == 0)
         {
             self.topView.text3Lab.text = @"按月等额本息";
         }
         else
         {
-            self.topView.text3Lab.text = @"先息后本";
+            self.topView.text3Lab.text = @"按月付息，到期还本";
         }
     }
 }
@@ -366,27 +367,35 @@
         case 7:
         {
             //开始投标
-            NSString *biddingId;
-            NSString *title;
-            if (_vcFlag == 0) {
-                biddingId = _tenderDetModel.biddingId;
-                title = _tenderDetModel.title;
-                BeginTenderViewController *touBiaoVC = [[BeginTenderViewController alloc]init];
-                touBiaoVC.biddingId = biddingId;
-                touBiaoVC.keTouMoney = [_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue];
-                [self.navigationController pushViewController:touBiaoVC animated:YES];
+            NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+            if (custId==nil) {
+                [SVProgressHUD showInfoWithStatus:@"还未登录，请先登录"];
+                LoginViewController *loginVC = [[LoginViewController alloc]init];
+                [self.navigationController pushViewController:loginVC animated:YES];
             }
             else
             {
-                biddingId = _zhaiQuanDetModel.ordId;
-                title = _zhaiQuanDetModel.title;
-                ZhaiQuanTransViewController *zhaiQuanVC = [[ZhaiQuanTransViewController alloc]init];
-                zhaiQuanVC.ordId = _zhaiQuanDetModel.ordId;
-                zhaiQuanVC.transMoney = _zhaiQuanDetModel.transAmt;
-                zhaiQuanVC.chengJieJin = _zhaiQuanDetModel.creditDealAmt;
-                [self.navigationController pushViewController:zhaiQuanVC animated:YES];
+                NSString *biddingId;
+                NSString *title;
+                if (_vcFlag == 0) {
+                    biddingId = _tenderDetModel.biddingId;
+                    title = _tenderDetModel.title;
+                    BeginTenderViewController *touBiaoVC = [[BeginTenderViewController alloc]init];
+                    touBiaoVC.biddingId = biddingId;
+                    touBiaoVC.keTouMoney = [_tenderDetModel.biddingMoney intValue]-[_tenderDetModel.totalTender intValue];
+                    [self.navigationController pushViewController:touBiaoVC animated:YES];
+                }
+                else
+                {
+                    biddingId = _zhaiQuanDetModel.ordId;
+                    title = _zhaiQuanDetModel.title;
+                    ZhaiQuanTransViewController *zhaiQuanVC = [[ZhaiQuanTransViewController alloc]init];
+                    zhaiQuanVC.ordId = _zhaiQuanDetModel.ordId;
+                    zhaiQuanVC.transMoney = _zhaiQuanDetModel.transAmt;
+                    zhaiQuanVC.chengJieJin = _zhaiQuanDetModel.creditDealAmt;
+                    [self.navigationController pushViewController:zhaiQuanVC animated:YES];
+                }
             }
-            
             break;
         }
         default:

@@ -10,6 +10,7 @@
 #import "PooCodeView.h"
 @interface ExperenceTenderViewController : BaseViewController
 @property (nonatomic, strong) NSString *biddingId;
+@property (nonatomic, strong) NSNumber *ordType;
 @property (nonatomic, assign) NSInteger keTouMoney;
 
 @property (weak, nonatomic) IBOutlet UILabel *keTouLab;

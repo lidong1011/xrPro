@@ -52,16 +52,18 @@
     [self.view addSubview:topBtn];
     
     //文字
-    _textView = [[UITextView alloc]initWithFrame:CGRectMake(kWScare(20), topBtn.bottom+20, kWidth-2*kWScare(20), kHeight-topBtn.bottom)];
+    _textView = [[UITextView alloc]initWithFrame:CGRectMake(kWScare(10), topBtn.bottom+15, kWidth-2*kWScare(10), kHeight-topBtn.bottom)];
     _textView.editable = NO;
 //    _textView.text = @"新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展。新华网北京3月31日电(记者刘华) 国家主席习近平31日在人民大会堂同乌干达总统穆塞韦尼举行会谈。两国元首高度评价中乌友谊和互利合作，同意共同抓住机遇，顺势而为，实现两国发展战略对接，把中乌关系打造成为体现平等互信、合作共赢新型国际伙伴关系的典范，共同推动中非关系向前发展";
-    _textView.text = _detailString;
+    _textView.textColor = [UIColor grayColor];
+    _textView.font = [UIFont systemFontOfSize:14+2];
+    _textView.text = [NSString stringWithFormat:@"     %@",_detailString];
     [self.view addSubview:_textView];
     
     if (_vCflag == 1) {
         UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, topBtn.bottom+20, kWidth, kHeight-topBtn.bottom-20)];
         [webView loadHTMLString:_detailString baseURL:nil];
-        webView.backgroundColor = [UIColor greenColor];
+//        webView.backgroundColor = [UIColor greenColor];
         [self.view addSubview:webView];
     }
     

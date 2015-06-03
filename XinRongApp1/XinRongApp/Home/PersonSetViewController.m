@@ -58,7 +58,15 @@
             UIImageView *jianTimgView = [[UIImageView alloc]initWithImage:jianTouImg];
             jianTimgView.frame = CGRectMake(0, 0, jianTouImg.size.width/2, jianTouImg.size.height/2);
 //            cell.accessoryView = jianTimgView;
-            NSString *name = [NSString stringWithFormat:@"用户名：%@",msgDic[@"name"]];
+            NSString *name;
+            if (msgDic[@"name"]) {
+                name = [NSString stringWithFormat:@"用户名：%@",msgDic[@"name"]];
+            }
+            else
+            {
+                name = @"用户名：还未绑定汇付";
+            }
+            
             cell.textLabel.text = name;
             break;
         }

@@ -10,4 +10,5 @@
 #import "BaseViewController.h"
 @interface YaoYiYaoViewController : BaseViewController
 @property (nonatomic, strong) NSString *biddingId;
+@property (nonatomic, strong) NSNumber *ordType;
 @end

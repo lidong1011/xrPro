@@ -103,7 +103,7 @@ static NSString *reuseIdPicCell = @"PicturesCollectionViewCell";
 // 定义每个Item的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((kWidth-4*10)/3 , 100);
+    return CGSizeMake((kWidth-4*11)/3 , kWScare(100));
 }
 
 // 定义每个UICollectionView的margin
@@ -120,7 +120,6 @@ static NSString *reuseIdPicCell = @"PicturesCollectionViewCell";
     NSDictionary *picDic = _picArray[indexPath.row];
     NSString *imgURl = [kPicUrl stringByAppendingString:picDic[@"filePath"]];
     [_bigImgView sd_setImageWithURL:[NSURL URLWithString:imgURl] placeholderImage:[UIImage imageNamed:@""]];
-
 }
 
 

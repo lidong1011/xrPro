@@ -61,6 +61,11 @@
     [self.view addSubview:_tableView];
 }
 
+//- (void)back
+//{
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//}
+
 #pragma mark - 体验标详情请求
 - (void)getDetailRequest
 {
@@ -119,7 +124,7 @@
     self.topView.nianHLLab.attributedText = [nianString attributedStringWithStyleBook:style1];
     NSString *timeString = [NSString stringWithFormat:@"<bold>3</bold> <body>天</body> "];
     self.topView.timeLab.attributedText = [timeString attributedStringWithStyleBook:style1];
-    self.topView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_dataDic[@"data"][@"biddingMoney"] stringValue]];
+    self.topView.moneyLab.text = [NSString stringWithFormat:@"￥%@",[_dataDic[@"data"][@"biddingMoney"] stringValue]];
 
     self.topView.text1Lab.text = [NSString stringWithFormat:@"%d元",[_dataDic[@"data"][@"biddingMoney"] intValue]-[_dataDic[@"data"][@"totalTender"] intValue]];
     self.topView.text2_lab.text = @"发标日期:";
@@ -140,7 +145,7 @@
 //    }
 //    else
     {
-        self.topView.text3Lab.text = @"先息后本";
+        self.topView.text3Lab.text = @"按月付息，到期还本";
     }
 }
 
@@ -209,9 +214,11 @@
         case 5:
         {
             //计算器
-//            ExperienceRecordViewController *touBiaoRecordVC = [[ExperienceRecordViewController alloc]init];
-//            touBiaoRecordVC.tabViewMutArray = _dataDic[@"tenders"];
-//            [self.navigationController pushViewController:touBiaoRecordVC animated:YES];
+            CalculatorViewController *calculatorVC = [[CalculatorViewController alloc]init];
+            calculatorVC.nianRate = _dataDic[@"data"][@"intRate"];
+            calculatorVC.time = @3;
+            calculatorVC.totalMoney = _dataDic[@"data"][@"biddingMoney"];
+            [self.navigationController pushViewController:calculatorVC animated:YES];
             break;
         }
         case 6:
@@ -219,6 +226,7 @@
             //体验标投标
             ExperenceTenderViewController *touBiaoVC = [[ExperenceTenderViewController alloc]init];
             touBiaoVC.biddingId = _biddingId;
+            touBiaoVC.ordType = _ordType;
             touBiaoVC.keTouMoney = [_dataDic[@"data"][@"biddingMoney"] integerValue]-[_dataDic[@"data"][@"totalTender"] integerValue];
             [self.navigationController pushViewController:touBiaoVC animated:YES];
             break;

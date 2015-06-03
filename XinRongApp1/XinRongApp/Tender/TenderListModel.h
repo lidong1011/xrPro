@@ -26,7 +26,7 @@
 @property (nonatomic, strong) NSString *applyCode;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSNumber *biddingMoney;
-@property (nonatomic, strong) NSNumber *totalTenders;
+@property (nonatomic, strong) NSNumber *totalTender;
 @property (nonatomic, strong) NSNumber *timeLimit;
 @property (nonatomic, strong) NSNumber *interestRate;
 @property (nonatomic, strong) NSNumber *biddingStatus;

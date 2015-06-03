@@ -26,17 +26,12 @@
 #define kHScare(x) (([UIScreen mainScreen].bounds.size.height*(x))/568)
 #define kWScare(x) (([UIScreen mainScreen].bounds.size.width*(x))/320)
 
-//#import "UIImage+StrethImage.h"
 #import "UIImage+WB.h"
-//#import "KLCoverView.h"
 #import "UIBarButtonItem+WB.h"
 #import "AFNetworking.h"
-//#import "MBProgressHUD.h"
 #import "SVProgressHUD.h"
-//#import "SBJson.h"
 #import "UIImageView+WebCache.h"
 #import "UIViewExt.h"
-//#import "NSString+Date.h"
 
 
 // 判断是否为ios7
@@ -60,15 +55,23 @@
 #define kIsRemembPsd @"isRemembPsd"
 #define kUserMsg @"userMsg"
 
+#define kDownloadUrl @"download"
 #define kLogo @"logo_tu"
 #define kLoadingData @"努力加载中..."
 #define kGetDataSuccess @"数据获取成功"
 
 #define kZhuTiColor KLColor(106, 198, 192)
 
-//////接口///
-#define kBaseUrl  @"https://www.xr58.com:8443/xr58/apprequest/request?code="
-#define kPicUrl  @"https://www.xr58.com:8443/xr58/"
+//////接口//////
+//#define kBaseUrl @"http://www.xr58.com:8085/esb/apprequest/request?code="
+//测试
+//#define kBaseUrl  @"https://www.xr58.com:8443/xr58/apprequest/request?code="
+
+//http://esb.xr58.com:8082
+#define kBaseUrl  @"http://esb.xr58.com:8082/apprequest/request?code="
+
+//获取图片
+#define kPicUrl  [kBaseUrl stringByAppendingString:@"onlinePic&path="]
 
 
 ////////////个人中心/////////////////
@@ -90,6 +93,11 @@
 //losePwd  找回密码
 #define klosePwdUrl  [kBaseUrl stringByAppendingString:@"losePwd"]
 
+//banner
+#define kqueryIndexPicUrl [kBaseUrl stringByAppendingString:@"queryIndexPic"]
+
+//queryActivityPic  活动
+#define kqueryActivityPicUrl [kBaseUrl stringByAppendingString:@"queryActivityPic"]
 ///////////////个人中心 end////////////////////
 
 
@@ -161,7 +169,7 @@
 
 //queryExperience  体验金列表
 //https://www.xr58.com:8443/xr58/apprequest/request?code=queryExperience&customerId=c98a6ffd-8679-4967-ae2d-f419465d9bbc
-#define kexperienceRcordUrl  [kBaseUrl stringByAppendingString:@"experienceRcord"]
+#define kexperienceRecordUrl  [kBaseUrl stringByAppendingString:@"experienceRecord"]
 
 //experience  赠送体验金
 #define kexperienceUrl  [kBaseUrl stringByAppendingString:@"experience"]

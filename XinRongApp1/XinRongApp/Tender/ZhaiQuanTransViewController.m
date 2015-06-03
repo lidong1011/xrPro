@@ -26,9 +26,9 @@
     [rightBtn setTitle:@"充值" forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(chongZhi) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
-    self.transMonLab.text = [NSString stringWithFormat:@"%@元",[_transMoney stringValue]];
-    self.chengJieLab.text = [NSString stringWithFormat:@"%@元",[_chengJieJin stringValue]];
-    self.transMoneyTF.text = [NSString stringWithFormat:@"%@元",[_chengJieJin stringValue]];
+    self.transMonLab.text = [NSString stringWithFormat:@"￥%@",[_transMoney stringValue]];
+    self.chengJieLab.text = [NSString stringWithFormat:@"￥%@",[_chengJieJin stringValue]];
+    self.transMoneyTF.text = [NSString stringWithFormat:@"￥%@",[_chengJieJin stringValue]];
     //获取可用余额
     [self getMyBalanceRequest];
 }
@@ -63,7 +63,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
-        self.keYongLab.text = [NSString stringWithFormat:@"%@元",[dic[@"avlBal"] stringValue]];
+        self.keYongLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"avlBal"] stringValue]];
     }
     else
     {

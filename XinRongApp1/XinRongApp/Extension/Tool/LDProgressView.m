@@ -132,7 +132,7 @@
         CGFloat xOffset = shadowOffset.width + round(rect.size.width);
         CGFloat yOffset = shadowOffset.height;
         CGContextSetShadowWithColor(context,
-                CGSizeMake(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset)), 5, [[UIColor blackColor] colorWithAlphaComponent:0.7].CGColor);
+                CGSizeMake(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset)), 5, [[UIColor grayColor] colorWithAlphaComponent:0.4].CGColor);
     }
 
     [roundedRect addClip];
@@ -328,7 +328,8 @@
 
 - (UIColor *)background {
     if (!_background) {
-        return [UIColor colorWithRed:0.51f green:0.51f blue:0.51f alpha:1.00f];
+        return [UIColor grayColor];
+//        return [UIColor colorWithRed:0.51f green:0.51f blue:0.51f alpha:1.00f];
     }
     return _background;
 }

@@ -77,11 +77,11 @@
         components = [string componentsSeparatedByString:@"/"];
         if([(NSString *)[components objectAtIndex:0] isEqualToString:@"state"])
         {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"code" message:[components objectAtIndex:1]
-                                  delegate:self cancelButtonTitle:nil
-                                  otherButtonTitles:@"OK", nil];
-            [alert show];
+//            UIAlertView *alert = [[UIAlertView alloc]
+//                                  initWithTitle:@"code" message:[components objectAtIndex:1]
+//                                  delegate:self cancelButtonTitle:nil
+//                                  otherButtonTitles:@"OK", nil];
+//            [alert show];
             /*104 参数非法
              --000 成功
              --128 没有开通汇付天下
@@ -116,7 +116,7 @@
                 _webView.hidden = YES;
             }
         }
-        //        [self.webView removeFromSuperview];
+        [self.navigationController popViewControllerAnimated:YES];
         return NO;
     }
     return YES;

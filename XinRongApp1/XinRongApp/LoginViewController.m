@@ -51,6 +51,12 @@
     [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(registerBtn) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    
+    //如果退出登录，就不能返回
+    if(_fromFlag)
+    {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc]initWithFrame:CGRectMake(0, 100, 51, 31)]];
+    }
 }
 
 - (void)registerBtn
@@ -138,7 +144,7 @@
     }
     else
     {
-        [SVProgressHUD showInfoWithStatus:@"登陆失败" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showInfoWithStatus:@"用户名或密码错误" maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 

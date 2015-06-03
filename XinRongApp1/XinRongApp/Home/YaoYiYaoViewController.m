@@ -92,7 +92,7 @@
                          [UIImage imageNamed:@"yaoyyao2.png"], nil];
         _imagView.animationImages = myImages; //animationImages属性返回一个存放动画图片的数组
     _imagView.animationDuration = 0.35; //浏览整个图片一次所用的时间
-    _imagView.animationRepeatCount = 30; // 0 = loops forever 动画重复次数
+    _imagView.animationRepeatCount = 5; // 0 = loops forever 动画重复次数
     [_imagView startAnimating];
 //    [self addSubview:myAnimatedView];
 //    [UIView animateKeyframesWithDuration:1.5 delay:0 options:nil animations:^{
@@ -118,7 +118,7 @@
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
     [parameter setObject:custId forKey:kCustomerId];
     [parameter setObject:@(_money) forKey:@"transAmt"];
-    [parameter setObject:@(1) forKey:@"ordRes"];
+    [parameter setObject:@(3) forKey:@"ordRes"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
     //https请求方式设置
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
@@ -143,7 +143,6 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [self showPopView];
-        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"isNotFristIn"];
     }
     else
     {
@@ -169,6 +168,7 @@
     //去投体验标
     ExpericeBiaoDetailViewController *detailVC = [[ExpericeBiaoDetailViewController alloc]init];
     detailVC.biddingId = _biddingId;
+    detailVC.ordType = _ordType;
     [self.navigationController pushViewController:detailVC animated:YES];
 //    [self.navigationController popViewControllerAnimated:YES];
 }

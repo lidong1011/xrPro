@@ -19,10 +19,12 @@
 #import "KaiTongHFViewController.h"
 #import "MyCardViewController.h"
 #import "BenXiBaoZViewController.h"
+#import "ZiJinDetailViewController.h"
 #import "MessageViewController.h"
-@interface MyAccoutViewController ()
+@interface MyAccoutViewController ()<UIAlertViewDelegate>
 @property (nonatomic, strong) NSDictionary *balDic;
 @property (nonatomic, assign) NSInteger msgCount;
+@property (nonatomic, strong) UITableView *tableView;
 @end
 
 @implementation MyAccoutViewController
@@ -30,7 +32,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _balDic = [NSDictionary dictionary];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    //添加左滑动手势
+    UISwipeGestureRecognizer *leftswith = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(back)];
+    leftswith.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:leftswith];
     self.navigationItem.title = @"账户设置";
+    
+    [self addTableView];
+}
+
+#pragma mark -添加列表视图
+- (void)addTableView
+{
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-49) style:UITableViewStylePlain];
+//    _tableView.delegate = self;
+//    _tableView.dataSource = self;
+//    _tableView.backgroundColor = KLColor(246, 246, 2);
+    if (isOver3_5Inch)
+    {
+        CGRect rect = _allView.frame;
+        _allView.frame = CGRectMake(0, 0, kWidth, kHScare(rect.size.height));
+    }
+    _tableView.tableFooterView = _allView;
+//    _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    [self.view addSubview:_tableView];
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -120,33 +151,56 @@
      待收利息restInt
      可用余额avlBal
      待收奖励collectionReward*/
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
-        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+        [SVProgressHUD dismiss];
         _balDic = dic;
-        self.totalMoneyLab.text = [NSString stringWithFormat:@"%@元",[dic[@"avlBal"] stringValue]];
+        self.totalMoneyLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"avlBal"] stringValue]];
+        if (dic[@"avlBal"]==nil) {
+            self.keYongJinLab.text = @"￥0.00";
+        }
+        else
+        {
+            self.keYongJinLab.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"avlBal"] floatValue]];
+        }
         if (dic[@"restCap"]==nil) {
-            self.daiShouJinLab.text = @"0元";
+            self.daiShouTotalLab.text = @"￥0.00";
         }
         else
         {
-            self.daiShouJinLab.text = [NSString stringWithFormat:@"%@元",[dic[@"restCap"] stringValue]];
+            self.daiShouTotalLab.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"restInt"] floatValue]+[dic[@"restCap"] floatValue]];
         }
-        if (dic[@"restInt"]==nil) {
-            self.daiShouLXLab.text = @"0元";
-        }
-        else
-        {
-            self.daiShouLXLab.text = [NSString stringWithFormat:@"%@元",[dic[@"restInt"] stringValue]];
-        }
+        self.allProfitLab.text = [NSString stringWithFormat:@"￥%.2f",[dic[@"gotInt"] floatValue]];
+    }
+    else if ([dic[@"code"] isEqualToString:@"128"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"您还未开通汇付天下，是否去开通" delegate:self cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+        [alert show];
+//        [self performSelector:@selector(goKaiTongFH) withObject:self afterDelay:1];
     }
     else
     {
         [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
     }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1)
+    {
+        [self goKaiTongFH];
+    }
+}
+
+//跳开通汇付页面
+- (void)goKaiTongFH
+{
+    [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"还未开通汇付，请开通汇付"];
+    KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+    [self.navigationController pushViewController:kaitongHFVC animated:YES];
 }
 
 #pragma mark - 获取我的个人信息请求
@@ -173,14 +227,17 @@
 - (void)getMyMsgSuccess:(id)response
 {
     //个人信息
-    [SVProgressHUD dismiss];
+//    [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
     if ([dic[@"code"] isEqualToString:@"000"])
     {
+        [SVProgressHUD dismiss];
         [[NSUserDefaults standardUserDefaults]setObject:dic forKey:kUserMsg];
         self.nameLab.text = dic[@"name"];
-        self.jiFenLab.text = [dic[@"points"] stringValue];
+        if ([dic[@"points"] integerValue]) {
+            self.jiFenLab.text = [NSString stringWithFormat:@"%@分",[dic[@"points"] stringValue]];
+        }
         self.yongHuLab.text = dic[@"mobile"];
         if(dic[@"usrCustId"])
         {
@@ -190,7 +247,18 @@
         }
         else
         {
+            self.huiFNextImgView.hidden = NO;
+            self.huiHuiBtn.hidden = NO;
             self.huiFuNumLab.text = @"还未开通汇付天下";
+        }
+        //性别
+        if([dic[@"sex"] integerValue])
+        {
+            self.myIcon.image = [UIImage imageWithName:@"manIcon.png"];
+        }
+        else
+        {
+            self.myIcon.image = [UIImage imageWithName:@"wumanIcon.png"];
         }
         switch ([dic[@"level"] integerValue]) {
             case 0:
@@ -334,7 +402,7 @@
         [SVProgressHUD showImage:[UIImage imageWithName:@"logo_tu.png"] status:msg maskType:SVProgressHUDMaskTypeGradient];
         self.jiFenLab.text = [NSString stringWithFormat:@"%d",[_jiFenLab.text intValue]+1];
     }
-    if ([dic[@"code"] isEqualToString:@"105"])
+    if ([dic[@"code"] isEqualToString:@"161"])
     {
         NSString *msg = [NSString stringWithFormat:@"今日已签到"];
         [SVProgressHUD showImage:[UIImage imageWithName:@"logo_tu.png"] status:msg maskType:SVProgressHUDMaskTypeGradient];
@@ -343,6 +411,15 @@
     {
         NSString *msg = [NSString stringWithFormat:@"没有绑定汇付天下"];
         [SVProgressHUD showImage:[UIImage imageWithName:@"logo_tu.png"] status:msg maskType:SVProgressHUDMaskTypeGradient];
+    }
+    if ([dic[@"code"] isEqualToString:@"105"])
+    {
+        NSString *msg = [NSString stringWithFormat:@"签到失败，重新签到"];
+        [SVProgressHUD showImage:[UIImage imageWithName:@"logo_tu.png"] status:msg maskType:SVProgressHUDMaskTypeGradient];
+    }
+    else
+    {
+        [SVProgressHUD showImage:[UIImage imageWithName:@"logo_tu.png"] status:dic[@"msg"] maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 
@@ -353,6 +430,19 @@
         [SVProgressHUD showInfoWithStatus:@"还未登录，去登录或注册" maskType:SVProgressHUDMaskTypeGradient];
         [self goLogin];
         return;
+    }
+    //先判断是否开通汇付
+    NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+    if(userMsgDic[@"usrCustId"])
+    {
+//        [self qianDaoRequest];
+    }
+    else
+    {
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"还未开通汇付，请开通汇付"];
+        KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+        [self.navigationController pushViewController:kaitongHFVC animated:YES];
+        return ;
     }
     switch (sender.tag)
     {
@@ -365,8 +455,18 @@
         case 1:
         {
             //交易明细
-            JiaoYiMXViewController *jiaoYiVC = [[JiaoYiMXViewController alloc]init];
-            [self.navigationController pushViewController:jiaoYiVC animated:YES];
+            //先判断是否开通汇付
+            NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+            if(userMsgDic[@"usrCustId"])
+            {
+                JiaoYiMXViewController *jiaoYiVC = [[JiaoYiMXViewController alloc]init];
+                [self.navigationController pushViewController:jiaoYiVC animated:YES];            }
+            else
+            {
+                [SVProgressHUD showImage:[UIImage imageNamed:@""] status:@"还未开通汇付，请开通汇付"];
+                KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+                [self.navigationController pushViewController:kaitongHFVC animated:YES];
+            }
             break;
         }
         case 2:
@@ -431,8 +531,10 @@
             break;
         }
         case 6:
-        {
-            
+        {//账户总览
+            ZiJinDetailViewController *ziJinVC = [[ZiJinDetailViewController alloc]init];
+            ziJinVC.balDic = _balDic;
+            [self.navigationController pushViewController:ziJinVC animated:YES];
             break;
         }
         case 7:
@@ -456,6 +558,21 @@
         [self goLogin];
         return;
     }
+    
+    //先判断是否开通汇付
+    NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+    if(userMsgDic[@"usrCustId"])
+    {
+        //        [self qianDaoRequest];
+    }
+    else
+    {
+        [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"还未开通汇付，请开通汇付"];
+        KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+        [self.navigationController pushViewController:kaitongHFVC animated:YES];
+        return ;
+    }
+    
     MyTenderViewController *touZiVC = [[MyTenderViewController alloc]init];
     [self.navigationController pushViewController:touZiVC animated:YES];
 }
@@ -476,8 +593,18 @@
     else
     {
         //回款计划
-        HuiKuanJHViewController *huiKuanVC = [[HuiKuanJHViewController alloc]init];
-        [self.navigationController pushViewController:huiKuanVC animated:YES];
+        //先判断是否开通汇付
+        NSDictionary *userMsgDic = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
+        if(userMsgDic[@"usrCustId"])
+        {
+            HuiKuanJHViewController *huiKuanVC = [[HuiKuanJHViewController alloc]init];
+            [self.navigationController pushViewController:huiKuanVC animated:YES];
+        }
+        else
+        {
+            KaiTongHFViewController *kaitongHFVC = [[KaiTongHFViewController alloc]init];
+            [self.navigationController pushViewController:kaitongHFVC animated:YES];
+        }
     }
 }
 

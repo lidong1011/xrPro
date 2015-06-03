@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "TiXianViewController.h"
 @interface BankCardManageViewController : BaseViewController
-
+@property (nonatomic, strong) TiXianViewController *tiXianVC;
 @end

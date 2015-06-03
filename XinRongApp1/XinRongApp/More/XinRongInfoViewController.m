@@ -45,8 +45,8 @@
 - (void)addTableViewHeader
 {
     UITextView *companyInfoTV = [[UITextView alloc]init];
-    NSString *string = @"    新融网（www.xr58.com)成立于2013年3月，公司全称为“衡阳新润民间资本投资服务有限公司”， 是一家经过衡阳市工商行政管理批准成立的合法机构。\n\
-    新融网（www.xr58.com)致力于解决小微企业的资金需求和民间投资者理财需求的信息撮合和网上匹配。新融网运用先进的理念和创新的技术建立了一个安全、高效、诚信、透明的互联网金融平台，规范了个 人借贷行为，让借入者改善生产生活，让借出者增加投资渠道.";
+    NSString *string = @"       新融网（www.xr58.com)成立于2013年3月，公司全称为“衡阳新润民间资本投资服务有限公司”， 是一家经过衡阳市工商行政管理批准成立的合法机构。\n\
+        新融网（www.xr58.com)致力于解决小微企业的资金需求和民间投资者理财需求的信息撮合和网上匹配。新融网运用先进的理念和创新的技术建立了一个安全、高效、诚信、透明的互联网金融平台，规范了个 人借贷行为，让借入者改善生产生活，让借出者增加投资渠道.";
     companyInfoTV.text = string;
     CGFloat fontSize = 16;
     companyInfoTV.font = [UIFont systemFontOfSize:fontSize];
@@ -54,6 +54,7 @@
     
     UILabel *lab = [[UILabel alloc]init];
     lab.numberOfLines = 0;
+    lab.textColor  = [UIColor grayColor];
     CGRect frame = [self getSizeWithString:string andFont:fontSize];
     lab.frame = CGRectMake(15, 0, kWidth-30, frame.size.height);
     lab.font = [UIFont systemFontOfSize:fontSize];

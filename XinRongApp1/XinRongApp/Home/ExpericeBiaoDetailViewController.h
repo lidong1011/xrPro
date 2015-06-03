@@ -10,6 +10,7 @@
 
 @interface ExpericeBiaoDetailViewController : BaseViewController
 @property (nonatomic, strong) NSString *biddingId;
+@property (nonatomic, strong) NSNumber *ordType;
 @property (strong, nonatomic) IBOutlet UIView *bottonView;
 
 - (IBAction)bottomAct:(UIButton *)sender;

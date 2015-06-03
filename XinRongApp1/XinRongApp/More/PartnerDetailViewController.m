@@ -18,8 +18,9 @@
     [super viewDidLoad];
     self.navigationItem.title = _titleString;
     UITextView *detailView = [[UITextView alloc]init];
-    detailView.frame = CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH);
+    detailView.frame = CGRectMake(0, 0, kWidth, kHeight);
     detailView.editable = NO;
+    detailView.textColor = [UIColor grayColor];
     detailView.font = [UIFont systemFontOfSize:17];
     detailView.text = _detailString;
     [self.view addSubview:detailView];

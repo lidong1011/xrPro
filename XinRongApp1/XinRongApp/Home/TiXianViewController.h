@@ -10,6 +10,8 @@
 
 @interface TiXianViewController : BaseViewController
 @property (nonatomic, strong) NSDictionary *balDic;
+//去银行卡页面选取卡时用到
+@property (nonatomic, strong) NSString *cardId;
 @property (weak, nonatomic) IBOutlet UILabel *totalMoneyLab;
 @property (weak, nonatomic) IBOutlet UILabel *keYongLab;
 @property (weak, nonatomic) IBOutlet UILabel *keQuMonLab;

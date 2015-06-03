@@ -18,12 +18,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"版本信息";
 
-//    //版本号
-//    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-//    
-//    //CFShow((__bridge CFTypeRef)(infoDic));
-//    NSString *currentVersion = [infoDic objectForKey:@"CFBundleVersion"];
-//    //    lab.text = [NSString stringWithFormat:@"iOS %@版",currentVersion];
+    
+    //    lab.text = [NSString stringWithFormat:@"iOS %@版",currentVersion];
 }
 
 - (void)didReceiveMemoryWarning {

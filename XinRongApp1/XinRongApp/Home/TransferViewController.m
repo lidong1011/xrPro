@@ -19,6 +19,7 @@
     
     self.navigationItem.title = @"转让";
     _balaDic = [NSDictionary dictionary];
+    [_yanCodeTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
     [self getTransfDataRequest];
 }
 
@@ -62,9 +63,9 @@
     {
         [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"数据获取成功" maskType:SVProgressHUDMaskTypeGradient];
         _balaDic = dic;
-        self.tenderMoneyLab.text = [NSString stringWithFormat:@"%@元",[dic[@"restCap"] stringValue]];
-        self.didTransLab.text = [NSString stringWithFormat:@"%@元",[dic[@"useRestCap"] stringValue]];
-        self.canTransLab.text = [NSString stringWithFormat:@"%@元",[dic[@"hasrestCap"] stringValue]];
+        self.tenderMoneyLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"restCap"] stringValue]];
+        self.didTransLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"useRestCap"] stringValue]];
+        self.canTransLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"hasrestCap"] stringValue]];
     }
     else
     {
@@ -137,12 +138,14 @@
 
 - (IBAction)changeCode:(UIButton *)sender {
     [self.code changeCode];
+    _isRightImg.hidden = YES;
 }
 
 - (IBAction)transBtnAct:(UIButton *)sender {
-    if (_transMoneyTF.text.length<3) {
-        [SVProgressHUD showInfoWithStatus:@"转让金额输入有误"];
-        return;
+    if ([_transMoneyTF.text integerValue]<100||[_transMoneyTF.text integerValue]%100!=0)
+    {
+        [SVProgressHUD showErrorWithStatus:@"投资金额必须是100的整数倍！" maskType:SVProgressHUDMaskTypeGradient];
+        return ;
     }
     if ([_transMoneyTF.text integerValue]>[_balaDic[@"hasrestCap"] integerValue]) {
         [SVProgressHUD showInfoWithStatus:@"转让金额不能大于可转金额"];
@@ -160,6 +163,21 @@
         [SVProgressHUD showInfoWithStatus:@"验证码有误"];
         return;
     }
+    [self.code changeCode];
+    _isRightImg.hidden = YES;
     [self transferRequest];
 }
+
+- (void)textChange:(UITextField *)sender
+{
+    if ([[_yanCodeTF.text uppercaseString] isEqualToString:[_code.changeString uppercaseString]]==NO) {
+        //                [SVProgressHUD showErrorWithStatus:@"验证码输入有误" maskType:SVProgressHUDMaskTypeGradient];
+        _isRightImg.hidden = YES;
+    }
+    else
+    {
+        _isRightImg.hidden = NO;
+    }
+}
+
 @end

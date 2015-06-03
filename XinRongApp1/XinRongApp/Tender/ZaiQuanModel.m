@@ -18,6 +18,7 @@
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
         self.dataDic = dict;
+        self.interestRate = self.dataDic[@"bidding"][@"interestRate"];
         self.title = self.dataDic[@"bidding"][@"title"];
         self.applyCode = self.dataDic[@"bidding"][@"applyCode"];
     }

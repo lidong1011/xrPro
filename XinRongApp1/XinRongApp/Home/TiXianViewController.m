@@ -7,6 +7,7 @@
 //
 
 #import "TiXianViewController.h"
+#import "BankCardManageViewController.h"
 #import "BankCardModel.h"
 @interface TiXianViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,UITextFieldDelegate>
 @property (nonatomic, strong) UIWebView *webView;
@@ -32,13 +33,18 @@
     //初始化数据
     _tabViewMutArray = [NSMutableArray array];
     self.navigationItem.title = @"提现";
-    _totalMoneyLab.text = [NSString stringWithFormat:@"￥%@元",[_balDic[@"acctBal"] stringValue]];
-    _keYongLab.text = [NSString stringWithFormat:@"￥%@元",[_balDic[@"avlBal"] stringValue]];
-    _keQuMonLab.text = [NSString stringWithFormat:@"￥%@元",[_balDic[@"avlBal"] stringValue]];
+    _totalMoneyLab.text = [NSString stringWithFormat:@"￥%.2f",[_balDic[@"acctBal"] floatValue]];
+    _keYongLab.text = [NSString stringWithFormat:@"￥%.2f",[_balDic[@"avlBal"] floatValue]];
+    _keQuMonLab.text = [NSString stringWithFormat:@"￥%.2f",[_balDic[@"avlBal"] floatValue]];
     [self addSubview];
     [_jieFenChangTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
     [_inputMoneyTF addTarget:self action:@selector(textChange:) forControlEvents:UIControlEventEditingChanged];
-    [self getMyBankCardRequest];
+//    [self getMyBankCardRequest];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _bankCardLab.text = _cardId;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,12 +64,12 @@
     _tableView.tableFooterView = _footView;
     [self.view addSubview:_tableView];
     
-    _bankCardTabView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight) style:UITableViewStylePlain];
-    _bankCardTabView.delegate = self;
-    _bankCardTabView.dataSource = self;
-    _bankCardTabView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-    _bankCardTabView.hidden = YES;
-    [self.view addSubview:_bankCardTabView];
+//    _bankCardTabView = [[UITableView alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, kHeight) style:UITableViewStylePlain];
+//    _bankCardTabView.delegate = self;
+//    _bankCardTabView.dataSource = self;
+//    _bankCardTabView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+//    _bankCardTabView.hidden = YES;
+//    [self.view addSubview:_bankCardTabView];
 //    _keTouLab.text = [NSString stringWithFormat:@"%ld",_keTouMoney];
 }
 
@@ -277,7 +283,10 @@
     else
     {
         //获取银行卡
-        _bankCardTabView.hidden = NO;
+//        _bankCardTabView.hidden = NO;
+        BankCardManageViewController *vc = [[BankCardManageViewController alloc]init];
+        vc.tiXianVC = self;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -311,47 +320,47 @@
     return YES;
 }
 
-#pragma mark - 获取我的银行卡请求
-- (void)getMyBankCardRequest
-{
-    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
-    
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
-    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    [parameter setObject:custId forKey:@"customerId"];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
-    //https请求方式设置
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
-    securityPolicy.allowInvalidCertificates = YES;
-    manager.securityPolicy = securityPolicy;
-    [manager POST:kqueryCardUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [self myBankCardsuccess:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        MyLog(@"%@",error);
-        
-    }];
-}
-
-#pragma mark - 请求返回数据
-- (void)myBankCardsuccess:(id)response
-{
-    [SVProgressHUD dismiss];
-    NSDictionary *dic = (NSDictionary *)response;
-    MyLog(@"%@",dic);
-    if ([dic[@"code"] isEqualToString:@"000"])
-    {
-        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
-        for(NSDictionary *dataDic in dic[@"data"])
-        {
-            [_tabViewMutArray addObject:[BankCardModel messageWithDict:dataDic]];
-        }
-        [_bankCardTabView reloadData];
-    }
-    else
-    {
-        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
-    }
-}
+//#pragma mark - 获取我的银行卡请求
+//- (void)getMyBankCardRequest
+//{
+//    NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
+//    
+//    [SVProgressHUD showWithStatus:@"加载数据中..."];
+//    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+//    [parameter setObject:custId forKey:@"customerId"];
+//    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
+//    //https请求方式设置
+//    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
+//    securityPolicy.allowInvalidCertificates = YES;
+//    manager.securityPolicy = securityPolicy;
+//    [manager POST:kqueryCardUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        [self myBankCardsuccess:responseObject];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        MyLog(@"%@",error);
+//        
+//    }];
+//}
+//
+//#pragma mark - 请求返回数据
+//- (void)myBankCardsuccess:(id)response
+//{
+//    [SVProgressHUD dismiss];
+//    NSDictionary *dic = (NSDictionary *)response;
+//    MyLog(@"%@",dic);
+//    if ([dic[@"code"] isEqualToString:@"000"])
+//    {
+//        //        [SVProgressHUD showSuccessWithStatus:@"成功"];
+//        for(NSDictionary *dataDic in dic[@"data"])
+//        {
+//            [_tabViewMutArray addObject:[BankCardModel messageWithDict:dataDic]];
+//        }
+//        [_bankCardTabView reloadData];
+//    }
+//    else
+//    {
+//        [SVProgressHUD showInfoWithStatus:dic[@"msg"]];
+//    }
+//}
 
 
 - (void)textChange:(UITextField *)sender
@@ -359,7 +368,7 @@
     if (sender==_jieFenChangTF)
     {
         NSInteger money = [_jieFenChangTF.text integerValue]/10;
-        _jiFenMoney.text = [NSString stringWithFormat:@"￥%ld元",money];
+        _jiFenMoney.text = [NSString stringWithFormat:@"￥%ld",money];
         NSDictionary *msg = [[NSUserDefaults standardUserDefaults]objectForKey:kUserMsg];
         if ([_jieFenChangTF.text integerValue]>[msg[@"points"] integerValue]) {
             [SVProgressHUD showErrorWithStatus:@"抵换积分不能大于拥有积分"];

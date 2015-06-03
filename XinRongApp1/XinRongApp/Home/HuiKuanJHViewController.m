@@ -40,7 +40,7 @@
 #pragma mark - 回款列表请求
 - (void)getListRequest
 {
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    [SVProgressHUD showWithStatus:@"加载数据中..." maskType:SVProgressHUDMaskTypeGradient];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
@@ -105,9 +105,12 @@
 #pragma mark - tableView dataSource and delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //判断是否还有数据可以加载
-    if (_dataCount == _tabViewMutArray.count) {
-//        [self.tableView.footer noticeNoMoreData];
+    //
+    if (_tabViewMutArray.count==0)
+    {
+//        UILabel *noDataLab = [[UILabel alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, 30)];
+//        noDataLab.text = @"  暂时没有汇款计划";
+//        [self.view addSubview:noDataLab];
     }
     _dataCount = _tabViewMutArray.count;
     return _tabViewMutArray.count;
@@ -126,16 +129,17 @@
     日期 payDate*/
     static NSString *identifier = @"tendCell1";
     HuiKuanJHCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[NSBundle mainBundle] loadNibNamed:@"HuiKuanJHCell" owner:self options:nil][0];
     }
     HuiKuanJHModel *dataModel = _tabViewMutArray[indexPath.row];
     cell.titleLab.text = [NSString stringWithFormat:@"%@(第%@标)",dataModel.title,[dataModel.child stringValue]];
-    cell.tenderMoneyLab.text = [NSString stringWithFormat:@"%@元",[dataModel.tenderMoney stringValue]];
+    cell.tenderMoneyLab.text = [NSString stringWithFormat:@"￥%@",[dataModel.tenderMoney stringValue]];
     cell.timeLab.text = [dataModel.payDate substringToIndex:10];
     cell.huiKZQlab.text = [NSString stringWithFormat:@"%@个月",[dataModel.step stringValue]];
     cell.yinShouInvestLab.text = [NSString stringWithFormat:@"%.1f元",[dataModel.additionalInterest floatValue]+[dataModel.interest floatValue]];
-    cell.benQiBenJinLab.text = [NSString stringWithFormat:@"%@元",[dataModel.capital stringValue]];
+    cell.benQiBenJinLab.text = [NSString stringWithFormat:@"￥%@",[dataModel.capital stringValue]];
     return cell;
 }
 

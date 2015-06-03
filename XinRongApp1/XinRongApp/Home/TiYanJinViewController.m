@@ -27,7 +27,7 @@
     self.navigationItem.title = @"体验金数据";
     [self initData];
     
-    [self addSubview];
+//    [self addSubview];
     
     [self getTiYanJRequest];
 }
@@ -78,7 +78,7 @@
     securityPolicy.allowInvalidCertificates = YES;
     manager.securityPolicy = securityPolicy;
     __weak typeof(self) weakSelf = self;
-    [manager POST:kexperienceRcordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:kexperienceRecordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [weakSelf TiYanJSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
@@ -96,9 +96,9 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:dic[@"msg"]];
-        self.tiYanZELab.text = [NSString stringWithFormat:@"￥%@元",dic[@"unTenderAmt"]];
-        self.didTiYanLab.text = [NSString stringWithFormat:@"￥%@元",dic[@"tenderAmt"]];
-//        self.tiYanProfit.text = [NSString stringWithFormat:@"￥%@元",dic[@"incomeAmt"]];
+        self.tiYanZELab.text = [NSString stringWithFormat:@"￥%@",dic[@"allAmt"]];
+        self.didTiYanLab.text = [NSString stringWithFormat:@"￥%@",dic[@"tenderAmt"]];
+//        self.tiYanProfit.text = [NSString stringWithFormat:@"￥￥%@",dic[@"incomeAmt"]];
         
         NSDictionary* style1 = @{@"body":[UIFont fontWithName:@"HelveticaNeue" size:14.0],
                                  @"bold":[UIFont fontWithName:@"HelveticaNeue-Bold" size:28.0]
@@ -140,7 +140,7 @@
     }
     TiYanJinModel *dataModel = _tabViewMutArray[indexPath.row];
     cell.lab1.text = dataModel.ordDate;
-    cell.lab2.text = [NSString stringWithFormat:@"%@元",[dataModel.transAmt stringValue]];
+    cell.lab2.text = [NSString stringWithFormat:@"￥%@",[dataModel.transAmt stringValue]];
     cell.lab3.text = dataModel.income;
     cell.lab4.text = dataModel.status;
     cell.backgroundColor = [UIColor clearColor];

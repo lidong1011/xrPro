@@ -21,7 +21,7 @@
     
     self.navigationItem.title = @"体验标投标";
     
-    _keTouLab.text = [NSString stringWithFormat:@"%ld元",_keTouMoney];
+    _keTouLab.text = [NSString stringWithFormat:@"￥%ld",_keTouMoney];
     
     //获取可用余额
     [self getMyTiYanJinRequest];
@@ -45,7 +45,7 @@
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
     securityPolicy.allowInvalidCertificates = YES;
     manager.securityPolicy = securityPolicy;
-    [manager POST:kexperienceRcordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:kexperienceRecordUrl parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self success:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         MyLog(@"%@",error);
@@ -62,7 +62,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         //        [SVProgressHUD showSuccessWithStatus:@"成功"];
-        self.keYongTiYJLab.text = [NSString stringWithFormat:@"%@元",[dic[@"unTenderAmt"] stringValue]];
+        self.keYongTiYJLab.text = [NSString stringWithFormat:@"￥%@",[dic[@"unTenderAmt"] stringValue]];
         _keYongTYJ = [dic[@"unTenderAmt"] integerValue];
         if (_keTouMoney>=_keYongTYJ)
         {
@@ -110,6 +110,7 @@
         [parameter setObject:custId forKey:@"customerId"];
         [parameter setObject:_biddingId forKey:@"biddingId"];
         [parameter setObject:_inputMoneyTF.text forKey:@"transAmt"];
+        [parameter setObject:_ordType forKey:@"ordType"];
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]init];
         //https请求方式设置
         AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];

@@ -8,7 +8,7 @@
 
 #import "FeedbackViewController.h"
 #import "LoginViewController.h"
-@interface FeedbackViewController ()<UITextViewDelegate>
+@interface FeedbackViewController ()<UITextViewDelegate,UIAlertViewDelegate>
 
 @end
 
@@ -62,6 +62,7 @@
     if ([dic[@"code"] isEqualToString:@"000"])
     {
         [SVProgressHUD showSuccessWithStatus:@"反馈成功"];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
@@ -121,11 +122,17 @@
 - (IBAction)callBtn:(UIButton *)sender
 {
     //联系客服
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://4008925858"]];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要联系客服" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
 }
 
 - (IBAction)sender:(UIButton *)sender
 {
     [self sendMyFeedback];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"tel://4008925858"]];
 }
 @end

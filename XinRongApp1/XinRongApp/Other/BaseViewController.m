@@ -18,7 +18,10 @@
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithIcon:@"back.png" highlightIcon:nil imageScale:0.6 target:self action:@selector(back)];
     
-//    _HUD = [[MBProgressHUD alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
+    //添加左滑动手势
+    UISwipeGestureRecognizer *leftswith = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(back)];
+    leftswith.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:leftswith];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

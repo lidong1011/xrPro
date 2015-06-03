@@ -26,6 +26,7 @@
 
 - (void)addSubview
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     _detailViewBgView = [[UIView alloc]init];
     
     NSString *string = _dataModel.content;
@@ -34,7 +35,7 @@
     
     //titleLab
     UILabel *titleLab = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 30)];
-    titleLab.text = _dataModel.type;
+    titleLab.text = _dataModel.title;
     titleLab.font = [UIFont systemFontOfSize:fontSize+3];
     [_detailViewBgView addSubview:titleLab];
     
@@ -42,6 +43,7 @@
     UILabel *timeLab = [[UILabel alloc]initWithFrame:CGRectMake(10, titleLab.bottom, 200, 30)];
     timeLab.text = _dataModel.sdate;
     timeLab.font = [UIFont systemFontOfSize:fontSize];
+    timeLab.textColor = [UIColor grayColor];
     [_detailViewBgView addSubview:timeLab];
 
     UILabel *lab = [[UILabel alloc]init];
@@ -54,17 +56,27 @@
     //msgType
     UILabel *msgType = [[UILabel alloc]initWithFrame:CGRectMake(10, lab.bottom, 80, 30)];
     msgType.text = @"信息类型：";
+    msgType.textColor = [UIColor grayColor];
     msgType.font = [UIFont systemFontOfSize:fontSize];
     [_detailViewBgView addSubview:msgType];
     //cMsgType
-    UILabel *cMsgType = [[UILabel alloc]initWithFrame:CGRectMake(msgType.right, lab.bottom, 100, 30)];
+    UILabel *cMsgType = [[UILabel alloc]initWithFrame:CGRectMake(msgType.right, lab.bottom, 80, 30)];
     cMsgType.text = _dataModel.type;
+    cMsgType.textColor = [UIColor grayColor];
     cMsgType.font = [UIFont systemFontOfSize:fontSize];
     [_detailViewBgView addSubview:cMsgType];
     
     //sendMsgPer
     UILabel *sendMsgPer = [[UILabel alloc]initWithFrame:CGRectMake(cMsgType.right, lab.bottom, kWidth-cMsgType.right, 30)];
-    sendMsgPer.text = [NSString stringWithFormat:@"发送人：%@",_dataModel.fmuser];
+    sendMsgPer.textColor = [UIColor grayColor];
+    if ([_dataModel.fmuser isEqualToString:@"000000"]) {
+        sendMsgPer.text = [NSString stringWithFormat:@"发送人：系统管理员"];
+    }
+    else
+    {
+        sendMsgPer.text = [NSString stringWithFormat:@"发送人：  "];
+    }
+    
     sendMsgPer.font = [UIFont systemFontOfSize:fontSize];
     [_detailViewBgView addSubview:sendMsgPer];
 

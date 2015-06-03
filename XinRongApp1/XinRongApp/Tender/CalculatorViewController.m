@@ -36,7 +36,7 @@
     _calculatorView.nianRateLab.attributedText = [nianRate attributedStringWithStyleBook:style1];
     NSString *timeStr = [NSString stringWithFormat:@"<bold>%@</bold> <body>个月</body>",[_time stringValue]];
     _calculatorView.timeLab.attributedText = [timeStr attributedStringWithStyleBook:style1];
-    _calculatorView.moneyLab.text = [NSString stringWithFormat:@"%@元",[_totalMoney stringValue]];
+    _calculatorView.moneyLab.text = [NSString stringWithFormat:@"￥%@",[_totalMoney stringValue]];
     [_calculatorView.calculatorBtn addTarget:self action:@selector(calculator) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -50,7 +50,7 @@
         [SVProgressHUD showErrorWithStatus:@"输入年化率有误"];
         return;
     }
-    float profit = [_calculatorView.inputMoney.text integerValue]*[_calculatorView.inputRateTF.text floatValue]*[_time intValue];
+    float profit = [_calculatorView.inputMoney.text integerValue]*[_calculatorView.inputRateTF.text floatValue]*[_time intValue]/100;
     _calculatorView.profitLab.text = [NSString stringWithFormat:@"%.0f元",profit];
 }
 

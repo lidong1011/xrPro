@@ -24,7 +24,9 @@
 @property (nonatomic, strong) NSMutableArray *chengJieDidMutArray;
 @property (nonatomic, assign) int chengJieDidPageNo;
 
-@property (nonatomic, assign) NSInteger dataCount;
+@property (nonatomic, assign) NSInteger dataCount_ing;
+@property (nonatomic, assign) NSInteger dataCount_did;
+@property (nonatomic, assign) NSInteger dataCount_didcj;
 @end
 
 #define kTopSegemH 35
@@ -72,6 +74,21 @@
     _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     [_tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
+    [_tableView addLegendHeaderWithRefreshingTarget:self refreshingAction:@selector(refresData)];
+}
+
+- (void)refresData
+{
+    _transDidPageNo = 1;
+    _transIngPageNo = 1;
+    _chengJieDidPageNo = 1;
+    [_transDidMutArray removeAllObjects];
+    [_transIngMutArray removeAllObjects];
+    [_chengJieDidMutArray removeAllObjects];
+    [_tabViewMutArray removeAllObjects];
+    [self getListRequestWithPageNo:1 andPageSize:@"20"];
+    [_tableView.footer resetNoMoreData];
+    [_tableView reloadData];
 }
 
 - (void)loadMore
@@ -97,7 +114,7 @@
      已转让 customerId必填 statusType=2
      已承接 acceptorId必填
      customerId和acceptorId为用户ID*/
-    [SVProgressHUD showWithStatus:@"加载数据中..."];
+    [SVProgressHUD showImage:[UIImage imageNamed:@"logo_tu.png"] status:@"加载数据中..." maskType:SVProgressHUDMaskTypeGradient];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     NSString *custId = [[NSUserDefaults standardUserDefaults]stringForKey:kCustomerId];
     
@@ -134,11 +151,13 @@
         MyLog(@"%@",error);
         [SVProgressHUD dismiss];
         [_tabViewMutArray removeAllObjects];
+        [self.tableView.header endRefreshing];
+        [self.tableView.footer endRefreshing];
         [self.tableView reloadData];
     }];
 }
 
-#pragma mark - 注册请求返回数据
+#pragma mark - 请求返回数据
 - (void)success:(id)response
 {
     //把tableView 清空
@@ -146,6 +165,7 @@
     [SVProgressHUD dismiss];
     NSDictionary *dic = (NSDictionary *)response;
     MyLog(@"%@",dic);
+    [self.tableView.header endRefreshing];
     [self.tableView.footer endRefreshing];
     if ([dic[@"code"] isEqualToString:@"000"])
     {
@@ -154,6 +174,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_transIngMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
             }
+            _dataCount_ing = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_transIngMutArray];
         }
         else if(_segementIndex == 1)
@@ -161,6 +182,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_transDidMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
             }
+            _dataCount_did = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_transDidMutArray];;
         }
         else if(_segementIndex == 2)
@@ -168,6 +190,7 @@
             for (NSDictionary *dataDic in dic[@"data"]) {
                 [_chengJieDidMutArray addObject:[MyZhaiQuanModel messageWithDict:dataDic]];
             }
+            _dataCount_didcj = [dic[@"total"] intValue];
             _tabViewMutArray = [NSMutableArray arrayWithArray:_chengJieDidMutArray];;
         }
         
@@ -241,10 +264,37 @@
     MyLog(@"%ld",_tabViewMutArray.count);
     
     //判断是否还有数据可以加载
-    if (_dataCount == _tabViewMutArray.count) {
-        [self.tableView.footer noticeNoMoreData];
+    //判断是否还有数据可以加载
+    if (_segementIndex==0)
+    {
+        if (_dataCount_ing == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
     }
-    _dataCount = _tabViewMutArray.count;
+    else if(_segementIndex==1)
+    {
+        if (_dataCount_did == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
+    else
+    {
+        if (_dataCount_didcj == _tabViewMutArray.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+        else
+        {
+            [self.tableView.footer resetNoMoreData];
+        }
+    }
     MyLog(@"%ld--%ld--%ld--%ld",_tabViewMutArray.count,_transIngMutArray.count,_transDidMutArray.count,_chengJieDidMutArray.count);
     return _tabViewMutArray.count;
 }
@@ -265,12 +315,12 @@
             //添加数据
             MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
             cell.titleLab.text = dataModel.title;
-            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.chengjjLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.creditDealAmt integerValue]];
             cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
             cell.chengjieLabN.hidden = YES;
             cell.appCodeLab.text = dataModel.applyCode;
-            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
-            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            cell.shengYTime.text = [NSString stringWithFormat:@"%ld个月",[dataModel.transStep integerValue]];
+            cell.transBenLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.transAmt integerValue]];
             switch ([dataModel.transStatus integerValue]) {
                     // 0投标中 1等待放款2还款中3废标4已完成
                 case 0:
@@ -296,13 +346,13 @@
             //添加数据
             MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
             cell.titleLab.text = dataModel.title;
-            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.chengjjLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.creditDealAmt integerValue]];
             cell.chengjieLabN.hidden = NO;
             cell.timeLab.text = [dataModel.buyDate substringToIndex:10];
             cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
             cell.appCodeLab.text = dataModel.applyCode;
-            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
-            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            cell.shengYTime.text = [NSString stringWithFormat:@"%ld个月",[dataModel.transStep integerValue]];
+            cell.transBenLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.transAmt integerValue]];
             switch ([dataModel.transStatus integerValue]) {
                     //
                 case 0:
@@ -328,13 +378,13 @@
             //添加数据
             MyZhaiQuanModel *dataModel = _tabViewMutArray[indexPath.row];
             cell.titleLab.text = dataModel.title;
-            cell.chengjjLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.creditDealAmt integerValue]];
+            cell.chengjjLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.creditDealAmt integerValue]];
             cell.timeLab.text = [dataModel.buyDate substringToIndex:10];
             cell.faBuTime.text = [dataModel.ordDate substringToIndex:10];
             cell.chengjieLabN.hidden = NO;
             cell.appCodeLab.text = dataModel.applyCode;
-            cell.shengYTime.text = [NSString stringWithFormat:@"%@",dataModel.restStep];
-            cell.transBenLab.text = [NSString stringWithFormat:@"%ld元",[dataModel.transAmt integerValue]];
+            cell.shengYTime.text = [NSString stringWithFormat:@"%ld个月",[dataModel.transStep integerValue]];
+            cell.transBenLab.text = [NSString stringWithFormat:@"￥%ld",[dataModel.transAmt integerValue]];
             switch ([dataModel.transStatus integerValue]) {
                     // 0投标中 1等待放款2还款中3废标4已完成
                 case 0:

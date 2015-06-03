@@ -90,7 +90,7 @@
     _scrollView.pagingEnabled = YES;
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor lightGrayColor];
+//    _scrollView.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:_scrollView];
     
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height-20, self.frame.size.width, 20)];

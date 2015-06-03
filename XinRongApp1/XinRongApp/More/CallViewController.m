@@ -10,6 +10,7 @@
 
 @interface CallViewController ()
 @property (nonatomic, strong) UIImageView *weiXinImg;
+@property (nonatomic, strong) UIView *bgView;
 @end
 
 @implementation CallViewController
@@ -47,7 +48,17 @@
             [self showWeiXin];
             break;
         case 3://邮箱
-            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"mailto://service@xr58.com"]];
+//            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"mailto://service@xr58.com"]];
+//            {
+//                MFMailComposeViewController *mail = [[MFMailComposeViewController alloc]init];
+//                mail.mailComposeDelegate = self;
+//                [mail setMessageBody:@"jintiantianqibucuo" isHTML:YES];//邮箱内容
+//                [mail setToRecipients:[NSArray arrayWithObjects:@"1161913145@qq.com",nil]];//发送对象
+//                [mail setCcRecipients:[NSArray arrayWithObjects:@"1161913145@qq.com",nil]];//抄送人
+//                [mail setBccRecipients:[NSArray arrayWithObjects:@"1161913145@qq.com",nil]];//密送对象
+//                [mail setSubject:@"hello world"];//主题
+//                [self presentViewController:mail animated:YES completion:^{}];
+//            }
             break;
         default:
             break;
@@ -57,18 +68,22 @@
 
 - (void)showWeiXin
 {
-    _weiXinImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+    _bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
+    _bgView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_bgView];
+    _weiXinImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 172, 172)];
     _weiXinImg.center = self.view.center;
-    _weiXinImg.userInteractionEnabled = YES;
-    _weiXinImg.image = [UIImage imageWithName:@"weixi_call.png"];
+//    _weiXinImg.userInteractionEnabled = YES;
+    _weiXinImg.image = [UIImage imageWithName:@"weixin_bg.jpg"];
     [self.view addSubview:_weiXinImg];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImg)];
-    [_weiXinImg addGestureRecognizer:tap];
+    [_bgView addGestureRecognizer:tap];
 }
 
 - (void)hideImg
 {
     [_weiXinImg removeFromSuperview];
+    [_bgView removeFromSuperview];
 }
 
 @end

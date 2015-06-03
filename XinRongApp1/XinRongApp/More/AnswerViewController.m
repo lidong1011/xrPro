@@ -22,13 +22,13 @@
     [super viewDidLoad];
     self.navigationItem.title = @"帮助中心";
     self.view.backgroundColor = KLColor(246, 246, 246);
-    _answerTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(15, kNavigtBarH+5, kWidth-30, 40)];
+    _answerTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(15, kNavigtBarH+5, kWidth-30, 45)];
     _answerTitleLab.numberOfLines = 2;
     _answerTitleLab.text = _dic[kQuestion];
     [self.view addSubview:_answerTitleLab];
     
     _textView = [[UITextView alloc]initWithFrame:CGRectMake(12, _answerTitleLab.bottom, kWidth-24, kHeight-_answerTitleLab.bottom)];
-    _textView.text = _dic[kAnswer];
+    _textView.text = [NSString stringWithFormat:@"    %@",_dic[kAnswer]];
     _textView.backgroundColor = KLColor(246, 246, 246);
     _textView.font = [UIFont systemFontOfSize:14];
     _textView.editable = NO;
@@ -37,7 +37,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
 /*

@@ -28,12 +28,31 @@
 
 @property (strong, nonatomic) IBOutlet UIView *redBagView;
 @property (weak, nonatomic) IBOutlet UITextField *FCodeTF;
+@property (weak, nonatomic) IBOutlet UIImageView *isRightImg;
 
 
 @property (strong, nonatomic) IBOutlet UIView *jiFenView;
 @property (weak, nonatomic) IBOutlet UITextField *changJFTF;
 @property (weak, nonatomic) IBOutlet UILabel *diKeJiFenLab;
 @property (weak, nonatomic) IBOutlet UILabel *jiFenLab;
+
+//加息券
+@property (strong, nonatomic) IBOutlet UIView *jiaXiQView;
+@property (weak, nonatomic) IBOutlet UITextField *jiaXiQNumTF;
+- (IBAction)selectJXQ:(UIButton *)sender;
+
+//红包和加息
+@property (strong, nonatomic) IBOutlet UIView *redBagAndJXQView;
+@property (weak, nonatomic) IBOutlet UITextField *rjFCodeTF;
+@property (weak, nonatomic) IBOutlet UITextField *rjJiaXiQTF;
+
+//积分与加息券
+@property (strong, nonatomic) IBOutlet UIView *jiFenAndJXQView;
+@property (weak, nonatomic) IBOutlet UITextField *jjChangJFTF;
+@property (weak, nonatomic) IBOutlet UILabel *jjDiKeJiFenLab;
+@property (weak, nonatomic) IBOutlet UILabel *jjJiFenLab;
+@property (weak, nonatomic) IBOutlet UITextField *jjJiaXiQTF;
+
 
 - (IBAction)changeBtnAct:(UIButton *)sender;
 - (IBAction)comfireTuoZi:(UIButton *)sender;

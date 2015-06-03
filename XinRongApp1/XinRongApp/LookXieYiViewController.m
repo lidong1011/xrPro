@@ -18,7 +18,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"用户协议";
-    _textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-kNavigtBarH)];
+    _textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight)];
     _textView.text = @"【注意】欢迎您进入新融网， 本网站由湖南衡阳新润资本民间投资服务有限公司负责运营。\n\
     \n\
     请您（下列简称为“用户”）仔细阅读以下全部内容。如用户不同意本服务条款任意内容，请勿注册或使用新融网服务。如用户通过进入注册程序并勾选“同意新融注册协议”，即表示用户与新融网已达成协议，自愿接受本服务条款的所有内容。此后，用户不得以未阅读本服务条款内容作任何形式的抗辩。\n\

@@ -10,6 +10,7 @@
 #import "BindBankCardViewController.h"
 #import "MessageListCell.h"
 #import "BankCardModel.h"
+#import "BankCardCell.h"
 @interface BankCardManageViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 //@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -52,7 +53,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
     
 
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 2, kWidth, kHeight-2-kNavigtBarH) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 2, kWidth, kHeight-2) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = KLColor(246, 246, 246);
@@ -115,41 +116,139 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_tabViewMutArray.count==0) {
+        //
+//        UILabel *noDataLab = [[UILabel alloc]initWithFrame:CGRectMake(0, kNavigtBarH, kWidth, 30)];
+//        noDataLab.text = @"   您还未绑定银行卡";
+////        noDataLab.textColor = [ui];
+//        [self.view addSubview:noDataLab];
         [SVProgressHUD showImage:[UIImage imageNamed:kLogo] status:@"您还未绑定银行卡" maskType:SVProgressHUDMaskTypeGradient];
     }
+//    return 4;
     return _tabViewMutArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    BankCardCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell==nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+        cell = [[NSBundle mainBundle]loadNibNamed:@"BankCardCell" owner:self options:nil][0];
     }
-    if (_tabViewMutArray.count==0) {
-        cell.textLabel.text = @"还未绑定银行卡";
+    BankCardModel *dataModel = _tabViewMutArray[indexPath.row];
+    /*map.put("ABC", "农业银行");
+     map.put("BOC", "中国银行");
+     map.put("BOCOM", "交通银行");
+     map.put("BOS", "上海银行");
+     map.put("CCB", "建设银行");
+     map.put("ICBC", "工商银行");
+     map.put("CMB", "招商银行");
+     map.put("CIB", "兴业银行");
+     map.put("CMBC", "民生银行");
+     map.put("CEB", "光大银行");
+     map.put("PSBC", "邮政银行");
+     map.put("SPDB", "浦发银行");*/
+    if ([dataModel.openBankId isEqualToString:@"ABC"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"nyyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"nyyh_bg.png"];
+        cell.bankNameLab.text = @"中国农业银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"BOC"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"zgyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"zgyh_bg.png"];
+        cell.bankNameLab.text = @"中国银行";
+        
+    }
+    else if ([dataModel.openBankId isEqualToString:@"BOCOM"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"jtyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"jtyh_bg.png"];
+        cell.bankNameLab.text = @"交通银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"BOS"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"shyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"shyh_bg.png"];
+        cell.bankNameLab.text = @"上海银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"CCB"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"jsyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"jsyh_bg.png"];
+        cell.bankNameLab.text = @"建设银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"ICBC"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"gsyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"gsyh_bg.png"];
+        cell.bankNameLab.text = @"工商银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"CMB"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"zsyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"zsyh_bg.png"];
+        cell.bankNameLab.text = @"招商银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"CIB"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"xyyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"xyyh_bg.png"];
+        cell.bankNameLab.text = @"兴业银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"CMBC"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"msyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"msyh_bg.png"];
+        cell.bankNameLab.text = @"民生银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"CEB"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"gdyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"gdyh_bg.png"];
+        cell.bankNameLab.text = @"光大银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"PSBC"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"yzyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"yzyh_bg.png"];
+        cell.bankNameLab.text = @"邮政银行";
+    }
+    else if ([dataModel.openBankId isEqualToString:@"SPDB"])
+    {
+        cell.bankCardImg.image = [UIImage imageWithName:@"pfyh_logo.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"pfyh_bg.png"];
+        cell.bankNameLab.text = @"浦发银行";
     }
     else
     {
-        BankCardModel *dataModel = _tabViewMutArray[indexPath.row];
-        UIImage *icon = [UIImage imageNamed:@"moreBar_select"];
-        CGSize iconSize = CGSizeMake(30, 30);
-        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
-        CGRect rect = CGRectMake(0, 0, iconSize.width, iconSize.height);
-        [icon drawInRect:rect];
-        cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        cell.textLabel.text = dataModel.openBankId;
-        cell.detailTextLabel.text = dataModel.openAcctId;
+        cell.bankCardImg.image = [UIImage imageWithName:@"jianBank.png"];
+        cell.bankCardBgImg.image = [UIImage imageWithName:@"jianBank_bg.png"];
+        cell.bankNameLab.text = @"邮政银行";
     }
+
     
+    //获取银行卡后4位
+    NSString *string = [dataModel.openAcctId substringWithRange:NSMakeRange(dataModel.openAcctId.length-4, 4)];
+    NSString *bankId = [NSString stringWithFormat:@"**** **** **** %@",string];
+    cell.bankCardIdLab.text = bankId;
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_tiXianVC) {
+        BankCardModel *dataModel = _tabViewMutArray[indexPath.row];
+        _tiXianVC.cardId = dataModel.openAcctId;
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 114;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
